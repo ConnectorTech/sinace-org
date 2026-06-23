@@ -1,0 +1,42 @@
+{
+  "id": "/",
+  "name": "SINACE — Sistema Nacional de Acesso Cirúrgico Especializado",
+  "short_name": "SINACE",
+  "description": "Plataforma institucional, assistencial e educacional da SINACE para redução de filas cirúrgicas, com atuação em todas as cirurgias, convencionais e laparoscópicas.",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "start_url": "/app",
+  "scope": "/",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
+  "orientation": "portrait-primary",
+  "background_color": "#071833",
+  "theme_color": "#0a2347",
+  "categories": ["medical", "health", "productivity", "education"],
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/maskable-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/apple-touch-icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

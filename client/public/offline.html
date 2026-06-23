@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>SINACE offline</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg-top: #071833;
+        --bg-bottom: #0a2347;
+        --text: #f7fbff;
+        --muted: #c7d7ef;
+        --accent: #74e0cf;
+        --panel: rgba(255, 255, 255, 0.08);
+        --border: rgba(255, 255, 255, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top center, rgba(116, 224, 207, 0.18), transparent 22%),
+          linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
+        display: grid;
+        place-items: center;
+        padding: max(24px, env(safe-area-inset-top)) 24px max(24px, env(safe-area-inset-bottom));
+      }
+
+      main {
+        width: min(100%, 560px);
+        border: 1px solid var(--border);
+        background: var(--panel);
+        backdrop-filter: blur(16px);
+        border-radius: 28px;
+        padding: 28px;
+        box-shadow: 0 24px 60px rgba(4, 18, 41, 0.38);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+
+      h1 {
+        margin: 18px 0 0;
+        font-size: clamp(32px, 6vw, 44px);
+        line-height: 1.02;
+      }
+
+      p {
+        margin: 18px 0 0;
+        font-size: 16px;
+        line-height: 1.8;
+        color: var(--muted);
+      }
+
+      .actions {
+        margin-top: 24px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        border-radius: 999px;
+        padding: 0 20px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      .primary {
+        background: var(--accent);
+        color: #08203f;
+      }
+
+      .secondary {
+        border: 1px solid var(--border);
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.06);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <span class="eyebrow">SINACE offline</span>
+      <h1>Conexão indisponível no momento.</h1>
+      <p>
+        O aplicativo da SINACE continua instalado e preserva a estrutura principal da experiência. Quando a rede voltar, o conteúdo dinâmico será atualizado automaticamente.
+      </p>
+      <p>
+        Em iPhone, você pode continuar abrindo o app pela tela inicial como atalho nativo. Algumas informações em tempo real dependem de conexão ativa.
+      </p>
+      <div class="actions">
+        <a class="primary" href="/app">Tentar novamente</a>
+        <a class="secondary" href="/">Abrir página institucional</a>
+      </div>
+    </main>
+  </body>
+</html>

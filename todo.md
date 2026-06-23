@@ -1,0 +1,104 @@
+- [x] Definir o escopo completo do app SINACE unificado (operação + educação).
+- [x] Mapear perfis de usuário: governo, regulação, hospital, equipe cirúrgica, estudante e administrador.
+- [x] Estruturar os módulos principais: filas cirúrgicas, agenda cirúrgica, credenciamento, analytics, enciclopédia e acervo.
+- [x] Decidir a base técnica do produto e a necessidade de backend, autenticação e banco de dados.
+- [x] Evoluir o projeto atual de site para uma experiência de aplicativo robusta.
+- [x] Validar a primeira versão funcional e preparar a entrega.
+- [x] Preservar a landing page institucional pública e conectá-la ao novo workspace autenticado da plataforma.
+- [x] Customizar o DashboardLayout para a identidade SINACE com navegação persistente, busca e áreas de contexto.
+- [x] Estruturar rotas principais do app: dashboard, especialidades, trilhas, biblioteca, casos clínicos, enciclopédia, parceiros, instituições, professores, alunos e administração.
+- [x] Modelar no banco as entidades centrais: especialidades, trilhas, módulos, casos clínicos, verbetes da enciclopédia, documentos, parceiros, instituições e vínculos de progresso.
+- [x] Implementar procedimentos tRPC iniciais para listar e consultar especialidades, trilhas, documentos e parceiros.
+- [x] Construir páginas base dos módulos centrais com estados vazios coerentes e dados seed para navegação inicial.
+- [x] Criar taxonomia configurável das especialidades cirúrgicas nacionais dentro da plataforma SINACE.
+- [x] Adicionar testes automatizados para os contratos centrais do backend e para as funções de transformação dos dados de navegação.
+- [x] Implementar taxonomia de especialidades configurável com persistência, CRUD e interface administrativa.
+- [x] Adicionar testes Vitest para os contratos centrais de backend do domínio SINACE, cobrindo sucesso, erro e autorização.
+- [x] Adicionar testes automatizados específicos para funções de transformação de dados do domínio SINACE, cobrindo cenários de sucesso e borda além da navegação.
+- [x] Refletir a lista completa de especialidades cirúrgicas fornecida pelo usuário no site público da SINACE, incluindo seções institucionais, posicionamento e narrativa de cobertura assistencial.
+- [x] Refletir a lista completa de especialidades cirúrgicas fornecida pelo usuário no aplicativo autenticado da SINACE, incluindo seed persistente, taxonomia administrativa, catálogos e superfícies dependentes.
+- [x] Incorporar o objeto social fornecido pelo usuário à comunicação institucional do site e às bases descritivas do aplicativo, mantendo consistência entre presença pública e workspace autenticado.
+- [x] Incorporar no workspace autenticado o bloco institucional com telefone, CNPJ, sede administrativa, Instagram e e-mail já publicados na landing pública, mantendo consistência com a arte enviada pelo usuário.
+- [x] Integrar integralmente os dados institucionais enviados pelo usuário às áreas de contato e contexto do workspace autenticado, após a consolidação já concluída na landing pública.
+- [x] Garantir que a taxonomia completa de especialidades e os módulos dependentes permaneçam ancorados em banco de dados persistente, sem solução apenas estática de frontend.
+- [x] Implementar interface administrativa dedicada para gestão da taxonomia das especialidades, com CRUD completo, ordenação, status, foco operacional/educacional e validações ligadas ao backend persistente.
+- [x] Adicionar cobertura de testes para fluxos administrativos da taxonomia, incluindo create, update, reorder, autorização admin e cenários de borda.
+- [x] Expandir módulos autenticados além de dashboard e especialidades para consumir integralmente a taxonomia persistente, eliminando hardcodes remanescentes.
+- [x] Validar com teste automatizado que a landing pública renderiza as 19 especialidades do catálogo oficial do SINACE.
+- [x] Propagar o objeto social e o bloco institucional para superfícies descritivas do workspace autenticado, garantindo consistência entre landing pública e app.
+- [x] Propagar no dashboard autenticado o objeto social e o bloco institucional oficial da SINACE, reutilizando o catálogo compartilhado e mantendo consistência com a landing pública.
+- [x] Substituir os textos genéricos do shell compartilhado dos módulos autenticados por contexto institucional oficial reutilizando o catálogo compartilhado da SINACE.
+- [x] Consolidar e validar em código final os módulos autenticados (AppModules) com consumo real da taxonomia persistente em todas as seções, removendo texto e fluxo placeholder e cobrindo loading, vazio e erro de forma consistente.
+- [x] Padronizar os módulos autenticados restantes do workspace SINACE com estados explícitos de loading, vazio, erro e retry em AppModules.
+- [x] Adicionar suíte de testes dedicada para transformações de dados do domínio SINACE além da navegação, incluindo agregações por especialidade, seleção de ativos relacionados e fallbacks explícitos.
+- [x] Remover constantes legadas de navegação e seeds estáticos não utilizados que ainda preservam métricas e especialidades obsoletas no workspace autenticado.
+- [x] Reposicionar Instagram, contato, Facebook e CEP para o bloco inferior final das superfícies institucionais da SINACE.
+- [x] Manter o bloco institucional final da SINACE sem Facebook, utilizando apenas os canais oficiais atualmente confirmados no catálogo compartilhado.
+- [x] Entregar ao usuário o checkpoint estável final do site da SINACE, pronto para publicação pela interface.
+- [x] Revisar o bloco principal do hero da landing pública para remover quantificações e retomar a formulação-base institucional original da SINACE.
+- [x] Ajustar a seção de especialidades da landing para remover descrições específicas e apresentar apenas a citação nominal de todas as especialidades.
+- [x] Documentar explicitamente o escopo funcional fechado do app SINACE (operação + educação) em artefato rastreável e vinculado ao checklist.
+- [x] Consolidar e evidenciar o mapeamento completo de perfis (governo, regulação, hospital, equipe cirúrgica, estudante, administrador) com responsabilidades e regras de acesso.
+- [x] Implementar ou validar formalmente os módulos ainda sem evidência completa (agenda cirúrgica, credenciamento e analytics) ou registrar limitação técnica formal da versão.
+- [x] Concluir a validação de release e a entrega final do checkpoint/publicação antes de encerrar o checklist.
+- [x] Ajustar a parte inferior da landing pública da SINACE para exibir contatos, Instagram, endereço e demais dados institucionais, mantendo uma linha-base de identificação da empresa.
+- [x] Revisar o texto descritivo do hero da landing pública para remover a repetição de “coordenação operacional” e melhorar a fluidez institucional da frase.
+- [x] Reformular a seção de especialidades da landing pública para substituir a redação com “contempladas” por uma formulação institucional mais adequada.
+- [x] Estruturar a visão de produto do aplicativo SINACE como plataforma multiárea para web responsiva e base preparada para expansão mobile.
+- [x] Definir a arquitetura inicial de navegação por abas e áreas de acesso do aplicativo, incluindo dashboard institucional, biblioteca cirúrgica, perfis médicos, publicações, fluxogramas e parceiros.
+- [x] Modelar cadastro completo de médicos especialistas com metadados de acesso privado, área reservada, currículo profissional e associação por especialidade cirúrgica, preservando a autenticação por sessão nesta versão.
+- [x] Estruturar um drive interno para conteúdos por especialidade, com anexos de estudos de caso, casos publicados, documentos, imagens e vídeos.
+- [x] Criar a base funcional para publicações institucionais do CEO e indicadores de redução de filas cirúrgicas.
+- [x] Estruturar módulos para parceiros institucionais em âmbito federal, estadual, municipal e regional, com representação das esferas do SUS.
+- [x] Preparar a fundação da plataforma para networking profissional entre médicos e descoberta por nicho cirúrgico.
+- [x] Organizar o aplicativo como produto escalável para expansão nacional e base preparada para futura internacionalização.
+- [x] Expandir o domínio persistente e os contratos tRPC do SINACE para diretório médico, publicações institucionais, hub de conhecimento e ecossistema institucional.
+- [x] Criar as novas superfícies centrais do workspace autenticado para biblioteca cirúrgica, publicações, perfis médicos, network profissional e ecossistema SUS.
+- [x] Adicionar testes Vitest específicos para os novos contratos agregados e para os módulos centrais multiárea do aplicativo SINACE.
+- [x] Integrar a nova rota autenticada /app/minha-area ao menu lateral do workspace SINACE com navegação coerente para o especialista.
+- [x] Validar e ajustar a superfície AppPrivateMedicalWorkspace com os contratos autenticados recém-criados de diretório médico privado.
+- [x] Cobrir com testes Vitest os novos contratos autenticados sinace.directory.mine e sinace.directory.saveMine.
+- [x] Expandir o cadastro autenticado do especialista com onboarding explícito, status de completude e campos profissionais adicionais sem romper a autenticação atual baseada em sessão.
+- [x] Ampliar o snapshot do workspace médico para separar documentos, casos, fluxogramas e publicações por especialidade no drive interno.
+- [x] Enriquecer o módulo de publicações com indicadores de filas cirúrgicas e destaque editorial institucional orientado ao CEO.
+- [x] Consolidar o ecossistema institucional com recorte por esfera federal, estadual, municipal e regional dentro das superfícies já existentes.
+- [x] Reforçar a base de networking profissional com sinais de descoberta por nicho cirúrgico e disponibilidade de colaboração.
+- [x] Consolidar nesta retomada os aprofundamentos pendentes do app SINACE na área privada médica, no drive segmentado, nas publicações institucionais e no ecossistema por esfera do SUS.
+- [x] Revisar e finalizar a apresentação institucional da SINACE após a consolidação dos módulos centrais do aplicativo, mantendo a exclusão de Facebook e a pendência de CEP sob confirmação do usuário.
+- [x] Preparar o SINACE para experiência de aplicativo instalável com PWA, incluindo manifesto, ícones e configuração de instalação.
+- [x] Ajustar a experiência mobile do SINACE para uso pela tela inicial com navegação e superfícies mais próximas de app.
+- [x] Incluir orientação visual de instalação do SINACE na tela inicial em dispositivos compatíveis, com foco em iPhone.
+- [x] Validar definitivamente o backend do SINACE com build limpo após a ativação do PWA, eliminando qualquer resquício de erro de sintaxe em server/db.ts
+- [x] Adicionar testes automatizados de comportamento para o banner de instalação PWA do SINACE, incluindo iPhone, dismiss persistente e modo standalone
+- [x] Confirmar explicitamente a experiência mobile-first do workspace SINACE na abertura pela tela inicial e documentar o resultado
+- [x] Remover da abertura da landing pública do SINACE o bloco com cidade, CNPJ, telefone, e-mail e sessão reconhecida
+- [x] Reposicionar os dados institucionais da landing pública para a base do site, abaixo de todo o conteúdo principal, com leitura mais discreta no rodapé
+- [x] Validar visualmente e tecnicamente a nova posição do bloco institucional na landing pública
+- [x] Publicar a imagem enviada pelo usuário como asset estático do projeto SINACE para uso na capa do aplicativo
+- [x] Substituir a capa atual do aplicativo SINACE pela nova imagem fornecida pelo usuário
+- [x] Validar visualmente e tecnicamente a nova capa do aplicativo SINACE no preview responsivo
+- [x] Investigar por que a nova foto enviada para a capa do aplicativo SINACE não apareceu na superfície esperada pelo usuário e corrigir a implementação no componente correto.
+- [x] Aplicar a foto enviada pelo usuário no ícone do aplicativo SINACE, ajustando os assets corretos do PWA e da interface para refletir a nova identidade visual.
+- [x] Revisar e corrigir no aplicativo SINACE o objeto social para deixar explícito que a atuação abrange cirurgias minimamente invasivas e todas as cirurgias, convencionais e laparoscópicas.
+- [x] Revisar e fortalecer o SEO do site SINACE para melhorar reconhecimento pelo Google, indexação técnica e posicionamento orgânico nas buscas.
+- [x] Auditar e corrigir sitemap, robots, metadados, canonical, Open Graph e dados estruturados das páginas prioritárias do SINACE.
+- [x] Validar tecnicamente o SEO do SINACE com testes, build e revisão final antes do checkpoint.
+- [x] Adicionar ao site SINACE todas as abas de navegação mostradas na referência enviada pelo usuário.
+- [x] Garantir a presença e o funcionamento das abas Proposta, Operação, Cobertura, Aplicativo e Contato na navegação principal.
+- [x] Validar os botões de entrada no workspace e de apresentação de proposta dentro da nova navegação do site.
+- [x] Transformar as abas principais do site SINACE em páginas próprias com URLs indexáveis e metadados adequados por rota.
+- [x] Adicionar um menu mobile fixo com destaque visual da seção ou página ativa na navegação pública.
+- [x] Criar uma página institucional de contato com formulário funcional e mapa da sede na experiência pública do site.
+- [x] Ajustar o texto do pilar institucional para usar a expressão "equipe em âmbito nacional" no trecho indicado pelo usuário.
+- [x] Substituir a palavra "mutirões" por "redução de fila reprimida" no texto institucional indicado pelo usuário.
+- [x] Revisar por que a publicação do site SINACE não está refletindo a versão mais atual validada no projeto.
+- [x] Corrigir SEO da página /app/instituicoes adicionando títulos H2 semânticos e coerentes com a hierarquia de conteúdo
+- [x] Fortalecer a autoridade orgânica da marca SINACE no Google com reforço de entidade, metadados, dados estruturados e sinais institucionais para reduzir ambiguidade da sigla
+- [x] Reforçar a repetição institucional da marca oficial SINACE nas rotas públicas indexáveis com sinais adicionais de site oficial para a busca de marca no Google.
+- [x] Corrigir na home do SINACE os limites de palavras-chave, H1, H2, title e meta description apontados na auditoria de SEO.
+- [x] Corrigir na arte enviada pelo usuário as palavras indicadas como incorretas, ajustando ortografia e acentuação na imagem institucional.
+- [x] Corrigir na arte institucional a palavra final para 'cirurgias', substituindo a grafia incorreta gerada na versão revisada anterior.
+- [x] Atualizar no site a arte institucional publicada para usar a versão corrigida com a palavra 'cirurgias' e validar a renderização final.
+- [x] Diagnosticar por que o app da SINACE não está funcionando, corrigir os problemas identificados e validar a estabilidade do fluxo principal no preview.
+- [x] Criar no app SINACE uma porta de entrada para trabalhos e arquivos educativos com envio por médicos externos, organização por especialidade, pastas de anexos, downloads internos e estrutura de enciclopédia persistente.
+- [x] Corrigir no app SINACE o fluxo de anexar documentos, vídeos e estudos de caso na Enciclopédia, incluindo exibição do campo de anexo e download funcional dos materiais publicados.

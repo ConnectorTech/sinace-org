@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1775845357506,
+      "tag": "0000_damp_bushwacker",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1775846432888,
+      "tag": "0001_shiny_firebrand",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1775847245113,
+      "tag": "0002_smiling_supernaut",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1775859142094,
+      "tag": "0003_fearless_omega_sentinel",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1775864747941,
+      "tag": "0004_regular_obadiah_stane",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1776000227296,
+      "tag": "0005_yummy_cable",
+      "breakpoints": true
+    }
+  ]
+}

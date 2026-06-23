@@ -1,0 +1,2 @@
+Arquivo de teste da Enciclopédia Cirúrgica do SINACE.
+Este material existe apenas para validar o fluxo de anexo e download dentro do aplicativo.
