@@ -24,8 +24,8 @@ const DEV_USER: User = {
 export async function createContext(
   opts: CreateExpressContextOptions
 ): Promise<TrpcContext> {
-  // Modo dev: bypass de autenticação em desenvolvimento local
-  if (process.env.NODE_ENV === "development") {
+  // Modo dev ou bypass de autenticação ativado nas variáveis de ambiente
+  if (process.env.NODE_ENV === "development" || process.env.DEV_BYPASS_AUTH === "true") {
     return {
       req: opts.req,
       res: opts.res,
