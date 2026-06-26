@@ -24,15 +24,16 @@ const DEV_USER: User = {
 export async function createContext(
   opts: CreateExpressContextOptions
 ): Promise<TrpcContext> {
-  // Modo dev ou bypass de autenticação ativado nas variáveis de ambiente
-  if (process.env.NODE_ENV === "development" || process.env.DEV_BYPASS_AUTH === "true") {
-    return {
-      req: opts.req,
-      res: opts.res,
-      user: DEV_USER,
-    };
-  }
+  // BYPASS TOTAL DE AUTENTICAÇÃO (Temporário para testes em produção na Vercel)
+  // Retorna diretamente o usuário de testes para permitir navegação livre
+  return {
+    req: opts.req,
+    res: opts.res,
+    user: DEV_USER,
+  };
 
+  /*
+  // Código de autenticação oficial com a Manus (Comentado temporariamente)
   let user: User | null = null;
 
   try {
@@ -47,4 +48,5 @@ export async function createContext(
     res: opts.res,
     user,
   };
+  */
 }
