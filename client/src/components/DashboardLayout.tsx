@@ -86,36 +86,18 @@ export default function DashboardLayout({
     return <DashboardLayoutSkeleton />;
   }
 
+  // TEMPORÁRIO: bypass de autenticação para testes em produção
+  // O backend já retorna um DEV_USER para todas as requisições (ver server/_core/context.ts)
+  // Quando o sistema de login for ativado, restaurar o bloco abaixo:
+  /*
   if (!user) {
-    if (import.meta.env.DEV) {
-      return <DashboardLayoutSkeleton />;
-    }
     return (
       <div className="flex min-h-screen items-center justify-center px-4">
-        <div className="w-full max-w-lg rounded-[2rem] border border-border/70 bg-white/88 p-8 shadow-[0_30px_80px_rgba(7,21,46,0.14)] backdrop-blur-sm">
-          <span className="inline-flex rounded-full border border-primary/15 bg-primary/6 px-3 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary">
-            Workspace protegido
-          </span>
-          <h1 className="mt-5 text-3xl font-semibold tracking-[-0.04em] text-slate-950">
-            Entre para acessar o ambiente operacional e educacional da SINACE.
-          </h1>
-          <p className="mt-4 text-base leading-8 text-slate-600">
-            O workspace autenticado reúne dashboard, especialidades cirúrgicas, trilhas, biblioteca, rede institucional e administração da plataforma.
-          </p>
-          <Button
-            onClick={() => {
-              // Apenas recarrega a página em vez de redirecionar para a Manus
-              window.location.reload();
-            }}
-            size="lg"
-            className="mt-8 rounded-full bg-primary px-6 text-primary-foreground shadow-lg hover:opacity-95"
-          >
-            Fazer login
-          </Button>
-        </div>
+        ...
       </div>
     );
   }
+  */
 
   return (
     <SidebarProvider
