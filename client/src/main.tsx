@@ -23,7 +23,8 @@ const redirectToLoginIfUnauthorized = (error: unknown) => {
 
   if (!isUnauthorized) return;
 
-  window.location.href = getLoginUrl();
+  // Comentado para evitar redirecionamento automático para a Manus
+  // window.location.href = getLoginUrl();
 };
 
 queryClient.getQueryCache().subscribe(event => {

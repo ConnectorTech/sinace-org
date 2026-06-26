@@ -104,7 +104,8 @@ export default function DashboardLayout({
           </p>
           <Button
             onClick={() => {
-              window.location.href = getLoginUrl();
+              // Apenas recarrega a página em vez de redirecionar para a Manus
+              window.location.reload();
             }}
             size="lg"
             className="mt-8 rounded-full bg-primary px-6 text-primary-foreground shadow-lg hover:opacity-95"

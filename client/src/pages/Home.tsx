@@ -233,7 +233,12 @@ function SectionHeader({
 export default function Home() {
   const { user, loading, isAuthenticated } = useAuth();
   const [mobileNavOpen, setMobileNavOpen] = React.useState(false);
+  // BYPASS TOTAL DE AUTENTICAÇÃO (Temporário para testes em produção na Vercel)
+  // Aponta diretamente para /app e evita redirecionamento para o portal da Manus
+  const workspaceHref = "/app";
+  /*
   const workspaceHref = isAuthenticated ? "/app" : (import.meta.env.DEV ? "/app" : getLoginUrl());
+  */
   const workspaceLabel = loading
     ? "Preparando acesso"
     : isAuthenticated
