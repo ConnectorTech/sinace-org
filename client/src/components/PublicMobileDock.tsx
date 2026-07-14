@@ -54,10 +54,7 @@ export default function PublicMobileDock() {
                 )}
                 aria-current={active ? "page" : undefined}
               >
-                <span className="text-[0.62rem] uppercase tracking-[0.18em] text-current/75">
-                  Aba
-                </span>
-                <span className="mt-1 leading-tight">{item.label}</span>
+                <span className="leading-tight">{item.label}</span>
               </a>
             </Link>
           );
