@@ -133,7 +133,7 @@ const appCapabilities = [
   "Dashboard operacional conectado à taxonomia persistente das especialidades.",
   "Trilhas, biblioteca, instituições e módulos com vocabulário clínico-operacional consistente.",
   "Área administrativa para governança da taxonomia, status, ordenação e foco educacional/operacional.",
-  "Workspace autenticado preparado para expansão do acervo clínico, analytics e módulos institucionais.",
+  "Workspace autenticado preparado para expansão do acervo clínico, analíticos e módulos institucionais.",
 ];
 
 const roadmap = [
@@ -179,13 +179,13 @@ const institutionalFooterEntries: InstitutionalFooterEntry[] = [
   },
   ...(institutionalProfileWithExtras.facebook
     ? [
-        {
-          label: "Facebook",
-          value: institutionalProfileWithExtras.facebook,
-          href: institutionalProfileWithExtras.facebook,
-          external: true,
-        },
-      ]
+      {
+        label: "Facebook",
+        value: institutionalProfileWithExtras.facebook,
+        href: institutionalProfileWithExtras.facebook,
+        external: true,
+      },
+    ]
     : []),
   ...(institutionalProfileWithExtras.cep
     ? [{ label: "CEP", value: institutionalProfileWithExtras.cep }]
@@ -211,18 +211,15 @@ function SectionHeader({
     <div className={`max-w-3xl space-y-4 ${centered ? "mx-auto text-center" : ""}`}>
       <span className={invert ? "section-kicker text-cyan-300" : "section-kicker text-cyan-600"}>{kicker}</span>
       <h2
-        className={`text-balance text-3xl font-semibold tracking-[-0.04em] md:text-5xl ${
-          invert ? "text-white" : "text-slate-950"
-        }`}
+        className={`text-balance text-3xl font-semibold tracking-[-0.04em] md:text-5xl ${invert ? "text-white" : "text-slate-950"
+          }`}
       >
         {title}
       </h2>
       <p
-        className={`text-base leading-7 md:text-lg ${
-          centered ? "mx-auto" : ""
-        } max-w-2xl ${
-          invert ? "text-slate-300" : "text-slate-600"
-        }`}
+        className={`text-base leading-7 md:text-lg ${centered ? "mx-auto" : ""
+          } max-w-2xl ${invert ? "text-slate-300" : "text-slate-600"
+          }`}
       >
         {description}
       </p>
@@ -366,9 +363,11 @@ export default function Home() {
                 <h1 className="text-balance font-display text-5xl font-semibold leading-[0.95] tracking-[-0.05em] text-slate-950 md:text-7xl lg:text-[5.65rem]">
                   Organizar capacidade cirúrgica para reduzir filas com escala.
                 </h1>
-                <p className="mt-8 max-w-3xl text-lg leading-8 text-slate-600 md:text-xl">
-                  {SINACE_INSTITUTIONAL_PROFILE.tagline} A SINACE atua na organização da capacidade assistencial, na articulação da operação em rede e na consolidação de uma base institucional voltada à expansão cirúrgica com governança, inteligência e continuidade.
-                </p>
+                <div className="mt-8 max-w-3xl rounded-2xl border border-slate-100/50 bg-white/90 p-6 shadow-sm backdrop-blur-sm">
+                  <p className="text-lg leading-8 text-slate-800 md:text-xl font-medium">
+                    {SINACE_INSTITUTIONAL_PROFILE.tagline} A SINACE atua na organização da capacidade assistencial, na articulação da operação em rede e na consolidação de uma base institucional voltada à expansão cirúrgica com governança, inteligência e continuidade.
+                  </p>
+                </div>
                 <div className="mt-10 flex flex-col gap-4 sm:flex-row">
                   <Button asChild size="lg" className="rounded-full bg-cyan-300 px-7 text-base font-semibold text-slate-950 hover:bg-cyan-200">
                     <a href="/contato">
@@ -657,7 +656,7 @@ export default function Home() {
                 <SectionHeader
                   kicker="Aplicativo próprio"
                   title="Workspace próprio para conhecimento, governança e inteligência cirúrgica."
-                  description="O workspace da SINACE amplia a proposta institucional e projeta a operação como plataforma digital: um ambiente para taxonomia cirúrgica persistente, estudo de caso, enciclopédia, arquivos acadêmicos e governança administrativa."
+                  description="O workspace da SINACE amplia a proposta institucional e projeta a operação como plataforma digital: um ambiente para taxonomia cirúrgica persistente, estudo de caso, enciclopédia, arquivos acadêmicos e ampliação de governança administrativa para o seu networking."
                 />
                 <div className="mt-12 grid gap-5 sm:grid-cols-2">
                   {appCapabilities.map((item) => (
