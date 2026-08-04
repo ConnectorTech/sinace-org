@@ -1,6 +1,10 @@
 import type { CreateExpressContextOptions } from "@trpc/server/adapters/express";
 import type { User } from "../../drizzle/schema";
-import { sdk } from "./sdk";
+import { users } from "../../drizzle/schema";
+import { getDb } from "../db";
+import { eq } from "drizzle-orm";
+import jwt from "jsonwebtoken";
+import cookie from "cookie";
 
 export type TrpcContext = {
   req: CreateExpressContextOptions["req"];
@@ -8,38 +12,29 @@ export type TrpcContext = {
   user: User | null;
 };
 
-// Usuário local para desenvolvimento sem OAuth
-const DEV_USER: User = {
-  id: 1,
-  openId: "dev-local-user",
-  name: "Dev Local",
-  email: "dev@sinace.local",
-  role: "admin",
-  loginMethod: "email",
-  lastSignedIn: new Date(),
-  createdAt: new Date(),
-  updatedAt: new Date(),
-};
+const JWT_SECRET = process.env.JWT_SECRET || "default_local_secret";
 
 export async function createContext(
   opts: CreateExpressContextOptions
 ): Promise<TrpcContext> {
-  // BYPASS TOTAL DE AUTENTICAÇÃO (Temporário para testes em produção na Vercel)
-  // Retorna diretamente o usuário de testes para permitir navegação livre
-  return {
-    req: opts.req,
-    res: opts.res,
-    user: DEV_USER,
-  };
-
-  /*
-  // Código de autenticação oficial com a Manus (Comentado temporariamente)
   let user: User | null = null;
 
   try {
-    user = await sdk.authenticateRequest(opts.req);
+    const cookies = cookie.parse(opts.req.headers.cookie || "");
+    const token = cookies.auth_token;
+
+    if (token) {
+      const decoded = jwt.verify(token, JWT_SECRET) as { id: number };
+      const db = await getDb();
+      if (db) {
+        const [foundUser] = await db.select().from(users).where(eq(users.id, decoded.id)).limit(1);
+        if (foundUser) {
+          user = foundUser;
+        }
+      }
+    }
   } catch (error) {
-    // Authentication is optional for public procedures.
+    // Falha silenciosa se o token expirar ou for inválido, o usuário fica deslogado (null)
     user = null;
   }
 
@@ -48,5 +43,4 @@ export async function createContext(
     res: opts.res,
     user,
   };
-  */
 }

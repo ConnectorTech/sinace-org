@@ -1,4 +1,5 @@
 import { and, asc, count, desc, eq, or } from "drizzle-orm";
+import bcrypt from "bcryptjs";
 import { drizzle } from "drizzle-orm/mysql2";
 import {
   caseStudies,
@@ -521,6 +522,28 @@ export async function getDb() {
   return _db;
 }
 
+export async function seedAdminUser() {
+  const db = await getDb();
+  if (!db) return;
+
+  const adminEmail = "felipe.sousa@connectortech.com.br";
+  const existing = await db.select().from(users).where(eq(users.email, adminEmail)).limit(1);
+
+  if (existing.length === 0) {
+    const salt = bcrypt.genSaltSync(10);
+    const passwordHash = bcrypt.hashSync("F9289*#s", salt);
+
+    await db.insert(users).values({
+      name: "Felipe Sousa",
+      email: adminEmail,
+      passwordHash,
+      role: "admin",
+      loginMethod: "email",
+    });
+    console.log(`[Database] Seeded admin user: ${adminEmail}`);
+  }
+}
+
 export async function upsertUser(user: InsertUser): Promise<void> {
   if (!user.openId) {
     throw new Error("User openId is required for upsert");
@@ -994,6 +1017,8 @@ export async function ensureSinaceBaseSeed() {
       const contractIdBySlug = new Map(contractRows.map(item => [item.slug, item.id]));
 
       await seedPatientQueueEntries(specialtyIdBySlug, institutionIdBySlug, contractIdBySlug);
+
+      await seedAdminUser();
     })().catch(error => {
       sinaceSeedPromise = null;
       throw error;

@@ -5,7 +5,6 @@
 */
 import * as React from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { getLoginUrl } from "@/const";
 import { Button } from "@/components/ui/button";
 import { motion, type Variants } from "framer-motion";
 import {
@@ -46,8 +45,7 @@ const expansionImage =
   "https://d2xsxph8kpxj0f.cloudfront.net/310519663534677050/n5uwcWAoUUWXyEtV2nUN8o/sinace-national-expansion-4dJWasAhXkP8Cew3mjzKFi.webp";
 const logoImage =
   "https://d2xsxph8kpxj0f.cloudfront.net/310519663534677050/n5uwcWAoUUWXyEtV2nUN8o/2E282DFE-2672-4AC9-85E7-4F23C3D269BA_a5b594bf.png";
-const institutionalImage =
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663534677050/n5uwcWAoUUWXyEtV2nUN8o/IMG_5204_corrigida_v4_434fe37c.png";
+const institutionalImage = "/institucional.png";
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 32 },
@@ -67,41 +65,41 @@ const landingNavItems = SINACE_PUBLIC_NAV_ITEMS;
 
 const stakeholders = [
   {
-    title: "Governos estaduais e federal",
-    text: "Estrutura para programas de ampliação do acesso cirúrgico com governança, previsibilidade, regulação assistencial e leitura executiva da produção.",
+    title: "Governos estaduais, federais e municipais",
+    text: "Estrutura para prestação de serviços cirúrgicos com governança, previsibilidade, regulação assistencial e leitura executiva da produção.",
     icon: Landmark,
   },
   {
     title: "OSS, redes complementares e contratantes",
-    text: "Integração operacional para acelerar produção, organizar filas reprimidas e sustentar metas pactuadas em ambiente hospitalar e ambulatorial.",
+    text: "Integração operacional a partir do diagnóstico da fila reprimida para acelerar a produção assistencial em ambiente hospitalar e ambulatorial.",
     icon: Layers3,
   },
   {
     title: "Santas Casas e hospitais",
-    text: "Modelo para ativar infraestrutura, ampliar resolutividade por especialidade e transformar capacidade instalada em operação coordenada de escala regional.",
+    text: "Modelo para ativar infraestrutura, ampliar resolutividade por especialidade e consolidar polos estaduais, regionais e municipais.",
     icon: Building2,
   },
 ];
 
 const pillars = [
   {
-    title: "Redução de fila com método",
-    text: "A fila deixa de ser apenas demanda reprimida e passa a ser tratada como fluxo gerenciável, com triagem, priorização e produtividade organizada.",
+    title: "Prestação de Serviços Assistenciais",
+    text: "Atuação ambulatorial e hospitalar de média e alta complexidade, estruturando a capacidade cirúrgica com qualidade e eficiência.",
+    icon: Building2,
+  },
+  {
+    title: "Diagnóstico da Fila Reprimida",
+    text: "O modelo da SINACE parte do diagnóstico da fila reprimida para converter demandas represadas em fluxo assistencial gerenciável.",
     icon: TimerReset,
   },
   {
-    title: "Equipe em âmbito nacional",
-    text: "Profissionais e coordenações por linha cirúrgica para sustentar expansão com padrão técnico, segurança assistencial e previsibilidade de entrega.",
+    title: "Inteligência Cirúrgica & Network",
+    text: "Metodologia clínica aplicada e network profissional especializado para dar suporte técnico, segurança e previsibilidade em âmbito nacional.",
     icon: Stethoscope,
   },
   {
-    title: "Governança e rastreabilidade",
-    text: "Indicadores, protocolos e leitura executiva contínua para dar confiança institucional ao contratante e previsibilidade à operação.",
-    icon: ClipboardCheck,
-  },
-  {
-    title: "Legado educacional e digital",
-    text: "Além do volume cirúrgico, a proposta entrega taxonomia estruturada, trilhas de aprendizagem e base tecnológica própria para evolução contínua da rede.",
+    title: "Sistema Educacional e Digital",
+    text: "Plataforma tecnológica própria com taxonomia cirúrgica persistente, trilhas de aprendizagem, enciclopédia clínica e acervo acadêmico.",
     icon: ShieldCheck,
   },
 ];
@@ -109,48 +107,48 @@ const pillars = [
 const operatingModel = [
   {
     step: "01",
-    title: "Leitura da demanda reprimida",
-    text: "Mapeamento da fila, perfil clínico, criticidade, infraestrutura disponível e pontos de estrangulamento assistencial.",
+    title: "Diagnóstico da fila reprimida",
+    text: "O modelo da SINACE parte do diagnóstico da fila reprimida, mapeando perfil clínico, criticidade e infraestrutura disponível.",
   },
   {
     step: "02",
-    title: "Ativação de capacidade cirúrgica",
-    text: "Composição de equipes, agendas, protocolos, especialidades e retaguarda para elevar volume com controle operacional.",
+    title: "Ativação da prestação de serviços",
+    text: "Composição de equipes e agendas para prestação de serviços ambulatoriais e hospitalares de média e alta complexidade.",
   },
   {
     step: "03",
-    title: "Monitoramento em tempo real",
-    text: "Painéis de desempenho, acompanhamento de produção, taxa de suspensão, giro assistencial e gestão orientada por indicadores.",
+    title: "Inteligência cirúrgica em tempo real",
+    text: "Painéis de desempenho, acompanhamento de produção assistencial, taxa de suspensão e inteligência cirúrgica orientada a indicadores.",
   },
   {
     step: "04",
-    title: "Escala e consolidação institucional",
-    text: "Transformação de pilotos em polos regionais e contratos estruturantes com redes públicas, OSS e parceiros executores.",
+    title: "Polos estaduais, regionais e municipais",
+    text: "Progressão estruturada com implantação de polos estaduais, regionais e municipais de expansão cirúrgica em âmbito nacional.",
   },
 ];
 
 const appCapabilities = [
-  "Dashboard operacional conectado à taxonomia persistente das especialidades.",
-  "Trilhas, biblioteca, instituições e módulos com vocabulário clínico-operacional consistente.",
-  "Área administrativa para governança da taxonomia, status, ordenação e foco educacional/operacional.",
-  "Workspace autenticado preparado para expansão do acervo clínico, analíticos e módulos institucionais.",
+  "Inteligência Cirúrgica e Network profissional para governança assistencial e tomada de decisão.",
+  "Sistema Educacional e Digital com taxonomia persistente das especialidades e biblioteca clínica.",
+  "Painéis operacionais para gestão da prestação de serviços ambulatoriais e hospitalares de média e alta complexidade.",
+  "Workspace autenticado estruturado para progressão de polos estaduais, regionais e municipais em âmbito nacional.",
 ];
 
 const roadmap = [
   {
     phase: "Fase 1",
-    title: "Pilotos regionais",
-    text: "Implantar operações em redes parceiras para demonstrar capacidade de redução de fila com consistência clínica e gerencial.",
+    title: "Diagnóstico e polos municipais/regionais",
+    text: "O modelo da SINACE parte do diagnóstico da fila reprimida para implantar a prestação de serviços assistenciais em unidades municipais e regionais.",
   },
   {
     phase: "Fase 2",
-    title: "Consolidação estadual",
-    text: "Expandir para unidades adicionais no mesmo território, padronizando protocolos, metas e inteligência de produção.",
+    title: "Consolidação e polos estaduais",
+    text: "Expandir a inteligência cirúrgica e a governança para polos estaduais, alinhando redes públicas, OSS e hospitais contratantes.",
   },
   {
     phase: "Fase 3",
-    title: "Escala nacional e saúde digital",
-    text: "Integrar contratos mais amplos, fortalecer o workspace próprio e posicionar a SINACE como plataforma institucional do ecossistema cirúrgico.",
+    title: "Atuação nacional e sistema digital",
+    text: "Consolidar a atuação em âmbito nacional, integrando o Sistema Educacional e Digital com workspace próprio e network cirúrgico em escala.",
   },
 ];
 
@@ -190,7 +188,7 @@ const institutionalFooterEntries: InstitutionalFooterEntry[] = [
   ...(institutionalProfileWithExtras.cep
     ? [{ label: "CEP", value: institutionalProfileWithExtras.cep }]
     : []),
-  { label: "Endereço base", value: SINACE_INSTITUTIONAL_PROFILE.headquarters },
+  { label: "Abrangência", value: SINACE_INSTITUTIONAL_PROFILE.headquarters },
   { label: "CNPJ", value: SINACE_INSTITUTIONAL_PROFILE.cnpj },
 ];
 
@@ -230,12 +228,7 @@ function SectionHeader({
 export default function Home() {
   const { user, loading, isAuthenticated } = useAuth();
   const [mobileNavOpen, setMobileNavOpen] = React.useState(false);
-  // BYPASS TOTAL DE AUTENTICAÇÃO (Temporário para testes em produção na Vercel)
-  // Aponta diretamente para /app e evita redirecionamento para o portal da Manus
   const workspaceHref = "/app";
-  /*
-  const workspaceHref = isAuthenticated ? "/app" : (import.meta.env.DEV ? "/app" : getLoginUrl());
-  */
   const workspaceLabel = loading
     ? "Preparando acesso"
     : isAuthenticated
@@ -348,7 +341,7 @@ export default function Home() {
           <div className="hero-mask absolute inset-0" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(84,255,222,0.08),transparent_18%),radial-gradient(circle_at_80%_50%,rgba(78,121,255,0.05),transparent_20%)]" />
           <div className="container relative flex min-h-[860px] items-center py-28">
-            <div className="grid w-full items-end gap-16 lg:grid-cols-[minmax(0,1.15fr)_340px]">
+            <div className="grid w-full items-end gap-16 lg:grid-cols-[minmax(0,1.15fr)_360px]">
               <motion.div
                 initial="hidden"
                 animate="visible"
@@ -356,16 +349,16 @@ export default function Home() {
                 transition={{ duration: 0.7, ease: "easeOut" }}
                 className="max-w-4xl"
               >
-                <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-cyan-200 bg-cyan-50/50 px-4 py-2 text-xs uppercase tracking-[0.32em] text-cyan-700 backdrop-blur-md">
+                <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-cyan-300 bg-cyan-50/80 px-4 py-2 text-xs uppercase tracking-[0.28em] font-bold text-cyan-800 backdrop-blur-md shadow-sm">
                   <HeartPulse className="h-3.5 w-3.5 text-cyan-600" />
-                  Solução institucional para acesso cirúrgico
+                  Prestação de Serviços Assistenciais · Atuação em Âmbito Nacional
                 </div>
-                <h1 className="text-balance font-display text-5xl font-semibold leading-[0.95] tracking-[-0.05em] text-slate-950 md:text-7xl lg:text-[5.65rem]">
+                <h1 className="text-balance font-display text-5xl font-semibold leading-[0.95] tracking-[-0.05em] text-slate-950 md:text-7xl lg:text-[5.5rem]">
                   Organizar capacidade cirúrgica para reduzir filas com escala.
                 </h1>
-                <div className="mt-8 max-w-3xl rounded-2xl border border-slate-100/50 bg-white/90 p-6 shadow-sm backdrop-blur-sm">
+                <div className="mt-8 max-w-3xl rounded-2xl border border-cyan-100 bg-white/95 p-6 shadow-sm backdrop-blur-sm">
                   <p className="text-lg leading-8 text-slate-800 md:text-xl font-medium">
-                    {SINACE_INSTITUTIONAL_PROFILE.tagline} A SINACE atua na organização da capacidade assistencial, na articulação da operação em rede e na consolidação de uma base institucional voltada à expansão cirúrgica com governança, inteligência e continuidade.
+                    Plataforma institucional para redução de filas cirúrgicas, coordenação operacional e educação médico-cirúrgica. A SINACE atua na organização da capacidade assistencial, na articulação da operação em rede e na consolidação de uma base institucional voltada à expansão cirúrgica com governança, inteligência e continuidade.
                   </p>
                 </div>
                 <div className="mt-10 flex flex-col gap-4 sm:flex-row">
@@ -375,16 +368,6 @@ export default function Home() {
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </a>
                   </Button>
-                  <Button
-                    asChild
-                    size="lg"
-                    variant="outline"
-                    className="rounded-full border-slate-300 bg-white/80 px-7 text-base text-slate-700 hover:bg-slate-50 hover:text-slate-900"
-                  >
-                    <a href={workspaceHref}>
-                      {isAuthenticated ? "Abrir workspace SINACE" : "Explorar plataforma autenticada"}
-                    </a>
-                  </Button>
                 </div>
               </motion.div>
 
@@ -392,7 +375,7 @@ export default function Home() {
                 initial={{ opacity: 0, x: 24 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-                className="surface-panel network-glow noise-overlay relative hidden overflow-hidden rounded-[2rem] border border-slate-200 p-7 text-slate-900 lg:block"
+                className="surface-panel network-glow noise-overlay relative hidden overflow-hidden rounded-[2rem] border border-cyan-200/80 p-7 text-slate-900 lg:block shadow-md"
               >
                 <div className="flex items-center justify-between text-xs uppercase tracking-[0.26em] text-cyan-700">
                   <span className="font-semibold text-cyan-700">Visão executiva</span>
@@ -402,10 +385,10 @@ export default function Home() {
                 </div>
                 <div className="mt-8 space-y-5">
                   {[
-                    ["Fila reprimida", "Transformada em fluxo operável"],
-                    ["Especialidades", `${SINACE_SPECIALTY_CATALOG.length} linhas cirúrgicas no catálogo oficial`],
-                    ["Objeto social", "Ambulatorial, hospitalar e alta complexidade"],
-                    ["Workspace", isAuthenticated ? "Acesso autenticado pronto" : "Entrada protegida conectada à landing"],
+                    ["Ponto de partida", "Diagnóstico estruturado da fila reprimida"],
+                    ["Atuação assistencial", "Atuação ambulatorial e hospitalar de média e alta complexidade"],
+                    ["Abrangência", "Atuação em âmbito nacional com polos estaduais, regionais e municipais"],
+                    ["Diferencial", "Inteligência Cirúrgica, Network e Sistema Educacional e Digital"],
                   ].map(([label, value]) => (
                     <div key={label} className="border-t border-slate-200 pt-4 first:border-0 first:pt-0">
                       <p className="text-[0.65rem] uppercase tracking-[0.24em] text-slate-500 font-semibold">{label}</p>
@@ -413,8 +396,9 @@ export default function Home() {
                     </div>
                   ))}
                 </div>
-                <div className="mt-8 rounded-2xl bg-cyan-50/50 border border-cyan-100 p-4">
-                  <p className="text-xs leading-5 text-slate-600">{SINACE_INSTITUTIONAL_PROFILE.socialObject}</p>
+                <div className="mt-8 rounded-2xl border border-cyan-400 bg-cyan-300 p-5 text-slate-950 shadow-md transition-all hover:scale-[1.01]">
+                  <p className="text-[0.65rem] font-bold uppercase tracking-[0.24em] text-slate-800 mb-1.5">Objeto Social Oficial</p>
+                  <p className="text-xs leading-5 text-slate-950 font-bold">{SINACE_INSTITUTIONAL_PROFILE.socialObject}</p>
                 </div>
               </motion.div>
             </div>
@@ -437,7 +421,7 @@ export default function Home() {
                 Para quem a SINACE foi concebida
               </h2>
               <p className="mt-4 text-base leading-7 text-slate-600">
-                A solução da SINACE atende diferentes atores do ecossistema público de saúde cirúrgica, cada um com suas necessidades específicas de governança, capacidade e escala.
+                A solução da SINACE atende diferentes atores do ecossistema público de saúde cirúrgica, com foco em prestação de serviços e diagnósticos precisos da demanda reprimida.
               </p>
             </motion.div>
 
@@ -473,7 +457,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ─── Proposta de Valor ───────────────────────────────── */}
+        {/* ─── Base da Proposta / Proposta de Valor ─────────────── */}
         <section id="proposta" className="relative bg-white py-28 md:py-36">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(34,211,238,0.03),transparent_45%)]" />
           <div className="container relative">
@@ -485,9 +469,9 @@ export default function Home() {
               transition={{ duration: 0.55 }}
             >
               <SectionHeader
-                kicker="Proposta de valor"
-                title="A SINACE organiza capacidade cirúrgica com método e continuidade."
-                description="A proposta combina inteligência assistencial, equipes especializadas, governança de fila, base persistente de dados e expansão tecnológica para apoiar instituições contratantes em ciclos de aumento de resolutividade e capacidade futura."
+                kicker="Base da proposta"
+                title="Prestação de serviços cirúrgicos orientada pelo diagnóstico da fila reprimida."
+                description="A proposta da SINACE parte do diagnóstico preciso da fila reprimida para estruturar a prestação de serviços em regime ambulatorial e hospitalar de média e alta complexidade, impulsionada por Inteligência Cirúrgica, Network e Sistema Educacional e Digital com atuação em âmbito nacional."
                 centered
               />
             </motion.div>
@@ -501,7 +485,7 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.08 }}
               className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
             >
-              {pillars.map((item, i) => {
+              {pillars.map((item) => {
                 const Icon = item.icon;
                 return (
                   <article key={item.title} className="surface-panel hover-lift relative overflow-hidden rounded-[2rem] border-t-2 border-t-emerald-500 p-7 flex flex-col shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
@@ -518,31 +502,38 @@ export default function Home() {
               })}
             </motion.div>
 
-            {/* Objeto Social Wide Card */}
+            {/* Objeto Social Wide Card em Destaque para Prestação de Serviços (Cor Padrão bg-cyan-300) */}
             <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
               variants={fadeUp}
               transition={{ duration: 0.6, delay: 0.12 }}
-              className="mt-8"
+              className="mt-10"
             >
-              <div className="surface-panel rounded-[2.2rem] border border-slate-200 px-8 py-10 text-slate-900 shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
-                <div className="grid gap-10 lg:grid-cols-[1fr_1.3fr] lg:items-start">
+              <div className="surface-panel rounded-[2.2rem] border-2 border-cyan-400 bg-cyan-300 px-8 py-10 text-slate-950 shadow-xl">
+                <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-slate-900/20 bg-white/90 px-4 py-1.5 text-xs uppercase tracking-[0.26em] text-slate-950 font-extrabold shadow-sm">
+                  <Building2 className="h-4 w-4 text-cyan-700" />
+                  Destaque Principal: Prestação de Serviços Assistenciais
+                </div>
+                <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr] lg:items-start">
                   <div>
-                    <p className="section-kicker text-cyan-700">Objeto social</p>
-                    <p className="mt-4 text-xl leading-8 tracking-[-0.03em] text-slate-950">
+                    <p className="text-xs font-bold uppercase tracking-[0.26em] text-slate-800">Objeto Social Oficial</p>
+                    <p className="mt-4 text-xl md:text-2xl leading-9 tracking-[-0.03em] font-extrabold text-slate-950">
                       {SINACE_INSTITUTIONAL_PROFILE.socialObject}
+                    </p>
+                    <p className="mt-5 text-base leading-7 text-slate-900 font-medium bg-white/70 p-4 rounded-xl border border-white/40">
+                      Atuação ambulatorial e hospitalar de média e alta complexidade estruturada para atender governos, OSS, Santas Casas e redes parceiras em âmbito nacional.
                     </p>
                   </div>
                   <div className="grid gap-3.5 sm:grid-cols-2">
                     {SINACE_OPERATION_MODALITIES.map((point) => (
                       <div
                         key={point}
-                        className="flex items-start gap-3 rounded-[1.4rem] border border-emerald-100 bg-emerald-50/50 px-5 py-4"
+                        className="flex items-start gap-3 rounded-[1.4rem] border border-cyan-200 bg-white px-5 py-4 shadow-md transition-all hover:scale-[1.02] hover:shadow-lg"
                       >
-                        <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" />
-                        <p className="text-sm leading-6 text-slate-600">{point}</p>
+                        <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 text-cyan-600" />
+                        <p className="text-sm font-bold leading-6 text-slate-900">{point}</p>
                       </div>
                     ))}
                   </div>
@@ -572,7 +563,7 @@ export default function Home() {
                   />
                 </div>
                 <p className="mt-5 max-w-xl text-sm leading-7 text-slate-600">
-                  A operação integra leitura de demanda, ativação de agenda, coordenação por especialidade, desempenho contratual e expansão progressiva por polos regionais.
+                  O modelo da SINACE parte do diagnóstico da fila reprimida para coordenar a prestação de serviços ambulatoriais e hospitalares de média e alta complexidade por polos estaduais, regionais e municipais.
                 </p>
               </motion.div>
 
@@ -585,8 +576,8 @@ export default function Home() {
               >
                 <SectionHeader
                   kicker="Modelo operacional"
-                  title="Fluxo, capacidade e escala assistencial com leitura executiva."
-                  description="O modelo da SINACE parte do diagnóstico da fila e avança até a consolidação de polos regionais, combinando disciplina operacional, força clínica e visão contratual de longo prazo."
+                  title="Fluxo assistencial e inteligência de dados a partir do diagnóstico da fila."
+                  description="O modelo da SINACE parte do diagnóstico da fila reprimida e avança na prestação de serviços cirúrgicos com progressão continuada por polos estaduais, regionais e municipais em âmbito nacional."
                 />
                 <div className="mt-10 grid gap-5 sm:grid-cols-2">
                   {operatingModel.map((item, index) => (
@@ -623,10 +614,10 @@ export default function Home() {
             >
               <span className="section-kicker text-cyan-700">Especialidades</span>
               <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-slate-950 md:text-5xl">
-                Especialidades na frente de atuação da SINACE.
+                Catálogo de Especialidades Cirúrgicas SINACE.
               </h2>
               <p className="mt-5 mx-auto max-w-2xl text-base leading-7 text-slate-600 md:text-lg">
-                A atuação institucional da SINACE reúne algumas especialidades cirúrgicas já presentes em sua frente assistencial e outras em expansão.
+                A atuação da SINACE abrange especialidades cirúrgicas estruturantes para prestação de serviços ambulatoriais e hospitalares de média e alta complexidade.
               </p>
               <div className="mt-12 grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                 {specialtyNames.map((item) => (
@@ -640,74 +631,8 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ─── Aplicativo Próprio ──────────────────────────────── */}
-        <section id="aplicativo" className="relative overflow-hidden bg-slate-50 py-28 text-slate-950 md:py-36 border-t border-slate-100">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_90%_60%,rgba(52,211,153,0.03),transparent_40%)]" />
-          <div className="container relative">
-            <div className="grid gap-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center">
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.2 }}
-                variants={fadeUp}
-                transition={{ duration: 0.55 }}
-                className="order-2 lg:order-1"
-              >
-                <SectionHeader
-                  kicker="Aplicativo próprio"
-                  title="Workspace próprio para conhecimento, governança e inteligência cirúrgica."
-                  description="O workspace da SINACE amplia a proposta institucional e projeta a operação como plataforma digital: um ambiente para taxonomia cirúrgica persistente, estudo de caso, enciclopédia, arquivos acadêmicos e ampliação de governança administrativa para o seu networking."
-                />
-                <div className="mt-12 grid gap-5 sm:grid-cols-2">
-                  {appCapabilities.map((item) => (
-                    <div key={item} className="surface-panel hover-lift rounded-[1.8rem] border-t-2 border-t-emerald-500 p-6 flex flex-col shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
-                      <div className="flex items-center justify-between">
-                        <div className="icon-badge-emerald">
-                          <GraduationCap className="h-5 w-5" />
-                        </div>
-                        <span className="text-[0.65rem] uppercase tracking-[0.22em] text-slate-500 font-semibold">
-                          Recurso
-                        </span>
-                      </div>
-                      <p className="mt-5 flex-1 text-sm leading-6 text-slate-600">{item}</p>
-                    </div>
-                  ))}
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.18 }}
-                variants={fadeUp}
-                transition={{ duration: 0.6, delay: 0.08 }}
-                className="order-1 lg:order-2"
-              >
-                <div className="surface-panel overflow-hidden rounded-[2.2rem] p-4 border border-slate-200 shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
-                  <div className="relative overflow-hidden rounded-[1.6rem] bg-slate-50 p-3">
-                    <img
-                      src={appImage}
-                      alt="Ecossistema digital da SINACE com módulos para estudo de caso, enciclopédia cirúrgica e arquivos acadêmicos"
-                      className="h-[480px] w-full rounded-[1.2rem] object-cover"
-                    />
-                    <div className="absolute bottom-5 left-5 right-5 rounded-[1.5rem] border border-emerald-500/10 bg-white/90 px-5 py-4 backdrop-blur-xl shadow-lg">
-                      <div className="flex items-center gap-3 text-emerald-700">
-                        <Smartphone className="h-5 w-5" />
-                        <span className="section-kicker text-cyan-700">Healthtech em evolução</span>
-                      </div>
-                      <p className="mt-3 max-w-lg text-xs leading-5 text-slate-700">
-                        Um ativo digital concebido para ampliar formação, consolidar conhecimento, administrar a taxonomia das especialidades e apoiar o posicionamento futuro da SINACE no âmbito governamental e institucional.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        {/* ─── Escala Estratégica / Roadmap ───────────────────── */}
-        <section id="expansao" className="bg-white py-28 text-slate-950 md:py-36 border-t border-slate-100">
+        {/* ─── Escala Estratégica (Posicionada antes do Aplicativo Próprio) ── */}
+        <section id="expansao" className="bg-slate-50 py-28 text-slate-950 md:py-36 border-t border-slate-100">
           <div className="container">
             <div className="grid gap-16 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
               <motion.div
@@ -719,8 +644,8 @@ export default function Home() {
               >
                 <SectionHeader
                   kicker="Escala estratégica"
-                  title="Escala nacional com polos regionais e contratos estruturantes."
-                  description="A entrada institucional se fortalece quando a empresa demonstra capacidade operacional em redes locais, consolida governança, registra conhecimento em base persistente e transforma resultados em plataforma de maior alcance."
+                  title="Atuação em âmbito nacional com polos estaduais, regionais e municipais."
+                  description="A expansão da SINACE se consolida ao partir do diagnóstico da fila reprimida e estruturar polos estaduais, regionais e municipais de produção assistencial, unindo prestação de serviços de média e alta complexidade a uma governança contínua."
                 />
                 <div className="mt-10 overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-3 shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
                   <img
@@ -753,9 +678,9 @@ export default function Home() {
                   <div className="absolute -left-[35px] md:-left-[43px] top-8 flex h-4 w-4 items-center justify-center rounded-full bg-white border-2 border-emerald-500">
                     <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                   </div>
-                  <p className="section-kicker text-cyan-700">Direção de longo prazo</p>
-                  <p className="mt-4 text-base leading-7 text-slate-750 text-slate-700">
-                    A visão é posicionar a SINACE como solução institucional capaz de conectar acesso cirúrgico, inteligência operacional, educação médico-cirúrgica e uma camada digital própria em âmbito estadual e federal.
+                  <p className="section-kicker text-cyan-700">Direção em Âmbito Nacional</p>
+                  <p className="mt-4 text-base leading-7 text-slate-700">
+                    A visão é posicionar a SINACE como solução institucional em âmbito nacional capaz de conectar prestação de serviços assistenciais de média e alta complexidade, Inteligência Cirúrgica, Network e o Sistema Educacional e Digital em polos estaduais, regionais e municipais.
                   </p>
                 </div>
               </motion.div>
@@ -763,60 +688,134 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ─── Síntese Institucional ───────────────────────────── */}
-        <section className="relative bg-slate-50 py-28 md:py-36 border-t border-slate-100">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_70%,rgba(34,211,238,0.02),transparent_50%)]" />
+        {/* ─── Aplicativo Próprio / Workspace (Posicionado antes da Síntese) ── */}
+        <section id="aplicativo" className="relative overflow-hidden bg-white py-28 text-slate-950 md:py-36 border-t border-slate-100">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_90%_60%,rgba(52,211,153,0.03),transparent_40%)]" />
           <div className="container relative">
-            <div className="grid gap-12 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1.18fr)] lg:items-center">
+            <div className="grid gap-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center">
               <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.2 }}
                 variants={fadeUp}
                 transition={{ duration: 0.55 }}
-                className="w-full"
+                className="order-2 lg:order-1"
               >
-                <div className="surface-panel overflow-hidden rounded-[2rem] p-3 border border-slate-200 shadow-[0_24px_60px_rgba(15,23,42,0.05)]">
-                  <div className="relative w-full aspect-[1.15] overflow-hidden rounded-[1.4rem]">
-                    <img
-                      src={institutionalImage}
-                      alt="Imagem institucional da SINACE simbolizando integração entre gestão, SUS e instituição de saúde"
-                      className="absolute inset-0 h-full w-full object-cover scale-[1.08] object-center"
-                    />
-                  </div>
+                <SectionHeader
+                  kicker="Sistema Educacional e Digital"
+                  title="Workspace próprio com Inteligência Cirúrgica e Network."
+                  description="O workspace da SINACE projeta a operação como plataforma digital: Inteligência Cirúrgica, taxonomia cirúrgica persistente, estudo de casos clínicos, enciclopédia operatória, acervo acadêmico e expansão do Network cirúrgico profissional."
+                />
+                <div className="mt-12 grid gap-5 sm:grid-cols-2">
+                  {appCapabilities.map((item) => (
+                    <div key={item} className="surface-panel hover-lift rounded-[1.8rem] border-t-2 border-t-emerald-500 p-6 flex flex-col shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
+                      <div className="flex items-center justify-between">
+                        <div className="icon-badge-emerald">
+                          <GraduationCap className="h-5 w-5" />
+                        </div>
+                        <span className="text-[0.65rem] uppercase tracking-[0.22em] text-slate-500 font-semibold">
+                          Recurso
+                        </span>
+                      </div>
+                      <p className="mt-5 flex-1 text-sm leading-6 text-slate-600">{item}</p>
+                    </div>
+                  ))}
                 </div>
               </motion.div>
+
               <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.18 }}
                 variants={fadeUp}
-                transition={{ duration: 0.6, delay: 0.06 }}
-                className="surface-panel relative overflow-hidden rounded-[2.2rem] p-8 pb-6 md:p-10 md:pb-8 border border-slate-200 text-slate-950 shadow-[0_16px_40px_rgba(15,23,42,0.04)]"
+                transition={{ duration: 0.6, delay: 0.08 }}
+                className="order-1 lg:order-2"
               >
-                <span className="section-kicker text-cyan-700">Síntese institucional</span>
-                <h2 className="mt-5 text-balance text-3xl font-semibold tracking-[-0.04em] text-slate-950 md:text-4xl">
-                  Demanda reprimida convertida em capacidade cirúrgica organizada.
-                </h2>
-                <p className="mt-6 max-w-3xl text-base leading-8 text-slate-600 md:text-lg">
-                  A força da proposta está na combinação entre execução clínica, governança de fluxo, inteligência contratual e um ativo digital próprio que amplia a longevidade da solução. Isso cria um caminho sólido para operar dentro do ecossistema público com consistência e visão de futuro.
-                </p>
-                <div className="mt-8 grid gap-4 md:grid-cols-2">
+                <a
+                  href={workspaceHref}
+                  className="block group cursor-pointer transition-all duration-300 hover:scale-[1.015]"
+                  aria-label="Acessar o Aplicativo SINACE diretamente"
+                >
+                  <div className="surface-panel overflow-hidden rounded-[2.2rem] p-4 border border-cyan-200 shadow-[0_16px_40px_rgba(15,23,42,0.08)] group-hover:border-cyan-400 group-hover:shadow-[0_24px_50px_rgba(34,211,238,0.15)]">
+                    <div className="relative overflow-hidden rounded-[1.6rem] bg-slate-50 p-3">
+                      <img
+                        src={appImage}
+                        alt="Ecossistema digital da SINACE com módulos para estudo de caso, enciclopédia cirúrgica e arquivos acadêmicos - Clique para acessar o App"
+                        className="h-[480px] w-full rounded-[1.2rem] object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute bottom-5 left-5 right-5 rounded-[1.5rem] border border-cyan-300 bg-white/95 px-5 py-4 backdrop-blur-xl shadow-lg transition-colors group-hover:bg-cyan-50/95">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3 text-emerald-700">
+                            <Smartphone className="h-5 w-5" />
+                            <span className="section-kicker text-cyan-700">Clique para Acessar o App SINACE</span>
+                          </div>
+                          <ArrowRight className="h-5 w-5 text-cyan-600 transition-transform duration-300 group-hover:translate-x-1" />
+                        </div>
+                        <p className="mt-3 max-w-lg text-xs leading-5 text-slate-700 font-medium">
+                          Módulos para Inteligência Cirúrgica, Network, enciclopédia operatória, gestão de filas e Sistema Educacional e Digital em âmbito nacional.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </a>
+              </motion.div>
+            </div>
+          </div>
+        </section>
+
+        {/* ─── Síntese Institucional ───────────────────────────── */}
+        <section className="relative bg-slate-100 py-28 md:py-36 border-t border-slate-200 overflow-hidden">
+          <div className="container relative z-10">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.15 }}
+              variants={fadeUp}
+              transition={{ duration: 0.6 }}
+              className="relative overflow-hidden rounded-[2.5rem] border-2 border-cyan-400 shadow-[0_24px_64px_rgba(15,23,42,0.15)] bg-slate-900 text-slate-900"
+            >
+              {/* Imagem de Fundo Clara, Nítida e Visível */}
+              <div className="absolute inset-0 z-0 overflow-hidden">
+                <img
+                  src={institutionalImage}
+                  alt="Imagem institucional da SINACE simbolizando integração entre gestão, SUS e instituição de saúde"
+                  className="h-full w-full object-cover object-[center_65%] opacity-100 transition-transform duration-700 hover:scale-105"
+                />
+                {/* Degradê Suave para Manter Nítidos os Detalhes da Imagem (Aperto de Mãos, Gestão, SUS) */}
+                <div className="absolute inset-0 bg-gradient-to-r from-slate-900/60 via-slate-970/60 to-slate-900/60 backdrop-blur-[2px]" />
+              </div>
+
+              {/* Conteúdo sobreposto em Containers Sólidos com Alta Legibilidade */}
+              <div className="relative z-10 px-8 py-12 sm:px-12 sm:py-20 md:px-16 md:py-28 flex flex-col items-center text-center">
+                <div className="inline-flex items-center gap-2 rounded-full border border-cyan-300 bg-cyan-500 px-4 py-1.5 text-xs font-extrabold uppercase tracking-[0.26em] text-white shadow-md mx-auto">
+                  Síntese institucional
+                </div>
+
+                <div className="mt-6 max-w-4xl mx-auto p-6 md:p-8 text-center">
+                  <h2 className="text-balance text-3xl font-bold tracking-[-0.03em] text-white md:text-5xl mx-auto [text-shadow:0_4px_16px_rgba(0,0,0,0.9)]">
+                    Demanda reprimida convertida em prestação de serviços cirúrgicos organizada.
+                  </h2>
+                  <p className="mt-5 max-w-3xl text-base leading-8 text-white md:text-lg font-semibold mx-auto text-center [text-shadow:0_4px_12px_rgba(0,0,0,0.9)]">
+                    A proposta da SINACE se consolida na união entre a prestação de serviços ambulatoriais e hospitalares de média e alta complexidade, Inteligência Cirúrgica, Network e o Sistema Educacional e Digital. O modelo parte do diagnóstico da fila reprimida e progride continuamente por polos estaduais, regionais e municipais em âmbito nacional.
+                  </p>
+                </div>
+
+                <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                   {[
-                    ["Capacidade", "Escala assistencial orientada por método e coordenação regional."],
-                    ["Governança", "Indicadores, taxonomia persistente e rastreabilidade contratual."],
-                    ["Tecnologia", "Workspace próprio com especialidades, trilhas, biblioteca e administração."],
-                    ["Contato", `${SINACE_INSTITUTIONAL_PROFILE.phone} · ${SINACE_INSTITUTIONAL_PROFILE.email}`],
+                    ["Prestação de Serviços", "Atuação ambulatorial e hospitalar de média e alta complexidade."],
+                    ["Diagnóstico da Fila", "Identificação precisa da demanda reprimida para organizar fluxos."],
+                    ["Inteligência e Network", "Sistema Educacional e Digital com apoio técnico em âmbito nacional."],
+                    ["Contato Oficial", `${SINACE_INSTITUTIONAL_PROFILE.phone} · ${SINACE_INSTITUTIONAL_PROFILE.email}`],
                   ].map(([label, text]) => (
-                    <div key={label} className="surface-panel hover-glow-blue rounded-[1.6rem] border border-slate-200 p-5 flex flex-col min-h-[100px]">
-                      <p className="text-[0.65rem] uppercase tracking-[0.3em] text-slate-800 font-bold">{label}</p>
-                      <div className="mt-2 h-px w-8 bg-cyan-200" />
-                      <p className="mt-3 flex-1 text-sm leading-6 text-slate-600">{text}</p>
+                    <div key={label} className="surface-panel rounded-[1.6rem] border-2 border-cyan-400 bg-white p-6 shadow-xl flex flex-col min-h-[120px] transition-all hover:scale-[1.02] hover:shadow-2xl">
+                      <p className="text-[0.72rem] uppercase tracking-[0.25em] text-cyan-700 font-extrabold">{label}</p>
+                      <div className="mt-2.5 h-1 w-10 bg-cyan-400 rounded-full" />
+                      <p className="mt-3.5 flex-1 text-sm font-semibold leading-6 text-slate-900">{text}</p>
                     </div>
                   ))}
                 </div>
-              </motion.div>
-            </div>
+              </div>
+            </motion.div>
           </div>
         </section>
 
@@ -837,18 +836,18 @@ export default function Home() {
                 <div>
                   <p className="section-kicker text-cyan-700">Contato institucional</p>
                   <h2 className="mt-5 text-balance text-3xl font-semibold tracking-[-0.04em] text-slate-950 md:text-4xl">
-                    Diálogo institucional para enfrentar a fila cirúrgica com método.
+                    Diálogo institucional para prestação de serviços cirúrgicos com método.
                   </h2>
                   <p className="mt-6 text-base leading-8 text-slate-600 md:text-lg">
-                    A SINACE foi concebida para apoiar contratantes que buscam mais do que redução de fila reprimida: uma solução organizada, inteligente e de escala nacional, com presença pública consistente e workspace autenticado conectado à base persistente.
+                    A SINACE foi concebida para apoiar contratantes que buscam o enfrentamento estruturado da fila reprimida através da prestação de serviços de média e alta complexidade, Inteligência Cirúrgica e suporte tecnológico com atuação em âmbito nacional.
                   </p>
 
                   <div className="mt-10 space-y-4">
                     <p className="text-xs uppercase tracking-[0.26em] text-cyan-700 font-bold">Próximos Passos</p>
                     {[
-                      "Apresentar o cenário atual da fila e da infraestrutura disponível.",
-                      "Definir especialidades prioritárias, metas institucionais e desenho operacional.",
-                      "Estruturar um desenho inicial de implantação, acompanhamento e expansão.",
+                      "Diagnóstico inicial da fila reprimida e infraestrutura disponível.",
+                      "Planejamento da prestação de serviços ambulatoriais e hospitalares de média e alta complexidade.",
+                      "Estruturação de polos estaduais, regionais e municipais com governança contínua.",
                     ].map((step, idx) => (
                       <div key={idx} className="flex items-start gap-4 rounded-2xl border border-cyan-100 bg-cyan-50/50 px-5 py-4">
                         <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-cyan-50 border border-cyan-100 text-xs font-bold text-cyan-700">
@@ -863,7 +862,7 @@ export default function Home() {
                 <div className="surface-panel rounded-[2.2rem] border border-slate-200 p-8 text-slate-950 flex flex-col gap-6">
                   <div>
                     <p className="text-xs uppercase tracking-[0.28em] text-cyan-700 font-bold">Canais oficiais</p>
-                    <h3 className="mt-4 text-2xl font-semibold text-slate-950 tracking-[-0.03em]">Pronto para iniciar?</h3>
+                    <h3 className="mt-4 text-2xl font-semibold text-slate-950 tracking-[-0.03em]">Como iniciar o diálogo institucional?</h3>
                     <p className="mt-3 text-sm leading-6 text-slate-600">
                       Entre em contato diretamente com a nossa equipe de governança institucional ou explore as opções de atendimento.
                     </p>
@@ -927,7 +926,7 @@ export default function Home() {
                   </div>
                   <p className="text-[0.7rem] text-slate-500 font-medium">{SINACE_INSTITUTIONAL_PROFILE.extendedName}</p>
                   <p className="text-xs leading-6 text-slate-500">
-                    Atuando na articulação em rede, governança de fila e expansão do acesso cirúrgico com inteligência assistencial.
+                    Prestação de serviços ambulatoriais e hospitalares de média e alta complexidade, Inteligência Cirúrgica e Sistema Educacional e Digital em âmbito nacional.
                   </p>
                   <div className="flex items-center gap-2.5 pt-1">
                     <a href={instagramHref} target="_blank" rel="noreferrer" className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-50 border border-slate-200 text-slate-500 hover:bg-cyan-100 hover:text-slate-900 transition-all">

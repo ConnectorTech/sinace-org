@@ -1,4 +1,5 @@
 import {
+  boolean,
   int,
   mysqlEnum,
   mysqlTable,
@@ -8,53 +9,60 @@ import {
   varchar,
 } from "drizzle-orm/mysql-core";
 
-export const users = mysqlTable("users", {
+export const users = mysqlTable("usuarios", {
   id: int("id").autoincrement().primaryKey(),
-  openId: varchar("openId", { length: 64 }).notNull().unique(),
-  name: text("name"),
-  email: varchar("email", { length: 320 }),
-  loginMethod: varchar("loginMethod", { length: 64 }),
-  role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-  lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
+  openId: varchar("identificador_aberto", { length: 64 }).unique(),
+  passwordHash: varchar("senha_hash", { length: 255 }),
+  name: text("nome"),
+  email: varchar("email", { length: 320 }).unique(),
+  loginMethod: varchar("metodo_login", { length: 64 }),
+  role: mysqlEnum("funcao", ["user", "admin"]).default("user").notNull(),
+  cpf: varchar("cpf", { length: 14 }),
+  cep: varchar("cep", { length: 9 }),
+  addressLine1: varchar("endereco_linha1", { length: 255 }),
+  city: varchar("cidade", { length: 120 }),
+  state: varchar("estado", { length: 2 }),
+  isDoctor: boolean("e_medico").default(false),
+  crm: varchar("crm", { length: 20 }),
+  crmUf: varchar("crmUf", { length: 2 }),
+  createdAt: timestamp("criado_em").defaultNow().notNull(),
+  updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
+  lastSignedIn: timestamp("ultimo_login").defaultNow().notNull(),
 });
 
-export const specialties = mysqlTable(
-  "specialties",
+export const specialties = mysqlTable("especialidades",
   {
     id: int("id").autoincrement().primaryKey(),
     slug: varchar("slug", { length: 120 }).notNull(),
-    name: varchar("name", { length: 160 }).notNull(),
-    shortLabel: varchar("shortLabel", { length: 80 }),
-    description: text("description"),
-    category: mysqlEnum("category", ["cirurgica", "clinica", "apoio"])
+    name: varchar("nome", { length: 160 }).notNull(),
+    shortLabel: varchar("rotulo_curto", { length: 80 }),
+    description: text("descricao"),
+    category: mysqlEnum("categoria", ["cirurgica", "clinica", "apoio"])
       .default("cirurgica")
       .notNull(),
     status: mysqlEnum("status", ["draft", "active", "archived"])
       .default("draft")
       .notNull(),
-    displayOrder: int("displayOrder").default(0).notNull(),
-    coordinationModel: varchar("coordinationModel", { length: 160 }),
-    createdByUserId: int("createdByUserId").references(() => users.id, {
+    displayOrder: int("ordem_exibicao").default(0).notNull(),
+    coordinationModel: varchar("modelo_coordenacao", { length: 160 }),
+    createdByUserId: int("criado_por_usuario_id").references(() => users.id, {
       onDelete: "set null",
     }),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
-    slugIdx: uniqueIndex("specialties_slug_idx").on(table.slug),
+    slugIdx: uniqueIndex("especialidades_slug_idx").on(table.slug),
   })
 );
 
-export const partners = mysqlTable(
-  "partners",
+export const partners = mysqlTable("parceiros",
   {
     id: int("id").autoincrement().primaryKey(),
     slug: varchar("slug", { length: 120 }).notNull(),
-    name: varchar("name", { length: 180 }).notNull(),
-    description: text("description"),
-    partnerType: mysqlEnum("partnerType", [
+    name: varchar("nome", { length: 180 }).notNull(),
+    description: text("descricao"),
+    partnerType: mysqlEnum("tipo_parceiro", [
       "government",
       "oss",
       "hospital_network",
@@ -64,28 +72,27 @@ export const partners = mysqlTable(
     ])
       .default("other")
       .notNull(),
-    websiteUrl: varchar("websiteUrl", { length: 2048 }),
-    city: varchar("city", { length: 120 }),
-    state: varchar("state", { length: 120 }),
+    websiteUrl: varchar("site_url", { length: 2048 }),
+    city: varchar("cidade", { length: 120 }),
+    state: varchar("estado", { length: 120 }),
     status: mysqlEnum("status", ["prospect", "active", "inactive"])
       .default("prospect")
       .notNull(),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
-    slugIdx: uniqueIndex("partners_slug_idx").on(table.slug),
+    slugIdx: uniqueIndex("parceiros_slug_idx").on(table.slug),
   })
 );
 
-export const institutions = mysqlTable(
-  "institutions",
+export const institutions = mysqlTable("instituicoes",
   {
     id: int("id").autoincrement().primaryKey(),
     slug: varchar("slug", { length: 120 }).notNull(),
-    name: varchar("name", { length: 180 }).notNull(),
-    description: text("description"),
-    institutionType: mysqlEnum("institutionType", [
+    name: varchar("nome", { length: 180 }).notNull(),
+    description: text("descricao"),
+    institutionType: mysqlEnum("tipo_instituicao", [
       "hospital",
       "santa_casa",
       "clinic",
@@ -95,35 +102,34 @@ export const institutions = mysqlTable(
     ])
       .default("hospital")
       .notNull(),
-    city: varchar("city", { length: 120 }),
-    state: varchar("state", { length: 120 }),
-    capacityProfile: varchar("capacityProfile", { length: 160 }),
-    teachingProfile: varchar("teachingProfile", { length: 160 }),
-    partnerId: int("partnerId").references(() => partners.id, {
+    city: varchar("cidade", { length: 120 }),
+    state: varchar("estado", { length: 120 }),
+    capacityProfile: varchar("perfil_capacidade", { length: 160 }),
+    teachingProfile: varchar("perfil_ensino", { length: 160 }),
+    partnerId: int("parceiro_id").references(() => partners.id, {
       onDelete: "set null",
     }),
     status: mysqlEnum("status", ["planning", "active", "inactive"])
       .default("planning")
       .notNull(),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
-    slugIdx: uniqueIndex("institutions_slug_idx").on(table.slug),
+    slugIdx: uniqueIndex("instituicoes_slug_idx").on(table.slug),
   })
 );
 
-export const institutionSpecialties = mysqlTable(
-  "institutionSpecialties",
+export const institutionSpecialties = mysqlTable("especialidades_instituicao",
   {
     id: int("id").autoincrement().primaryKey(),
-    institutionId: int("institutionId")
+    institutionId: int("instituicao_id")
       .notNull()
       .references(() => institutions.id, { onDelete: "cascade" }),
-    specialtyId: int("specialtyId")
+    specialtyId: int("especialidade_id")
       .notNull()
       .references(() => specialties.id, { onDelete: "cascade" }),
-    serviceModel: mysqlEnum("serviceModel", [
+    serviceModel: mysqlEnum("modelo_servico", [
       "elective",
       "high_complexity",
       "ambulatory",
@@ -135,8 +141,8 @@ export const institutionSpecialties = mysqlTable(
     status: mysqlEnum("status", ["planned", "active", "paused"])
       .default("planned")
       .notNull(),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
     institutionSpecialtyIdx: uniqueIndex("institution_specialty_idx").on(
@@ -146,22 +152,21 @@ export const institutionSpecialties = mysqlTable(
   })
 );
 
-export const professionalProfiles = mysqlTable(
-  "professionalProfiles",
+export const professionalProfiles = mysqlTable("perfis_profissionais",
   {
     id: int("id").autoincrement().primaryKey(),
-    userId: int("userId").references(() => users.id, {
+    userId: int("usuario_id").references(() => users.id, {
       onDelete: "set null",
     }),
-    institutionId: int("institutionId").references(() => institutions.id, {
+    institutionId: int("instituicao_id").references(() => institutions.id, {
       onDelete: "set null",
     }),
-    specialtyId: int("specialtyId").references(() => specialties.id, {
+    specialtyId: int("especialidade_id").references(() => specialties.id, {
       onDelete: "set null",
     }),
-    fullName: varchar("fullName", { length: 180 }).notNull(),
-    roleTitle: varchar("roleTitle", { length: 120 }).notNull(),
-    professionalType: mysqlEnum("professionalType", [
+    fullName: varchar("nome_completo", { length: 180 }).notNull(),
+    roleTitle: varchar("titulo_cargo", { length: 120 }).notNull(),
+    professionalType: mysqlEnum("tipo_profissional", [
       "surgeon",
       "anesthesiologist",
       "nurse",
@@ -173,13 +178,13 @@ export const professionalProfiles = mysqlTable(
     ])
       .default("surgeon")
       .notNull(),
-    credentialNumber: varchar("credentialNumber", { length: 80 }),
-    credentialState: varchar("credentialState", { length: 16 }),
-    credentialAuthority: varchar("credentialAuthority", { length: 120 }),
-    rqeNumber: varchar("rqeNumber", { length: 80 }),
-    publicEmail: varchar("publicEmail", { length: 320 }),
-    privateAccessEmail: varchar("privateAccessEmail", { length: 320 }),
-    passwordAccessStatus: mysqlEnum("passwordAccessStatus", [
+    credentialNumber: varchar("numero_credencial", { length: 80 }),
+    credentialState: varchar("estado_credencial", { length: 16 }),
+    credentialAuthority: varchar("autoridade_credencial", { length: 120 }),
+    rqeNumber: varchar("numero_rqe", { length: 80 }),
+    publicEmail: varchar("email_publico", { length: 320 }),
+    privateAccessEmail: varchar("email_acesso_privado", { length: 320 }),
+    passwordAccessStatus: mysqlEnum("status_acesso_senha", [
       "not_started",
       "ready",
       "recovery",
@@ -187,43 +192,42 @@ export const professionalProfiles = mysqlTable(
     ])
       .default("not_started")
       .notNull(),
-    passwordRecoveryChannel: varchar("passwordRecoveryChannel", { length: 160 }),
-    passwordLastUpdatedAt: timestamp("passwordLastUpdatedAt"),
-    phone: varchar("phone", { length: 40 }),
-    city: varchar("city", { length: 120 }),
-    state: varchar("state", { length: 120 }),
-    regionLabel: varchar("regionLabel", { length: 120 }),
-    profileImageUrl: varchar("profileImageUrl", { length: 2048 }),
-    miniBio: text("miniBio"),
-    curriculumSummary: text("curriculumSummary"),
-    highlights: text("highlights"),
-    practiceAreas: text("practiceAreas"),
-    collaborationInterest: mysqlEnum("collaborationInterest", ["low", "medium", "high"])
+    passwordRecoveryChannel: varchar("canal_recuperacao_senha", { length: 160 }),
+    passwordLastUpdatedAt: timestamp("senha_atualizada_em"),
+    phone: varchar("telefone", { length: 40 }),
+    city: varchar("cidade", { length: 120 }),
+    state: varchar("estado", { length: 120 }),
+    regionLabel: varchar("rotulo_regiao", { length: 120 }),
+    profileImageUrl: varchar("url_imagem_perfil", { length: 2048 }),
+    miniBio: text("mini_bio"),
+    curriculumSummary: text("resumo_curriculo"),
+    highlights: text("destaques"),
+    practiceAreas: text("areas_atuacao"),
+    collaborationInterest: mysqlEnum("interesse_colaboracao", ["low", "medium", "high"])
       .default("medium")
       .notNull(),
-    verificationStatus: mysqlEnum("verificationStatus", ["pending", "verified", "rejected"])
+    verificationStatus: mysqlEnum("status_verificacao", ["pending", "verified", "rejected"])
       .default("pending")
       .notNull(),
-    visibility: mysqlEnum("visibility", ["public", "restricted", "private"])
+    visibility: mysqlEnum("visibilidade", ["public", "restricted", "private"])
       .default("public")
       .notNull(),
     status: mysqlEnum("status", ["active", "inactive"])
       .default("active")
       .notNull(),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   }
 );
 
-export const publications = mysqlTable(
-  "publications",
+export const publications = mysqlTable("publicacoes",
   {
     id: int("id").autoincrement().primaryKey(),
     slug: varchar("slug", { length: 140 }).notNull(),
-    title: varchar("title", { length: 180 }).notNull(),
-    excerpt: text("excerpt"),
-    body: text("body"),
-    publicationType: mysqlEnum("publicationType", [
+    title: varchar("titulo", { length: 180 }).notNull(),
+    excerpt: text("trecho"),
+    body: text("corpo"),
+    publicationType: mysqlEnum("tipo_publicacao", [
       "ceo_update",
       "institutional",
       "report",
@@ -233,37 +237,36 @@ export const publications = mysqlTable(
     ])
       .default("institutional")
       .notNull(),
-    featured: mysqlEnum("featured", ["no", "yes"]).default("no").notNull(),
-    visibility: mysqlEnum("visibility", ["public", "restricted", "private"])
+    featured: mysqlEnum("em_destaque", ["no", "yes"]).default("no").notNull(),
+    visibility: mysqlEnum("visibilidade", ["public", "restricted", "private"])
       .default("restricted")
       .notNull(),
     status: mysqlEnum("status", ["draft", "published", "archived"])
       .default("draft")
       .notNull(),
-    specialtyId: int("specialtyId").references(() => specialties.id, {
+    specialtyId: int("especialidade_id").references(() => specialties.id, {
       onDelete: "set null",
     }),
-    authorProfileId: int("authorProfileId").references(() => professionalProfiles.id, {
+    authorProfileId: int("perfil_autor_id").references(() => professionalProfiles.id, {
       onDelete: "set null",
     }),
-    coverImageUrl: varchar("coverImageUrl", { length: 2048 }),
-    publishedAt: timestamp("publishedAt"),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    coverImageUrl: varchar("url_imagem_capa", { length: 2048 }),
+    publishedAt: timestamp("publicado_em"),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
-    slugIdx: uniqueIndex("publications_slug_idx").on(table.slug),
+    slugIdx: uniqueIndex("publicacoes_slug_idx").on(table.slug),
   })
 );
 
-export const libraryAssets = mysqlTable(
-  "libraryAssets",
+export const libraryAssets = mysqlTable("recursos_biblioteca",
   {
     id: int("id").autoincrement().primaryKey(),
     slug: varchar("slug", { length: 140 }).notNull(),
-    title: varchar("title", { length: 180 }).notNull(),
-    description: text("description"),
-    assetType: mysqlEnum("assetType", [
+    title: varchar("titulo", { length: 180 }).notNull(),
+    description: text("descricao"),
+    assetType: mysqlEnum("tipo_recurso", [
       "document",
       "video",
       "image",
@@ -275,108 +278,105 @@ export const libraryAssets = mysqlTable(
     ])
       .default("document")
       .notNull(),
-    specialtyId: int("specialtyId").references(() => specialties.id, {
+    specialtyId: int("especialidade_id").references(() => specialties.id, {
       onDelete: "set null",
     }),
-    publicationId: int("publicationId").references(() => publications.id, {
+    publicationId: int("publicacao_id").references(() => publications.id, {
       onDelete: "set null",
     }),
-    uploadedByUserId: int("uploadedByUserId").references(() => users.id, {
+    uploadedByUserId: int("enviado_por_usuario_id").references(() => users.id, {
       onDelete: "set null",
     }),
-    sourceUrl: varchar("sourceUrl", { length: 2048 }),
-    fileKey: varchar("fileKey", { length: 255 }),
-    fileUrl: varchar("fileUrl", { length: 2048 }),
-    visibility: mysqlEnum("visibility", ["public", "restricted", "private"])
+    sourceUrl: varchar("url_origem", { length: 2048 }),
+    fileKey: varchar("chave_arquivo", { length: 255 }),
+    fileUrl: varchar("url_arquivo", { length: 2048 }),
+    visibility: mysqlEnum("visibilidade", ["public", "restricted", "private"])
       .default("restricted")
       .notNull(),
     status: mysqlEnum("status", ["draft", "published", "archived"])
       .default("draft")
       .notNull(),
-    featured: mysqlEnum("featured", ["no", "yes"]).default("no").notNull(),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    featured: mysqlEnum("em_destaque", ["no", "yes"]).default("no").notNull(),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
     slugIdx: uniqueIndex("library_assets_slug_idx").on(table.slug),
   })
 );
 
-export const caseStudies = mysqlTable(
-  "caseStudies",
+export const caseStudies = mysqlTable("estudos_caso",
   {
     id: int("id").autoincrement().primaryKey(),
     slug: varchar("slug", { length: 140 }).notNull(),
-    title: varchar("title", { length: 180 }).notNull(),
-    summary: text("summary"),
-    clinicalFocus: varchar("clinicalFocus", { length: 180 }),
-    specialtyId: int("specialtyId").references(() => specialties.id, {
+    title: varchar("titulo", { length: 180 }).notNull(),
+    summary: text("resumo"),
+    clinicalFocus: varchar("foco_clinico", { length: 180 }),
+    specialtyId: int("especialidade_id").references(() => specialties.id, {
       onDelete: "set null",
     }),
-    institutionId: int("institutionId").references(() => institutions.id, {
+    institutionId: int("instituicao_id").references(() => institutions.id, {
       onDelete: "set null",
     }),
-    authorProfileId: int("authorProfileId").references(() => professionalProfiles.id, {
+    authorProfileId: int("perfil_autor_id").references(() => professionalProfiles.id, {
       onDelete: "set null",
     }),
-    publicationId: int("publicationId").references(() => publications.id, {
+    publicationId: int("publicacao_id").references(() => publications.id, {
       onDelete: "set null",
     }),
-    complexity: mysqlEnum("complexity", ["standard", "high", "advanced"])
+    complexity: mysqlEnum("complexidade", ["standard", "high", "advanced"])
       .default("standard")
       .notNull(),
     status: mysqlEnum("status", ["draft", "published", "archived"])
       .default("draft")
       .notNull(),
-    sourceUrl: varchar("sourceUrl", { length: 2048 }),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    sourceUrl: varchar("url_origem", { length: 2048 }),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
     slugIdx: uniqueIndex("case_studies_slug_idx").on(table.slug),
   })
 );
 
-export const flowcharts = mysqlTable(
-  "flowcharts",
+export const flowcharts = mysqlTable("fluxogramas",
   {
     id: int("id").autoincrement().primaryKey(),
     slug: varchar("slug", { length: 140 }).notNull(),
-    title: varchar("title", { length: 180 }).notNull(),
-    summary: text("summary"),
-    specialtyId: int("specialtyId").references(() => specialties.id, {
+    title: varchar("titulo", { length: 180 }).notNull(),
+    summary: text("resumo"),
+    specialtyId: int("especialidade_id").references(() => specialties.id, {
       onDelete: "set null",
     }),
-    institutionId: int("institutionId").references(() => institutions.id, {
+    institutionId: int("instituicao_id").references(() => institutions.id, {
       onDelete: "set null",
     }),
-    diagramUrl: varchar("diagramUrl", { length: 2048 }),
-    fileKey: varchar("fileKey", { length: 255 }),
-    visibility: mysqlEnum("visibility", ["public", "restricted", "private"])
+    diagramUrl: varchar("url_diagrama", { length: 2048 }),
+    fileKey: varchar("chave_arquivo", { length: 255 }),
+    visibility: mysqlEnum("visibilidade", ["public", "restricted", "private"])
       .default("restricted")
       .notNull(),
     status: mysqlEnum("status", ["draft", "published", "archived"])
       .default("draft")
       .notNull(),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
-    slugIdx: uniqueIndex("flowcharts_slug_idx").on(table.slug),
+    slugIdx: uniqueIndex("fluxogramas_slug_idx").on(table.slug),
   })
 );
 
-export const profileConnections = mysqlTable(
-  "profileConnections",
+export const profileConnections = mysqlTable("conexoes_perfis",
   {
     id: int("id").autoincrement().primaryKey(),
-    requesterProfileId: int("requesterProfileId")
+    requesterProfileId: int("perfil_solicitante_id")
       .notNull()
       .references(() => professionalProfiles.id, { onDelete: "cascade" }),
-    targetProfileId: int("targetProfileId")
+    targetProfileId: int("perfil_alvo_id")
       .notNull()
       .references(() => professionalProfiles.id, { onDelete: "cascade" }),
-    connectionType: mysqlEnum("connectionType", [
+    connectionType: mysqlEnum("tipo_conexao", [
       "interest",
       "referral",
       "mentorship",
@@ -388,8 +388,8 @@ export const profileConnections = mysqlTable(
     status: mysqlEnum("status", ["pending", "accepted", "declined", "blocked"])
       .default("pending")
       .notNull(),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
     requesterTargetIdx: uniqueIndex("profile_connections_pair_idx").on(
@@ -399,75 +399,72 @@ export const profileConnections = mysqlTable(
   })
 );
 
-export const mediaShowcaseItems = mysqlTable(
-  "mediaShowcaseItems",
+export const mediaShowcaseItems = mysqlTable("itens_vitrine_midia",
   {
     id: int("id").autoincrement().primaryKey(),
     slug: varchar("slug", { length: 140 }).notNull(),
-    title: varchar("title", { length: 180 }).notNull(),
-    description: text("description"),
-    mediaType: mysqlEnum("mediaType", ["image", "video", "document", "other"])
+    title: varchar("titulo", { length: 180 }).notNull(),
+    description: text("descricao"),
+    mediaType: mysqlEnum("tipo_midia", ["image", "video", "document", "other"])
       .default("image")
       .notNull(),
-    moduleKey: varchar("moduleKey", { length: 120 }),
-    sourceUrl: varchar("sourceUrl", { length: 2048 }),
-    fileKey: varchar("fileKey", { length: 255 }),
-    fileUrl: varchar("fileUrl", { length: 2048 }),
-    visibility: mysqlEnum("visibility", ["public", "restricted", "private"])
+    moduleKey: varchar("chave_modulo", { length: 120 }),
+    sourceUrl: varchar("url_origem", { length: 2048 }),
+    fileKey: varchar("chave_arquivo", { length: 255 }),
+    fileUrl: varchar("url_arquivo", { length: 2048 }),
+    visibility: mysqlEnum("visibilidade", ["public", "restricted", "private"])
       .default("public")
       .notNull(),
     status: mysqlEnum("status", ["draft", "published", "archived"])
       .default("draft")
       .notNull(),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
     slugIdx: uniqueIndex("media_showcase_items_slug_idx").on(table.slug),
   })
 );
 
-export const surgicalTeams = mysqlTable(
-  "surgicalTeams",
+export const surgicalTeams = mysqlTable("equipes_cirurgicas",
   {
     id: int("id").autoincrement().primaryKey(),
     slug: varchar("slug", { length: 120 }).notNull(),
-    name: varchar("name", { length: 180 }).notNull(),
-    institutionId: int("institutionId").references(() => institutions.id, {
+    name: varchar("nome", { length: 180 }).notNull(),
+    institutionId: int("instituicao_id").references(() => institutions.id, {
       onDelete: "set null",
     }),
-    specialtyId: int("specialtyId").references(() => specialties.id, {
+    specialtyId: int("especialidade_id").references(() => specialties.id, {
       onDelete: "set null",
     }),
-    teamType: mysqlEnum("teamType", ["fixed", "mobile", "regional", "teaching"])
+    teamType: mysqlEnum("tipo_equipe", ["fixed", "mobile", "regional", "teaching"])
       .default("fixed")
       .notNull(),
-    operationalProfile: varchar("operationalProfile", { length: 180 }),
-    membersCount: int("membersCount").default(0).notNull(),
+    operationalProfile: varchar("perfil_operacional", { length: 180 }),
+    membersCount: int("contagem_membros").default(0).notNull(),
     status: mysqlEnum("status", ["planning", "active", "inactive"])
       .default("planning")
       .notNull(),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
     slugIdx: uniqueIndex("surgical_teams_slug_idx").on(table.slug),
   })
 );
 
-export const surgicalTeamMembers = mysqlTable(
-  "surgicalTeamMembers",
+export const surgicalTeamMembers = mysqlTable("membros_equipe_cirurgica",
   {
     id: int("id").autoincrement().primaryKey(),
-    surgicalTeamId: int("surgicalTeamId")
+    surgicalTeamId: int("equipe_cirurgica_id")
       .notNull()
       .references(() => surgicalTeams.id, { onDelete: "cascade" }),
-    professionalProfileId: int("professionalProfileId")
+    professionalProfileId: int("perfil_profissional_id")
       .notNull()
       .references(() => professionalProfiles.id, { onDelete: "cascade" }),
-    membershipRole: varchar("membershipRole", { length: 120 }).notNull(),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    membershipRole: varchar("papel_membro", { length: 120 }).notNull(),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
     teamProfessionalIdx: uniqueIndex("team_professional_idx").on(
@@ -477,22 +474,21 @@ export const surgicalTeamMembers = mysqlTable(
   })
 );
 
-export const governmentContracts = mysqlTable(
-  "governmentContracts",
+export const governmentContracts = mysqlTable("contratos_governamentais",
   {
     id: int("id").autoincrement().primaryKey(),
     slug: varchar("slug", { length: 120 }).notNull(),
-    title: varchar("title", { length: 180 }).notNull(),
-    partnerId: int("partnerId").references(() => partners.id, {
+    title: varchar("titulo", { length: 180 }).notNull(),
+    partnerId: int("parceiro_id").references(() => partners.id, {
       onDelete: "set null",
     }),
-    institutionId: int("institutionId").references(() => institutions.id, {
+    institutionId: int("instituicao_id").references(() => institutions.id, {
       onDelete: "set null",
     }),
-    specialtyId: int("specialtyId").references(() => specialties.id, {
+    specialtyId: int("especialidade_id").references(() => specialties.id, {
       onDelete: "set null",
     }),
-    contractType: mysqlEnum("contractType", [
+    contractType: mysqlEnum("tipo_contrato", [
       "state_program",
       "municipal_program",
       "federal_program",
@@ -501,116 +497,112 @@ export const governmentContracts = mysqlTable(
     ])
       .default("service_contract")
       .notNull(),
-    scope: text("scope"),
-    estimatedProcedures: int("estimatedProcedures").default(0).notNull(),
+    scope: text("escopo"),
+    estimatedProcedures: int("procedimentos_estimados").default(0).notNull(),
     status: mysqlEnum("status", ["pipeline", "active", "completed", "paused"])
       .default("pipeline")
       .notNull(),
-    startDate: timestamp("startDate"),
-    endDate: timestamp("endDate"),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    startDate: timestamp("data_inicio"),
+    endDate: timestamp("data_fim"),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
     slugIdx: uniqueIndex("government_contracts_slug_idx").on(table.slug),
   })
 );
 
-export const patientQueueEntries = mysqlTable(
-  "patientQueueEntries",
+export const patientQueueEntries = mysqlTable("fila_pacientes",
   {
     id: int("id").autoincrement().primaryKey(),
-    patientCode: varchar("patientCode", { length: 80 }).notNull(),
-    specialtyId: int("specialtyId")
+    patientCode: varchar("codigo_paciente", { length: 80 }).notNull(),
+    specialtyId: int("especialidade_id")
       .notNull()
       .references(() => specialties.id, { onDelete: "cascade" }),
-    institutionId: int("institutionId").references(() => institutions.id, {
+    institutionId: int("instituicao_id").references(() => institutions.id, {
       onDelete: "set null",
     }),
-    contractId: int("contractId").references(() => governmentContracts.id, {
+    contractId: int("contrato_id").references(() => governmentContracts.id, {
       onDelete: "set null",
     }),
-    priority: mysqlEnum("priority", ["low", "moderate", "high", "urgent"])
+    priority: mysqlEnum("prioridade", ["low", "moderate", "high", "urgent"])
       .default("moderate")
       .notNull(),
-    pathway: mysqlEnum("pathway", ["ambulatory", "hospital", "high_complexity"])
+    pathway: mysqlEnum("caminho", ["ambulatory", "hospital", "high_complexity"])
       .default("hospital")
       .notNull(),
     status: mysqlEnum("status", ["waiting", "scheduled", "performed", "cancelled"])
       .default("waiting")
       .notNull(),
-    waitingDays: int("waitingDays").default(0).notNull(),
-    originCity: varchar("originCity", { length: 120 }),
-    originState: varchar("originState", { length: 120 }),
-    scheduledAt: timestamp("scheduledAt"),
-    performedAt: timestamp("performedAt"),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    waitingDays: int("dias_espera").default(0).notNull(),
+    originCity: varchar("cidade_origem", { length: 120 }),
+    originState: varchar("estado_origem", { length: 120 }),
+    scheduledAt: timestamp("agendado_em"),
+    performedAt: timestamp("realizado_em"),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
     patientCodeIdx: uniqueIndex("patient_queue_entries_code_idx").on(table.patientCode),
   })
 );
 
-export const tracks = mysqlTable(
-  "tracks",
+export const tracks = mysqlTable("trilhas",
   {
     id: int("id").autoincrement().primaryKey(),
     slug: varchar("slug", { length: 120 }).notNull(),
-    title: varchar("title", { length: 180 }).notNull(),
-    summary: text("summary"),
-    specialtyId: int("specialtyId").references(() => specialties.id, {
+    title: varchar("titulo", { length: 180 }).notNull(),
+    summary: text("resumo"),
+    specialtyId: int("especialidade_id").references(() => specialties.id, {
       onDelete: "set null",
     }),
-    difficulty: mysqlEnum("difficulty", ["intro", "intermediate", "advanced"])
+    difficulty: mysqlEnum("dificuldade", ["intro", "intermediate", "advanced"])
       .default("intro")
       .notNull(),
-    estimatedHours: int("estimatedHours").default(0).notNull(),
+    estimatedHours: int("horas_estimadas").default(0).notNull(),
     status: mysqlEnum("status", ["draft", "published", "archived"])
       .default("draft")
       .notNull(),
-    createdByUserId: int("createdByUserId").references(() => users.id, {
+    createdByUserId: int("criado_por_usuario_id").references(() => users.id, {
       onDelete: "set null",
     }),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
-    slugIdx: uniqueIndex("tracks_slug_idx").on(table.slug),
+    slugIdx: uniqueIndex("trilhas_slug_idx").on(table.slug),
   })
 );
 
-export const learningModules = mysqlTable(
-  "learningModules",
+export const learningModules = mysqlTable("modulos_aprendizado",
   {
     id: int("id").autoincrement().primaryKey(),
-    trackId: int("trackId")
+    trackId: int("trilha_id")
       .notNull()
       .references(() => tracks.id, { onDelete: "cascade" }),
     slug: varchar("slug", { length: 120 }).notNull(),
-    title: varchar("title", { length: 180 }).notNull(),
-    summary: text("summary"),
-    position: int("position").default(0).notNull(),
-    estimatedMinutes: int("estimatedMinutes").default(0).notNull(),
+    title: varchar("titulo", { length: 180 }).notNull(),
+    summary: text("resumo"),
+    position: int("posicao").default(0).notNull(),
+    estimatedMinutes: int("minutos_estimados").default(0).notNull(),
     status: mysqlEnum("status", ["draft", "published", "archived"])
       .default("draft")
       .notNull(),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
     trackSlugIdx: uniqueIndex("modules_track_slug_idx").on(table.trackId, table.slug),
   })
 );
 
-export const documents = mysqlTable(
-  "documents",
+export const documents = mysqlTable("documentos",
   {
     id: int("id").autoincrement().primaryKey(),
     slug: varchar("slug", { length: 140 }).notNull(),
-    title: varchar("title", { length: 180 }).notNull(),
-    description: text("description"),
-    documentType: mysqlEnum("documentType", [
+    title: varchar("titulo", { length: 180 }).notNull(),
+    description: text("descricao"),
+    documentType: mysqlEnum("tipo_documento", [
       "protocol",
       "guideline",
       "manual",
@@ -621,124 +613,121 @@ export const documents = mysqlTable(
     ])
       .default("protocol")
       .notNull(),
-    specialtyId: int("specialtyId").references(() => specialties.id, {
+    specialtyId: int("especialidade_id").references(() => specialties.id, {
       onDelete: "set null",
     }),
-    trackId: int("trackId").references(() => tracks.id, {
+    trackId: int("trilha_id").references(() => tracks.id, {
       onDelete: "set null",
     }),
-    sourceUrl: varchar("sourceUrl", { length: 2048 }),
-    fileKey: varchar("fileKey", { length: 255 }),
-    fileUrl: varchar("fileUrl", { length: 2048 }),
-    fileName: varchar("fileName", { length: 255 }),
-    mimeType: varchar("mimeType", { length: 160 }),
-    fileSizeBytes: int("fileSizeBytes"),
-    folderLabel: varchar("folderLabel", { length: 160 }).default("Geral").notNull(),
-    contributorName: varchar("contributorName", { length: 180 }),
-    contributorInstitution: varchar("contributorInstitution", { length: 180 }),
-    contributorCredential: varchar("contributorCredential", { length: 120 }),
-    contributorType: mysqlEnum("contributorType", ["internal", "external"])
+    sourceUrl: varchar("url_origem", { length: 2048 }),
+    fileKey: varchar("chave_arquivo", { length: 255 }),
+    fileUrl: varchar("url_arquivo", { length: 2048 }),
+    fileName: varchar("nome_arquivo", { length: 255 }),
+    mimeType: varchar("tipo_mime", { length: 160 }),
+    fileSizeBytes: int("tamanho_arquivo_bytes"),
+    folderLabel: varchar("rotulo_pasta", { length: 160 }).default("Geral").notNull(),
+    contributorName: varchar("nome_contribuidor", { length: 180 }),
+    contributorInstitution: varchar("instituicao_contribuidor", { length: 180 }),
+    contributorCredential: varchar("credencial_contribuidor", { length: 120 }),
+    contributorType: mysqlEnum("tipo_contribuidor", ["internal", "external"])
       .default("external")
       .notNull(),
-    uploadSource: mysqlEnum("uploadSource", ["workspace", "submission"])
+    uploadSource: mysqlEnum("origem_envio", ["workspace", "submission"])
       .default("submission")
       .notNull(),
-    visibility: mysqlEnum("visibility", ["public", "restricted", "private"])
+    visibility: mysqlEnum("visibilidade", ["public", "restricted", "private"])
       .default("restricted")
       .notNull(),
     status: mysqlEnum("status", ["draft", "published", "archived"])
       .default("draft")
       .notNull(),
-    createdByUserId: int("createdByUserId").references(() => users.id, {
+    createdByUserId: int("criado_por_usuario_id").references(() => users.id, {
       onDelete: "set null",
     }),
-    publishedAt: timestamp("publishedAt"),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    publishedAt: timestamp("publicado_em"),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
-    slugIdx: uniqueIndex("documents_slug_idx").on(table.slug),
+    slugIdx: uniqueIndex("documentos_slug_idx").on(table.slug),
   })
 );
 
-export const clinicalCases = mysqlTable(
-  "clinicalCases",
+export const clinicalCases = mysqlTable("casos_clinicos",
   {
     id: int("id").autoincrement().primaryKey(),
     slug: varchar("slug", { length: 140 }).notNull(),
-    title: varchar("title", { length: 180 }).notNull(),
-    synopsis: text("synopsis"),
-    learningObjectives: text("learningObjectives"),
-    discussion: text("discussion"),
-    specialtyId: int("specialtyId").references(() => specialties.id, {
+    title: varchar("titulo", { length: 180 }).notNull(),
+    synopsis: text("sinopse"),
+    learningObjectives: text("objetivos_aprendizado"),
+    discussion: text("discussao"),
+    specialtyId: int("especialidade_id").references(() => specialties.id, {
       onDelete: "set null",
     }),
-    difficulty: mysqlEnum("difficulty", ["intro", "intermediate", "advanced"])
+    difficulty: mysqlEnum("dificuldade", ["intro", "intermediate", "advanced"])
       .default("intermediate")
       .notNull(),
     status: mysqlEnum("status", ["draft", "published", "archived"])
       .default("draft")
       .notNull(),
-    createdByUserId: int("createdByUserId").references(() => users.id, {
+    createdByUserId: int("criado_por_usuario_id").references(() => users.id, {
       onDelete: "set null",
     }),
-    publishedAt: timestamp("publishedAt"),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    publishedAt: timestamp("publicado_em"),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
     slugIdx: uniqueIndex("clinical_cases_slug_idx").on(table.slug),
   })
 );
 
-export const encyclopediaEntries = mysqlTable(
-  "encyclopediaEntries",
+export const encyclopediaEntries = mysqlTable("verbetes_enciclopedia",
   {
     id: int("id").autoincrement().primaryKey(),
     slug: varchar("slug", { length: 140 }).notNull(),
-    title: varchar("title", { length: 180 }).notNull(),
-    summary: text("summary"),
-    body: text("body"),
-    specialtyId: int("specialtyId").references(() => specialties.id, {
+    title: varchar("titulo", { length: 180 }).notNull(),
+    summary: text("resumo"),
+    body: text("corpo"),
+    specialtyId: int("especialidade_id").references(() => specialties.id, {
       onDelete: "set null",
     }),
     status: mysqlEnum("status", ["draft", "published", "archived"])
       .default("draft")
       .notNull(),
-    createdByUserId: int("createdByUserId").references(() => users.id, {
+    createdByUserId: int("criado_por_usuario_id").references(() => users.id, {
       onDelete: "set null",
     }),
-    reviewedByUserId: int("reviewedByUserId").references(() => users.id, {
+    reviewedByUserId: int("revisado_por_usuario_id").references(() => users.id, {
       onDelete: "set null",
     }),
-    publishedAt: timestamp("publishedAt"),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    publishedAt: timestamp("publicado_em"),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
     slugIdx: uniqueIndex("encyclopedia_entries_slug_idx").on(table.slug),
   })
 );
 
-export const trackEnrollments = mysqlTable(
-  "trackEnrollments",
+export const trackEnrollments = mysqlTable("matriculas_trilha",
   {
     id: int("id").autoincrement().primaryKey(),
-    userId: int("userId")
+    userId: int("usuario_id")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
-    trackId: int("trackId")
+    trackId: int("trilha_id")
       .notNull()
       .references(() => tracks.id, { onDelete: "cascade" }),
     status: mysqlEnum("status", ["not_started", "in_progress", "completed"])
       .default("not_started")
       .notNull(),
-    progressPercent: int("progressPercent").default(0).notNull(),
-    startedAt: timestamp("startedAt"),
-    completedAt: timestamp("completedAt"),
-    lastAccessedAt: timestamp("lastAccessedAt"),
-    createdAt: timestamp("createdAt").defaultNow().notNull(),
-    updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+    progressPercent: int("percentual_progresso").default(0).notNull(),
+    startedAt: timestamp("iniciado_em"),
+    completedAt: timestamp("concluido_em"),
+    lastAccessedAt: timestamp("ultimo_acesso_em"),
+    createdAt: timestamp("criado_em").defaultNow().notNull(),
+    updatedAt: timestamp("atualizado_em").defaultNow().onUpdateNow().notNull(),
   },
   table => ({
     userTrackIdx: uniqueIndex("track_enrollments_user_track_idx").on(

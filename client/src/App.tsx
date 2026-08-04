@@ -28,6 +28,7 @@ import {
 import AppSpecialties from "@/pages/AppSpecialties";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/NotFound";
+import AuthPage from "@/pages/Auth";
 import {
   AplicativoPage,
   CoberturaPage,
@@ -66,6 +67,7 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/auth" component={AuthPage} />
       <Route path="/proposta" component={PropostaPage} />
       <Route path="/operacao" component={OperacaoPage} />
       <Route path="/cobertura" component={CoberturaPage} />

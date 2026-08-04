@@ -21,7 +21,7 @@ describe("sinaceCatalog", () => {
   it("mantém as modalidades operacionais oficiais que sustentam o objeto social", () => {
     expect(SINACE_OPERATION_MODALITIES).toEqual([
       "Regime ambulatorial e hospitalar",
-      "Baixa, média e alta complexidade",
+      "Média e alta complexidade",
       "Cirurgia convencional",
       "Cirurgia laparoscópica",
       "Cirurgia endoscópica",
@@ -39,7 +39,7 @@ describe("sinaceCatalog", () => {
       email: "sinace.cirurgias@gmail.com",
       instagram: "@sinace_cirurgias",
       cnpj: "65.897.867/0001-37",
-      headquarters: "Ourinhos/SP",
+      headquarters: "Atuação em Âmbito Nacional",
     });
 
     expect(SINACE_INSTITUTIONAL_PROFILE.tagline).toContain("redução de filas cirúrgicas");

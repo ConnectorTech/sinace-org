@@ -86,18 +86,10 @@ export default function DashboardLayout({
     return <DashboardLayoutSkeleton />;
   }
 
-  // TEMPORÁRIO: bypass de autenticação para testes em produção
-  // O backend já retorna um DEV_USER para todas as requisições (ver server/_core/context.ts)
-  // Quando o sistema de login for ativado, restaurar o bloco abaixo:
-  /*
   if (!user) {
-    return (
-      <div className="flex min-h-screen items-center justify-center px-4">
-        ...
-      </div>
-    );
+    window.location.href = "/auth";
+    return null;
   }
-  */
 
   return (
     <SidebarProvider

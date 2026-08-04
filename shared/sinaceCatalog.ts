@@ -203,7 +203,7 @@ export const SINACE_SPECIALTY_CATALOG: SinaceSpecialtyCatalogItem[] = [
 
 export const SINACE_OPERATION_MODALITIES = [
   "Regime ambulatorial e hospitalar",
-  "Baixa, média e alta complexidade",
+  "Média e alta complexidade",
   "Cirurgia convencional",
   "Cirurgia laparoscópica",
   "Cirurgia endoscópica",
@@ -219,9 +219,9 @@ export const SINACE_INSTITUTIONAL_PROFILE = {
   email: "sinace.cirurgias@gmail.com",
   instagram: "@sinace_cirurgias",
   cnpj: "65.897.867/0001-37",
-  headquarters: "Ourinhos/SP",
+  headquarters: "Atuação em Âmbito Nacional",
   tagline:
     "Plataforma institucional para redução de filas cirúrgicas, coordenação operacional e educação médico-cirúrgica.",
   socialObject:
-    "Prestação de serviços em regime ambulatorial e hospitalar, de baixa, média e alta complexidade, com atuação em todas as cirurgias, convencionais e laparoscópicas, incluindo abordagens endoscópicas, robóticas, transplantes e demais procedimentos minimamente invasivos.",
+    "Prestação de serviços em regime ambulatorial e hospitalar, de média e alta complexidade, com atuação em todas as cirurgias, convencionais e laparoscópicas, incluindo abordagens endoscópicas, robóticas, transplantes e demais procedimentos minimamente invasivos.",
 } as const;
