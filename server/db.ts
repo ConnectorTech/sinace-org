@@ -510,12 +510,17 @@ function getCatalogBySlug() {
 }
 
 export async function getDb() {
-  if (!_db && process.env.DATABASE_URL) {
+  if (!_db) {
+    if (!process.env.DATABASE_URL) {
+      console.warn("[Database] DATABASE_URL environment variable is missing.");
+      throw new Error("Database URL is not configured (missing process.env.DATABASE_URL)");
+    }
+    
     try {
       _db = drizzle(process.env.DATABASE_URL);
-    } catch (error) {
+    } catch (error: any) {
       console.warn("[Database] Failed to connect:", error);
-      _db = null;
+      throw new Error("Failed to connect to database: " + error.message);
     }
   }
 

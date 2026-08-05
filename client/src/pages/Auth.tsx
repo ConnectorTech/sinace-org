@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useLocation } from "wouter";
-import { Eye, EyeOff, CheckCircle2, User, Stethoscope, Lock, Mail, Building, MapPin } from "lucide-react";
+import { Eye, EyeOff, CheckCircle2, User, Stethoscope, Lock, Mail, Building, MapPin, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
@@ -183,6 +183,10 @@ export default function AuthPage() {
       </div>
 
       <div className="w-full max-w-md relative z-10">
+        <Button variant="ghost" className="mb-4 text-slate-500 hover:text-slate-900 -ml-4" onClick={() => setLocation("/")}>
+          <ArrowLeft className="mr-2 h-4 w-4" />
+          Voltar para Home
+        </Button>
         <div className="text-center mb-8">
           <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center justify-center gap-3">
             <img src={logoImage} alt="Marca SINACE" className="h-10 w-auto object-contain" />
