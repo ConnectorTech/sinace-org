@@ -32,20 +32,15 @@ import {
   SINACE_OPERATION_MODALITIES,
   SINACE_SPECIALTY_CATALOG,
 } from "@shared/sinaceCatalog";
-import { SINACE_PUBLIC_NAV_ITEMS } from "@/lib/sinacePublicSite";
+import { SINACE_PUBLIC_NAV_ITEMS, SINACE_PUBLIC_IMAGES } from "@/lib/sinacePublicSite";
 import "./Home.css";
 
-const heroImage =
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663534677050/n5uwcWAoUUWXyEtV2nUN8o/sinace-hero-network_e5a6a3cb.png";
-const operationsImage =
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663534677050/n5uwcWAoUUWXyEtV2nUN8o/sinace-operations-command-KAAb4DJdbZN8ZpYtTMfg8c.webp";
-const appImage =
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663534677050/n5uwcWAoUUWXyEtV2nUN8o/99E8DFD1-E837-43E2-BF4E-6ACE65F714C0_aec8439f.png";
-const expansionImage =
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663534677050/n5uwcWAoUUWXyEtV2nUN8o/sinace-national-expansion-4dJWasAhXkP8Cew3mjzKFi.webp";
-const logoImage =
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663534677050/n5uwcWAoUUWXyEtV2nUN8o/2E282DFE-2672-4AC9-85E7-4F23C3D269BA_a5b594bf.png";
-const institutionalImage = "/institucional.png";
+const heroImage = SINACE_PUBLIC_IMAGES.hero;
+const operationsImage = SINACE_PUBLIC_IMAGES.operations;
+const appImage = SINACE_PUBLIC_IMAGES.application;
+const expansionImage = SINACE_PUBLIC_IMAGES.expansion;
+const logoImage = SINACE_PUBLIC_IMAGES.logo;
+const institutionalImage = SINACE_PUBLIC_IMAGES.institutional;
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 32 },
@@ -634,7 +629,7 @@ export default function Home() {
         {/* ─── Escala Estratégica (Posicionada antes do Aplicativo Próprio) ── */}
         <section id="expansao" className="bg-slate-50 py-28 text-slate-950 md:py-36 border-t border-slate-100">
           <div className="container">
-            <div className="grid gap-16 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start">
+            <div className="grid gap-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start">
               <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -651,7 +646,7 @@ export default function Home() {
                   <img
                     src={expansionImage}
                     alt="Visualização de expansão nacional com rede hospitalar conectada no Brasil"
-                    className="h-[400px] w-full rounded-[1.4rem] object-cover"
+                    className="w-full h-auto max-h-[460px] rounded-[1.4rem] object-contain bg-white"
                   />
                 </div>
               </motion.div>
@@ -692,7 +687,7 @@ export default function Home() {
         <section id="aplicativo" className="relative overflow-hidden bg-white py-28 text-slate-950 md:py-36 border-t border-slate-100">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_90%_60%,rgba(52,211,153,0.03),transparent_40%)]" />
           <div className="container relative">
-            <div className="grid gap-16 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-center">
+            <div className="grid gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
               <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -737,24 +732,24 @@ export default function Home() {
                   aria-label="Acessar o Aplicativo SINACE diretamente"
                 >
                   <div className="surface-panel overflow-hidden rounded-[2.2rem] p-4 border border-cyan-200 shadow-[0_16px_40px_rgba(15,23,42,0.08)] group-hover:border-cyan-400 group-hover:shadow-[0_24px_50px_rgba(34,211,238,0.15)]">
-                    <div className="relative overflow-hidden rounded-[1.6rem] bg-slate-50 p-3">
+                    <div className="overflow-hidden rounded-[1.6rem] bg-white p-2 flex items-center justify-center">
                       <img
                         src={appImage}
                         alt="Ecossistema digital da SINACE com módulos para estudo de caso, enciclopédia cirúrgica e arquivos acadêmicos - Clique para acessar o App"
-                        className="h-[480px] w-full rounded-[1.2rem] object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="w-full h-auto max-h-[480px] rounded-[1.2rem] object-contain bg-white transition-transform duration-500 group-hover:scale-[1.01]"
                       />
-                      <div className="absolute bottom-5 left-5 right-5 rounded-[1.5rem] border border-cyan-300 bg-white/95 px-5 py-4 backdrop-blur-xl shadow-lg transition-colors group-hover:bg-cyan-50/95">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3 text-emerald-700">
-                            <Smartphone className="h-5 w-5" />
-                            <span className="section-kicker text-cyan-700">Clique para Acessar o App SINACE</span>
-                          </div>
-                          <ArrowRight className="h-5 w-5 text-cyan-600 transition-transform duration-300 group-hover:translate-x-1" />
+                    </div>
+                    <div className="mt-3 rounded-[1.5rem] border border-cyan-200 bg-white/95 px-5 py-4 backdrop-blur-xl shadow-sm transition-colors group-hover:bg-cyan-50/95">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3 text-emerald-700">
+                          <Smartphone className="h-5 w-5" />
+                          <span className="section-kicker text-cyan-700">Clique para Acessar o App SINACE</span>
                         </div>
-                        <p className="mt-3 max-w-lg text-xs leading-5 text-slate-700 font-medium">
-                          Módulos para Inteligência Cirúrgica, Network, enciclopédia operatória, gestão de filas e Sistema Educacional e Digital em âmbito nacional.
-                        </p>
+                        <ArrowRight className="h-5 w-5 text-cyan-600 transition-transform duration-300 group-hover:translate-x-1" />
                       </div>
+                      <p className="mt-2 text-xs leading-5 text-slate-700 font-medium">
+                        Módulos para Inteligência Cirúrgica, Network, enciclopédia operatória, gestão de filas e Sistema Educacional e Digital em âmbito nacional.
+                      </p>
                     </div>
                   </div>
                 </a>

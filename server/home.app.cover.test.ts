@@ -6,7 +6,7 @@ describe("Home app cover", () => {
   const homePath = join(process.cwd(), "client/src/pages/Home.tsx");
   const homeSource = readFileSync(homePath, "utf8");
   const expectedCoverUrl =
-    "https://d2xsxph8kpxj0f.cloudfront.net/310519663534677050/n5uwcWAoUUWXyEtV2nUN8o/99E8DFD1-E837-43E2-BF4E-6ACE65F714C0_aec8439f.png";
+    "SINACE_PUBLIC_IMAGES.application";
 
   it("uses the uploaded SINACE cover image in the app section", () => {
     expect(homeSource).toContain(expectedCoverUrl);

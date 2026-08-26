@@ -25,12 +25,14 @@ export type SinaceNavigationItem = {
 
 export type SinaceNavigationGroup = {
   label: string;
+  coverImage?: string;
   items: SinaceNavigationItem[];
 };
 
 export const sinaceNavigationGroups: SinaceNavigationGroup[] = [
   {
     label: "Visão executiva",
+    coverImage: "/images/menu-visao-executiva.svg",
     items: [
       {
         label: "Dashboard",
@@ -48,6 +50,7 @@ export const sinaceNavigationGroups: SinaceNavigationGroup[] = [
   },
   {
     label: "Rede cirúrgica",
+    coverImage: "/images/menu-rede-cirurgica.svg",
     items: [
       {
         label: "Especialidades",
@@ -77,6 +80,7 @@ export const sinaceNavigationGroups: SinaceNavigationGroup[] = [
   },
   {
     label: "Conhecimento cirúrgico",
+    coverImage: "/images/menu-conhecimento.svg",
     items: [
       {
         label: "Biblioteca",
@@ -100,6 +104,7 @@ export const sinaceNavigationGroups: SinaceNavigationGroup[] = [
   },
   {
     label: "Comunidade médica",
+    coverImage: "/images/menu-comunidade.svg",
     items: [
       {
         label: "Minha área",

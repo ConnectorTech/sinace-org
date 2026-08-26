@@ -24,18 +24,18 @@ import {
 export const SINACE_PUBLIC_SITE_URL = "https://sinace.org";
 
 export const SINACE_PUBLIC_IMAGES = {
-  hero:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310519663534677050/n5uwcWAoUUWXyEtV2nUN8o/sinace-hero-network_e5a6a3cb.png",
-  operations:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310519663534677050/n5uwcWAoUUWXyEtV2nUN8o/sinace-operations-command-KAAb4DJdbZN8ZpYtTMfg8c.webp",
-  application:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310519663534677050/n5uwcWAoUUWXyEtV2nUN8o/99E8DFD1-E837-43E2-BF4E-6ACE65F714C0_aec8439f.png",
-  expansion:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310519663534677050/n5uwcWAoUUWXyEtV2nUN8o/sinace-national-expansion-4dJWasAhXkP8Cew3mjzKFi.webp",
-  logo:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310519663534677050/n5uwcWAoUUWXyEtV2nUN8o/2E282DFE-2672-4AC9-85E7-4F23C3D269BA_a5b594bf.png",
-  institutional:
-    "https://d2xsxph8kpxj0f.cloudfront.net/310519663534677050/n5uwcWAoUUWXyEtV2nUN8o/0FC61F1A-D6EB-4E6E-AA34-BC9F3BE65F20_f085c238.png",
+  hero: "/images/sinace1.png",
+  operations: "/images/sinace2.png",
+  application: "/images/sinace-app.png",
+  expansion: "/images/sinace-estrategica.png",
+  proposta: "/images/sinace-proposta.png",
+  transforma: "/images/sinace-transforma.png",
+  logo: "/images/sinace-logo.png",
+  institutional: "/images/institucional.png",
+  menuVisaoExecutiva: "/images/sinace2.png",
+  menuRedeCirurgica: "/images/sinace1.png",
+  menuConhecimento: "/images/sinace2.png",
+  menuComunidade: "/images/sinace1.png",
 } as const;
 
 export const SINACE_PUBLIC_OG_IMAGE = SINACE_PUBLIC_IMAGES.application;

@@ -12,10 +12,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Checkbox } from "@/components/ui/checkbox";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { motion, AnimatePresence } from "framer-motion";
+import { SINACE_PUBLIC_IMAGES } from "@/lib/sinacePublicSite";
 
-const logoImage =
-  "https://d2xsxph8kpxj0f.cloudfront.net/310519663534677050/n5uwcWAoUUWXyEtV2nUN8o/2E282DFE-2672-4AC9-85E7-4F23C3D269BA_a5b594bf.png";
+const logoImage = SINACE_PUBLIC_IMAGES.logo;
 
 // --- Validadores ---
 const validateCPF = (cpf: string) => {

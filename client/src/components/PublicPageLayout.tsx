@@ -81,9 +81,16 @@ export default function PublicPageLayout({
         </div>
       </header>
 
-      <section className="relative overflow-hidden border-b border-slate-200 bg-slate-50 text-slate-900">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(34,211,238,0.04),transparent_40%),radial-gradient(circle_at_80%_20%,rgba(52,211,153,0.03),transparent_40%)]" />
-        <div className="container relative grid gap-12 py-16 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end lg:py-20">
+      <section className="relative overflow-hidden border-b border-slate-200 bg-slate-900 text-slate-900">
+        {/* Imagem de fundo da seção intro — sinace3.png */}
+        <img
+          src="/images/sinace3.png"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 h-full w-full object-cover object-center opacity-100 z-0"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-white/70 via-white/60 to-white/75 z-[1]" />
+        <div className="container relative z-10 grid gap-12 py-16 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-end lg:py-20">
           <div className="max-w-3xl mx-auto text-center flex flex-col items-center">
             <p className="text-[0.74rem] font-semibold uppercase tracking-[0.28em] text-cyan-700 text-center">SINACE • ambiente institucional</p>
             <h1 className="mt-5 text-balance text-4xl font-semibold tracking-[-0.05em] md:text-6xl mx-auto text-center text-slate-950">{pageTitle}</h1>

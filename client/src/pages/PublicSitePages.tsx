@@ -129,19 +129,22 @@ export function PropostaPage() {
               </div>
             </div>
 
-            <div className="surface-panel rounded-[2.2rem] border border-slate-200 p-8 shadow-[0_24px_64px_rgba(15,23,42,0.05)]">
-              <p className="section-kicker text-cyan-700">Objeto social</p>
-              <div className="mt-3 h-px w-8 bg-cyan-200" />
-              <p className="mt-5 text-lg leading-8 text-slate-700">
-                {SINACE_INSTITUTIONAL_PROFILE.socialObject}
-              </p>
-              <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                {SINACE_OPERATION_MODALITIES.map(item => (
-                  <div key={item} className="flex items-start gap-3 rounded-[1.3rem] border border-cyan-100 bg-cyan-50/50 px-4 py-3.5">
-                    <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 text-cyan-600" />
-                    <p className="text-xs leading-6 text-slate-600">{item}</p>
-                  </div>
-                ))}
+            <div className="surface-panel overflow-hidden rounded-[2.2rem] border border-slate-200 p-3 shadow-[0_24px_64px_rgba(15,23,42,0.05)]">
+              <div className="overflow-hidden rounded-[1.6rem] bg-white p-2 flex items-center justify-center">
+                <img
+                  src={SINACE_PUBLIC_IMAGES.proposta}
+                  alt="SINACE • ambiente institucional — A SINACE transforma demanda reprimida em programa estruturado de produção cirúrgica"
+                  className="w-full h-auto max-h-[460px] object-contain bg-white rounded-[1.4rem]"
+                />
+              </div>
+              <div className="p-6">
+                <p className="section-kicker text-cyan-700">SINACE • ambiente institucional</p>
+                <h3 className="mt-2 text-xl font-semibold tracking-[-0.03em] text-slate-950">
+                  {intro.title}
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-slate-600">
+                  {SINACE_INSTITUTIONAL_PROFILE.socialObject}
+                </p>
               </div>
             </div>
           </div>
@@ -177,6 +180,41 @@ export function PropostaPage() {
                 </article>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Transformação da Demanda Cirúrgica */}
+      <section className="relative bg-white py-20 md:py-28 border-t border-slate-100">
+        <div className="container relative">
+          <div className="grid gap-14 lg:grid-cols-2 lg:items-center">
+            <div className="surface-panel overflow-hidden rounded-[2.2rem] border border-cyan-200 p-3 shadow-[0_24px_64px_rgba(15,23,42,0.06)]">
+              <div className="overflow-hidden rounded-[1.6rem] bg-white p-2 flex items-center justify-center">
+                <img
+                  src={SINACE_PUBLIC_IMAGES.transforma}
+                  alt="SINACE • ambiente institucional — A SINACE transforma demanda reprimida em programa estruturado de produção cirúrgica"
+                  className="w-full h-auto max-h-[480px] rounded-[1.4rem] object-contain bg-white"
+                />
+              </div>
+            </div>
+
+            <div>
+              <p className="section-kicker text-cyan-700">SINACE • ambiente institucional</p>
+              <h2 className="mt-4 text-balance text-3xl font-semibold tracking-[-0.04em] text-slate-950 md:text-4xl">
+                A SINACE transforma demanda reprimida em programa estruturado de produção cirúrgica.
+              </h2>
+              <p className="mt-6 text-base leading-8 text-slate-600 md:text-lg font-medium">
+                Prestação de serviços em regime ambulatorial e hospitalar, de média e alta complexidade, com atuação em todas as cirurgias, convencionais e laparoscópicas, incluindo abordagens endoscópicas, robóticas, transplantes e demais procedimentos minimamente invasivos.
+              </p>
+              <div className="mt-8 grid gap-3 sm:grid-cols-2">
+                {SINACE_OPERATION_MODALITIES.map(item => (
+                  <div key={item} className="flex items-start gap-3 rounded-[1.3rem] border border-cyan-100 bg-cyan-50/50 px-4 py-3.5">
+                    <ChevronRight className="mt-0.5 h-4 w-4 shrink-0 text-cyan-600" />
+                    <p className="text-xs leading-6 text-slate-600">{item}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -608,17 +646,14 @@ export function ContatoPage() {
                   </div>
                 </div>
               </div>
-              <MapView
-                className="h-[360px]"
-                initialCenter={SINACE_PUBLIC_MAP_CENTER}
-                initialZoom={12}
-                onMapReady={map => {
-                  new window.google.maps.Marker({
-                    map,
-                    position: SINACE_PUBLIC_MAP_CENTER,
-                    title: SINACE_INSTITUTIONAL_PROFILE.extendedName,
-                  });
-                }}
+              <iframe
+                title="Mapa da sede SINACE"
+                className="h-[360px] w-full"
+                style={{ border: 0 }}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                src={`https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d14700!2d${SINACE_PUBLIC_MAP_CENTER.lng}!3d${SINACE_PUBLIC_MAP_CENTER.lat}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1spt-BR!2sbr`}
+                allowFullScreen
               />
               <div className="grid gap-4 px-7 py-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-center">
                 <p className="text-sm leading-7 text-slate-600">

@@ -57,7 +57,7 @@ describe("Home landing pública do SINACE", () => {
     const markup = renderToStaticMarkup(<Home />);
 
     expect(markup).toMatch(
-      /<img[^>]+src="https:\/\/d2xsxph8kpxj0f\.cloudfront\.net\/310519663534677050\/n5uwcWAoUUWXyEtV2nUN8o\/IMG_5204_corrigida_v4_434fe37c\.png"[^>]+alt="Imagem institucional da SINACE simbolizando integração entre gestão, SUS e instituição de saúde"/
+      /<img[^>]+src="\/images\/institucional\.png"[^>]+alt="Imagem institucional da SINACE simbolizando integração entre gestão, SUS e instituição de saúde"/
     );
   });
 });

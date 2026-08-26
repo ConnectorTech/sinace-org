@@ -205,21 +205,19 @@ function DashboardLayoutContent({
                 className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-sidebar-border/80 bg-white/70 text-sidebar-foreground transition-colors hover:bg-sidebar-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                 aria-label="Alternar navegação"
               >
-                <PanelLeft className="h-4 w-4" />
+                <img src="/images/sinace-logo.svg" alt="Marca SINACE" className="h-6 w-6 object-contain" />
               </button>
 
               {!isCollapsed ? (
-                <div className="min-w-0 space-y-3">
-                  <div>
-                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.28em] text-sidebar-foreground/65">
-                      Plataforma SINACE
-                    </p>
-                    <h2 className="mt-1 text-lg font-semibold tracking-[-0.03em] text-sidebar-foreground">
-                      Workspace assistencial
+                <div className="min-w-0 space-y-1">
+                  <div className="flex items-center gap-2">
+                    <img src="/images/sinace-logo.svg" alt="Marca SINACE" className="h-6 w-6 object-contain" />
+                    <h2 className="text-base font-bold tracking-[-0.03em] text-sidebar-foreground">
+                      SINACE
                     </h2>
                   </div>
-                  <p className="text-sm leading-6 text-sidebar-foreground/72">
-                    Operação, formação e governança cirúrgica em um mesmo ambiente autenticado.
+                  <p className="text-xs leading-5 text-sidebar-foreground/72">
+                    Workspace assistencial &amp; governança cirúrgica.
                   </p>
                 </div>
               ) : null}
