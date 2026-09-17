@@ -79,7 +79,7 @@ const stakeholders = [
 const pillars = [
   {
     title: "Prestação de Serviços Assistenciais",
-    text: "Atuação ambulatorial e hospitalar de média e alta complexidade, estruturando a capacidade cirúrgica com qualidade e eficiência.",
+    text: "Atuação ambulatorial e hospitalar de baixa, média e alta complexidade, estruturando a capacidade cirúrgica com qualidade e eficiência.",
     icon: Building2,
   },
   {
@@ -108,7 +108,7 @@ const operatingModel = [
   {
     step: "02",
     title: "Ativação da prestação de serviços",
-    text: "Composição de equipes e agendas para prestação de serviços ambulatoriais e hospitalares de média e alta complexidade.",
+    text: "Composição de equipes e agendas para prestação de serviços ambulatoriais e hospitalares de baixa, média e alta complexidade.",
   },
   {
     step: "03",
@@ -125,7 +125,7 @@ const operatingModel = [
 const appCapabilities = [
   "Inteligência Cirúrgica e Network profissional para governança assistencial e tomada de decisão.",
   "Sistema Educacional e Digital com taxonomia persistente das especialidades e biblioteca clínica.",
-  "Painéis operacionais para gestão da prestação de serviços ambulatoriais e hospitalares de média e alta complexidade.",
+  "Painéis operacionais para gestão da prestação de serviços ambulatoriais e hospitalares de baixa, média e alta complexidade.",
   "Workspace autenticado estruturado para progressão de polos estaduais, regionais e municipais em âmbito nacional.",
 ];
 
@@ -381,7 +381,7 @@ export default function Home() {
                 <div className="mt-8 space-y-5">
                   {[
                     ["Ponto de partida", "Diagnóstico estruturado da fila reprimida"],
-                    ["Atuação assistencial", "Atuação ambulatorial e hospitalar de média e alta complexidade"],
+                    ["Atuação assistencial", "Atuação ambulatorial e hospitalar de baixa, média e alta complexidade"],
                     ["Abrangência", "Atuação em âmbito nacional com polos estaduais, regionais e municipais"],
                     ["Diferencial", "Inteligência Cirúrgica, Network e Sistema Educacional e Digital"],
                   ].map(([label, value]) => (
@@ -466,7 +466,7 @@ export default function Home() {
               <SectionHeader
                 kicker="Base da proposta"
                 title="Prestação de serviços cirúrgicos orientada pelo diagnóstico da fila reprimida."
-                description="A proposta da SINACE parte do diagnóstico preciso da fila reprimida para estruturar a prestação de serviços em regime ambulatorial e hospitalar de média e alta complexidade, impulsionada por Inteligência Cirúrgica, Network e Sistema Educacional e Digital com atuação em âmbito nacional."
+                description="A proposta da SINACE parte do diagnóstico preciso da fila reprimida para estruturar a prestação de serviços em regime ambulatorial e hospitalar de baixa, média e alta complexidade, impulsionada por Inteligência Cirúrgica, Network e Sistema Educacional e Digital com atuação em âmbito nacional."
                 centered
               />
             </motion.div>
@@ -518,7 +518,7 @@ export default function Home() {
                       {SINACE_INSTITUTIONAL_PROFILE.socialObject}
                     </p>
                     <p className="mt-5 text-base leading-7 text-slate-900 font-medium bg-white/70 p-4 rounded-xl border border-white/40">
-                      Atuação ambulatorial e hospitalar de média e alta complexidade estruturada para atender governos, OSS, Santas Casas e redes parceiras em âmbito nacional.
+                      Atuação ambulatorial e hospitalar de baixa, média e alta complexidade estruturada para atender governos, OSS, Santas Casas e redes parceiras em âmbito nacional.
                     </p>
                   </div>
                   <div className="grid gap-3.5 sm:grid-cols-2">
@@ -558,7 +558,7 @@ export default function Home() {
                   />
                 </div>
                 <p className="mt-5 max-w-xl text-sm leading-7 text-slate-600">
-                  O modelo da SINACE parte do diagnóstico da fila reprimida para coordenar a prestação de serviços ambulatoriais e hospitalares de média e alta complexidade por polos estaduais, regionais e municipais.
+                  O modelo da SINACE parte do diagnóstico da fila reprimida para coordenar a prestação de serviços ambulatoriais e hospitalares de baixa, média e alta complexidade por polos estaduais, regionais e municipais.
                 </p>
               </motion.div>
 
@@ -612,7 +612,7 @@ export default function Home() {
                 Catálogo de Especialidades Cirúrgicas SINACE.
               </h2>
               <p className="mt-5 mx-auto max-w-2xl text-base leading-7 text-slate-600 md:text-lg">
-                A atuação da SINACE abrange especialidades cirúrgicas estruturantes para prestação de serviços ambulatoriais e hospitalares de média e alta complexidade.
+                A atuação da SINACE abrange especialidades cirúrgicas estruturantes para prestação de serviços ambulatoriais e hospitalares de baixa, média e alta complexidade.
               </p>
               <div className="mt-12 grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
                 {specialtyNames.map((item) => (
@@ -640,7 +640,7 @@ export default function Home() {
                 <SectionHeader
                   kicker="Escala estratégica"
                   title="Atuação em âmbito nacional com polos estaduais, regionais e municipais."
-                  description="A expansão da SINACE se consolida ao partir do diagnóstico da fila reprimida e estruturar polos estaduais, regionais e municipais de produção assistencial, unindo prestação de serviços de média e alta complexidade a uma governança contínua."
+                  description="A expansão da SINACE se consolida ao partir do diagnóstico da fila reprimida e estruturar polos estaduais, regionais e municipais de produção assistencial, unindo prestação de serviços de baixa, média e alta complexidade a uma governança contínua."
                 />
                 <div className="mt-10 overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-3 shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
                   <img
@@ -675,7 +675,7 @@ export default function Home() {
                   </div>
                   <p className="section-kicker text-cyan-700">Direção em Âmbito Nacional</p>
                   <p className="mt-4 text-base leading-7 text-slate-700">
-                    A visão é posicionar a SINACE como solução institucional em âmbito nacional capaz de conectar prestação de serviços assistenciais de média e alta complexidade, Inteligência Cirúrgica, Network e o Sistema Educacional e Digital em polos estaduais, regionais e municipais.
+                    A visão é posicionar a SINACE como solução institucional em âmbito nacional capaz de conectar prestação de serviços assistenciais de baixa, média e alta complexidade, Inteligência Cirúrgica, Network e o Sistema Educacional e Digital em polos estaduais, regionais e municipais.
                   </p>
                 </div>
               </motion.div>
@@ -791,13 +791,13 @@ export default function Home() {
                     Demanda reprimida convertida em prestação de serviços cirúrgicos organizada.
                   </h2>
                   <p className="mt-5 max-w-3xl text-base leading-8 text-white md:text-lg font-semibold mx-auto text-center [text-shadow:0_4px_12px_rgba(0,0,0,0.9)]">
-                    A proposta da SINACE se consolida na união entre a prestação de serviços ambulatoriais e hospitalares de média e alta complexidade, Inteligência Cirúrgica, Network e o Sistema Educacional e Digital. O modelo parte do diagnóstico da fila reprimida e progride continuamente por polos estaduais, regionais e municipais em âmbito nacional.
+                    A proposta da SINACE se consolida na união entre a prestação de serviços ambulatoriais e hospitalares de baixa, média e alta complexidade, Inteligência Cirúrgica, Network e o Sistema Educacional e Digital. O modelo parte do diagnóstico da fila reprimida e progride continuamente por polos estaduais, regionais e municipais em âmbito nacional.
                   </p>
                 </div>
 
                 <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
                   {[
-                    ["Prestação de Serviços", "Atuação ambulatorial e hospitalar de média e alta complexidade."],
+                    ["Prestação de Serviços", "Atuação ambulatorial e hospitalar de baixa, média e alta complexidade."],
                     ["Diagnóstico da Fila", "Identificação precisa da demanda reprimida para organizar fluxos."],
                     ["Inteligência e Network", "Sistema Educacional e Digital com apoio técnico em âmbito nacional."],
                     ["Contato Oficial", `${SINACE_INSTITUTIONAL_PROFILE.phone} · ${SINACE_INSTITUTIONAL_PROFILE.email}`],
@@ -834,14 +834,14 @@ export default function Home() {
                     Diálogo institucional para prestação de serviços cirúrgicos com método.
                   </h2>
                   <p className="mt-6 text-base leading-8 text-slate-600 md:text-lg">
-                    A SINACE foi concebida para apoiar contratantes que buscam o enfrentamento estruturado da fila reprimida através da prestação de serviços de média e alta complexidade, Inteligência Cirúrgica e suporte tecnológico com atuação em âmbito nacional.
+                    A SINACE foi concebida para apoiar contratantes que buscam o enfrentamento estruturado da fila reprimida através da prestação de serviços de baixa, média e alta complexidade, Inteligência Cirúrgica e suporte tecnológico com atuação em âmbito nacional.
                   </p>
 
                   <div className="mt-10 space-y-4">
                     <p className="text-xs uppercase tracking-[0.26em] text-cyan-700 font-bold">Próximos Passos</p>
                     {[
                       "Diagnóstico inicial da fila reprimida e infraestrutura disponível.",
-                      "Planejamento da prestação de serviços ambulatoriais e hospitalares de média e alta complexidade.",
+                      "Planejamento da prestação de serviços ambulatoriais e hospitalares de baixa, média e alta complexidade.",
                       "Estruturação de polos estaduais, regionais e municipais com governança contínua.",
                     ].map((step, idx) => (
                       <div key={idx} className="flex items-start gap-4 rounded-2xl border border-cyan-100 bg-cyan-50/50 px-5 py-4">
@@ -921,7 +921,7 @@ export default function Home() {
                   </div>
                   <p className="text-[0.7rem] text-slate-500 font-medium">{SINACE_INSTITUTIONAL_PROFILE.extendedName}</p>
                   <p className="text-xs leading-6 text-slate-500">
-                    Prestação de serviços ambulatoriais e hospitalares de média e alta complexidade, Inteligência Cirúrgica e Sistema Educacional e Digital em âmbito nacional.
+                    Prestação de serviços ambulatoriais e hospitalares de baixa, média e alta complexidade, Inteligência Cirúrgica e Sistema Educacional e Digital em âmbito nacional.
                   </p>
                   <div className="flex items-center gap-2.5 pt-1">
                     <a href={instagramHref} target="_blank" rel="noreferrer" className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-50 border border-slate-200 text-slate-500 hover:bg-cyan-100 hover:text-slate-900 transition-all">
