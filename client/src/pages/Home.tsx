@@ -334,7 +334,7 @@ export default function Home() {
             className="absolute inset-0 h-full w-full object-cover scale-[1.25] origin-center"
           />
           <div className="hero-mask absolute inset-0" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(84,255,222,0.08),transparent_18%),radial-gradient(circle_at_80%_50%,rgba(78,121,255,0.05),transparent_20%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(16,185,129,0.12),transparent_26%),radial-gradient(circle_at_80%_50%,rgba(6,182,212,0.14),transparent_26%),radial-gradient(circle_at_20%_80%,rgba(37,99,235,0.08),transparent_24%)]" />
           <div className="container relative flex min-h-[860px] items-center py-28">
             <div className="grid w-full items-end gap-16 lg:grid-cols-[minmax(0,1.15fr)_360px]">
               <motion.div
@@ -370,11 +370,11 @@ export default function Home() {
                 initial={{ opacity: 0, x: 24 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-                className="surface-panel network-glow noise-overlay relative hidden overflow-hidden rounded-[2rem] border border-cyan-200/80 p-7 text-slate-900 lg:block shadow-md"
+                className="surface-card-cyan network-glow noise-overlay relative hidden overflow-hidden rounded-[2rem] border border-cyan-200/90 p-7 text-slate-900 lg:block shadow-lg"
               >
-                <div className="flex items-center justify-between text-xs uppercase tracking-[0.26em] text-cyan-700">
-                  <span className="font-semibold text-cyan-700">Visão executiva</span>
-                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan-50 border border-cyan-100 text-cyan-600">
+                <div className="flex items-center justify-between text-xs uppercase tracking-[0.26em] text-cyan-800">
+                  <span className="font-semibold text-cyan-800">Visão executiva</span>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-cyan-100/80 border border-cyan-200 text-cyan-700">
                     <Gauge className="h-4 w-4" />
                   </div>
                 </div>
@@ -402,7 +402,7 @@ export default function Home() {
 
         {/* ─── Ecossistema-alvo ────────────────────────────────── */}
         <section className="relative bg-slate-50 py-24 md:py-32 border-t border-slate-100">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(52,211,153,0.03),transparent_55%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(6,182,212,0.06),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(16,185,129,0.06),transparent_40%)]" />
           <div className="container relative">
             <motion.div
               initial="hidden"
@@ -423,6 +423,12 @@ export default function Home() {
             <div className="grid gap-6 md:grid-cols-3">
               {stakeholders.map((item, index) => {
                 const Icon = item.icon;
+                const cardConfigs = [
+                  { cardClass: "surface-card-cyan hover-glow-cyan border-t-2 border-t-cyan-500", badgeClass: "icon-badge-cyan", actionClass: "text-cyan-700 hover:text-cyan-600" },
+                  { cardClass: "surface-card-emerald hover-glow-emerald border-t-2 border-t-emerald-500", badgeClass: "icon-badge-emerald", actionClass: "text-emerald-700 hover:text-emerald-600" },
+                  { cardClass: "surface-card-blue hover-glow-blue border-t-2 border-t-blue-500", badgeClass: "icon-badge-blue", actionClass: "text-blue-700 hover:text-blue-600" },
+                ];
+                const config = cardConfigs[index % cardConfigs.length];
                 return (
                   <motion.article
                     key={item.title}
@@ -431,17 +437,17 @@ export default function Home() {
                     viewport={{ once: true, amount: 0.2 }}
                     variants={fadeUp}
                     transition={{ delay: index * 0.08 }}
-                    className="surface-panel hover-glow-emerald relative overflow-hidden rounded-[2rem] border-t-2 border-t-emerald-500 p-8 flex flex-col shadow-[0_16px_42px_rgba(15,23,42,0.04)]"
+                    className={`${config.cardClass} relative overflow-hidden rounded-[2rem] p-8 flex flex-col shadow-[0_16px_42px_rgba(15,23,42,0.04)]`}
                   >
                     <div className="flex items-start justify-between gap-4">
-                      <div className="icon-badge-emerald shrink-0">
+                      <div className={`${config.badgeClass} shrink-0`}>
                         <Icon className="h-5 w-5" />
                       </div>
                       <span className="section-kicker text-cyan-700 text-right">Ecossistema-alvo</span>
                     </div>
                     <h3 className="mt-7 text-xl font-semibold tracking-[-0.03em] text-slate-950 leading-7">{item.title}</h3>
                     <p className="mt-4 flex-1 text-sm leading-7 text-slate-600">{item.text}</p>
-                    <div className="mt-8 flex items-center gap-1.5 text-xs font-semibold text-emerald-600 cursor-pointer hover:text-emerald-500 transition-colors group">
+                    <div className={`mt-8 flex items-center gap-1.5 text-xs font-semibold ${config.actionClass} cursor-pointer transition-colors group`}>
                       <span>Explorar soluções institucionais</span>
                       <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
                     </div>
@@ -454,7 +460,7 @@ export default function Home() {
 
         {/* ─── Base da Proposta / Proposta de Valor ─────────────── */}
         <section id="proposta" className="relative bg-white py-28 md:py-36">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(34,211,238,0.03),transparent_45%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_35%,rgba(6,182,212,0.06),transparent_40%),radial-gradient(circle_at_85%_65%,rgba(16,185,129,0.06),transparent_40%)]" />
           <div className="container relative">
             <motion.div
               initial="hidden"
@@ -480,13 +486,20 @@ export default function Home() {
               transition={{ duration: 0.6, delay: 0.08 }}
               className="mt-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-4"
             >
-              {pillars.map((item) => {
+              {pillars.map((item, index) => {
                 const Icon = item.icon;
+                const pillarConfigs = [
+                  { cardClass: "surface-card-cyan hover-glow-cyan border-t-2 border-t-cyan-500", badgeClass: "icon-badge-cyan", kicker: "text-cyan-700" },
+                  { cardClass: "surface-card-emerald hover-glow-emerald border-t-2 border-t-emerald-500", badgeClass: "icon-badge-emerald", kicker: "text-emerald-700" },
+                  { cardClass: "surface-card-blue hover-glow-blue border-t-2 border-t-blue-500", badgeClass: "icon-badge-blue", kicker: "text-blue-700" },
+                  { cardClass: "surface-card-teal hover-glow-emerald border-t-2 border-t-teal-500", badgeClass: "icon-badge-teal", kicker: "text-teal-700" },
+                ];
+                const config = pillarConfigs[index % pillarConfigs.length];
                 return (
-                  <article key={item.title} className="surface-panel hover-lift relative overflow-hidden rounded-[2rem] border-t-2 border-t-emerald-500 p-7 flex flex-col shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
+                  <article key={item.title} className={`${config.cardClass} relative overflow-hidden rounded-[2rem] p-7 flex flex-col shadow-[0_16px_40px_rgba(15,23,42,0.04)]`}>
                     <div className="flex items-center justify-between">
-                      <span className="section-kicker text-cyan-700">Pilar estratégico</span>
-                      <div className="icon-badge-emerald">
+                      <span className={`section-kicker ${config.kicker}`}>Pilar estratégico</span>
+                      <div className={config.badgeClass}>
                         <Icon className="h-5 w-5" />
                       </div>
                     </div>
@@ -540,7 +553,7 @@ export default function Home() {
 
         {/* ─── Modelo Operacional ─────────────────────────────── */}
         <section id="operacao" className="grid-shell relative overflow-hidden bg-slate-50 py-28 text-slate-950 md:py-36 border-t border-slate-100">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_20%,rgba(104,201,215,0.04),transparent_18%),radial-gradient(circle_at_85%_15%,rgba(68,111,255,0.04),transparent_18%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_20%,rgba(6,182,212,0.07),transparent_25%),radial-gradient(circle_at_85%_75%,rgba(37,99,235,0.06),transparent_25%)]" />
           <div className="container relative">
             <div className="grid gap-16 lg:grid-cols-[minmax(0,0.94fr)_minmax(0,1.06fr)] lg:items-center">
               <motion.div
@@ -550,7 +563,7 @@ export default function Home() {
                 variants={fadeUp}
                 transition={{ duration: 0.55 }}
               >
-                <div className="surface-panel overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-3 shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
+                <div className="surface-card-cyan overflow-hidden rounded-[2rem] border border-cyan-200/80 bg-white p-3 shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
                   <img
                     src={operationsImage}
                     alt="Ambiente de coordenação clínica e operacional com painéis de rede cirúrgica nacional"
@@ -575,20 +588,29 @@ export default function Home() {
                   description="O modelo da SINACE parte do diagnóstico da fila reprimida e avança na prestação de serviços cirúrgicos com progressão continuada por polos estaduais, regionais e municipais em âmbito nacional."
                 />
                 <div className="mt-10 grid gap-5 sm:grid-cols-2">
-                  {operatingModel.map((item, index) => (
-                    <article key={item.step} className="surface-panel hover-lift rounded-[1.8rem] p-7 flex flex-col border-t-2 border-t-cyan-600 shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
-                      <div className="flex items-center justify-between">
-                        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-cyan-50 border border-cyan-100 text-sm font-bold text-cyan-700">
-                          {item.step}
-                        </span>
-                        <span className="text-[0.65rem] uppercase tracking-[0.25em] text-slate-500 font-semibold">
-                          Etapa {index + 1}
-                        </span>
-                      </div>
-                      <h3 className="mt-5 text-base font-semibold tracking-[-0.03em] text-slate-950 leading-6">{item.title}</h3>
-                      <p className="mt-3 flex-1 text-sm leading-6 text-slate-600">{item.text}</p>
-                    </article>
-                  ))}
+                  {operatingModel.map((item, index) => {
+                    const opConfigs = [
+                      { cardClass: "surface-card-cyan hover-glow-cyan border-t-2 border-t-cyan-500", stepClass: "bg-cyan-100 border border-cyan-200 text-cyan-800" },
+                      { cardClass: "surface-card-emerald hover-glow-emerald border-t-2 border-t-emerald-500", stepClass: "bg-emerald-100 border border-emerald-200 text-emerald-800" },
+                      { cardClass: "surface-card-blue hover-glow-blue border-t-2 border-t-blue-500", stepClass: "bg-blue-100 border border-blue-200 text-blue-800" },
+                      { cardClass: "surface-card-teal hover-glow-emerald border-t-2 border-t-teal-500", stepClass: "bg-teal-100 border border-teal-200 text-teal-800" },
+                    ];
+                    const config = opConfigs[index % opConfigs.length];
+                    return (
+                      <article key={item.step} className={`${config.cardClass} rounded-[1.8rem] p-7 flex flex-col shadow-[0_16px_40px_rgba(15,23,42,0.04)]`}>
+                        <div className="flex items-center justify-between">
+                          <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl text-sm font-bold ${config.stepClass}`}>
+                            {item.step}
+                          </span>
+                          <span className="text-[0.65rem] uppercase tracking-[0.25em] text-slate-500 font-semibold">
+                            Etapa {index + 1}
+                          </span>
+                        </div>
+                        <h3 className="mt-5 text-base font-semibold tracking-[-0.03em] text-slate-950 leading-6">{item.title}</h3>
+                        <p className="mt-3 flex-1 text-sm leading-6 text-slate-600">{item.text}</p>
+                      </article>
+                    );
+                  })}
                 </div>
               </motion.div>
             </div>
@@ -597,7 +619,7 @@ export default function Home() {
 
         {/* ─── Especialidades ─────────────────────────────────── */}
         <section id="cobertura" className="relative bg-white py-28 md:py-36">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(52,211,153,0.03),transparent_50%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(16,185,129,0.07),transparent_50%),radial-gradient(circle_at_85%_70%,rgba(6,182,212,0.06),transparent_40%)]" />
           <div className="container relative">
             <motion.div
               initial="hidden"
@@ -627,8 +649,9 @@ export default function Home() {
         </section>
 
         {/* ─── Escala Estratégica (Posicionada antes do Aplicativo Próprio) ── */}
-        <section id="expansao" className="bg-slate-50 py-28 text-slate-950 md:py-36 border-t border-slate-100">
-          <div className="container">
+        <section id="expansao" className="bg-slate-50 py-28 text-slate-950 md:py-36 border-t border-slate-100 relative">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_25%,rgba(37,99,235,0.06),transparent_35%),radial-gradient(circle_at_80%_75%,rgba(16,185,129,0.06),transparent_35%)]" />
+          <div className="container relative">
             <div className="grid gap-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:items-start">
               <motion.div
                 initial="hidden"
@@ -642,7 +665,7 @@ export default function Home() {
                   title="Atuação em âmbito nacional com polos estaduais, regionais e municipais."
                   description="A expansão da SINACE se consolida ao partir do diagnóstico da fila reprimida e estruturar polos estaduais, regionais e municipais de produção assistencial, unindo prestação de serviços de baixa, média e alta complexidade a uma governança contínua."
                 />
-                <div className="mt-10 overflow-hidden rounded-[2rem] border border-slate-200 bg-white p-3 shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
+                <div className="mt-10 overflow-hidden rounded-[2rem] border border-cyan-200/80 bg-white p-3 shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
                   <img
                     src={expansionImage}
                     alt="Visualização de expansão nacional com rede hospitalar conectada no Brasil"
@@ -657,23 +680,31 @@ export default function Home() {
                 viewport={{ once: true, amount: 0.18 }}
                 variants={fadeUp}
                 transition={{ duration: 0.6, delay: 0.06 }}
-                className="relative border-l border-cyan-200 pl-8 ml-4 md:ml-6 md:pl-10 space-y-6 pt-2"
+                className="relative border-l border-cyan-300 pl-8 ml-4 md:ml-6 md:pl-10 space-y-6 pt-2"
               >
-                {roadmap.map((item) => (
-                  <article key={item.phase} className="surface-panel relative rounded-[1.8rem] p-7 hover-lift shadow-[0_16px_42px_rgba(15,23,42,0.04)] border border-slate-200">
-                    <div className="absolute -left-[35px] md:-left-[43px] top-8 flex h-4 w-4 items-center justify-center rounded-full bg-white border-2 border-cyan-600">
-                      <div className="h-1.5 w-1.5 rounded-full bg-cyan-600" />
-                    </div>
-                    <p className="text-xs uppercase tracking-[0.28em] text-cyan-700 font-semibold">{item.phase}</p>
-                    <h3 className="mt-3 text-xl font-semibold tracking-[-0.03em] text-slate-950">{item.title}</h3>
-                    <p className="mt-3 text-sm leading-6 text-slate-600">{item.text}</p>
-                  </article>
-                ))}
-                <div className="surface-panel relative rounded-[1.8rem] border border-slate-200 p-7 hover-lift shadow-[0_16px_42px_rgba(15,23,42,0.04)]">
-                  <div className="absolute -left-[35px] md:-left-[43px] top-8 flex h-4 w-4 items-center justify-center rounded-full bg-white border-2 border-emerald-500">
-                    <div className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                {roadmap.map((item, index) => {
+                  const roadmapConfigs = [
+                    { cardClass: "surface-card-cyan hover-glow-cyan border border-cyan-200/80", dotBorder: "border-cyan-600", dotBg: "bg-cyan-600", kicker: "text-cyan-700" },
+                    { cardClass: "surface-card-emerald hover-glow-emerald border border-emerald-200/80", dotBorder: "border-emerald-600", dotBg: "bg-emerald-600", kicker: "text-emerald-700" },
+                    { cardClass: "surface-card-blue hover-glow-blue border border-blue-200/80", dotBorder: "border-blue-600", dotBg: "bg-blue-600", kicker: "text-blue-700" },
+                  ];
+                  const config = roadmapConfigs[index % roadmapConfigs.length];
+                  return (
+                    <article key={item.phase} className={`${config.cardClass} relative rounded-[1.8rem] p-7 shadow-[0_16px_42px_rgba(15,23,42,0.04)]`}>
+                      <div className={`absolute -left-[35px] md:-left-[43px] top-8 flex h-4 w-4 items-center justify-center rounded-full bg-white border-2 ${config.dotBorder}`}>
+                        <div className={`h-1.5 w-1.5 rounded-full ${config.dotBg}`} />
+                      </div>
+                      <p className={`text-xs uppercase tracking-[0.28em] font-semibold ${config.kicker}`}>{item.phase}</p>
+                      <h3 className="mt-3 text-xl font-semibold tracking-[-0.03em] text-slate-950">{item.title}</h3>
+                      <p className="mt-3 text-sm leading-6 text-slate-600">{item.text}</p>
+                    </article>
+                  );
+                })}
+                <div className="surface-card-teal relative rounded-[1.8rem] border border-teal-200/90 p-7 hover-glow-emerald shadow-[0_16px_42px_rgba(15,23,42,0.04)]">
+                  <div className="absolute -left-[35px] md:-left-[43px] top-8 flex h-4 w-4 items-center justify-center rounded-full bg-white border-2 border-teal-600">
+                    <div className="h-1.5 w-1.5 rounded-full bg-teal-600" />
                   </div>
-                  <p className="section-kicker text-cyan-700">Direção em Âmbito Nacional</p>
+                  <p className="section-kicker text-teal-700">Direção em Âmbito Nacional</p>
                   <p className="mt-4 text-base leading-7 text-slate-700">
                     A visão é posicionar a SINACE como solução institucional em âmbito nacional capaz de conectar prestação de serviços assistenciais de baixa, média e alta complexidade, Inteligência Cirúrgica, Network e o Sistema Educacional e Digital em polos estaduais, regionais e municipais.
                   </p>
@@ -685,7 +716,7 @@ export default function Home() {
 
         {/* ─── Aplicativo Próprio / Workspace (Posicionado antes da Síntese) ── */}
         <section id="aplicativo" className="relative overflow-hidden bg-white py-28 text-slate-950 md:py-36 border-t border-slate-100">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_90%_60%,rgba(52,211,153,0.03),transparent_40%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_90%_30%,rgba(16,185,129,0.07),transparent_40%),radial-gradient(circle_at_10%_70%,rgba(6,182,212,0.06),transparent_40%)]" />
           <div className="container relative">
             <div className="grid gap-14 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-center">
               <motion.div
@@ -702,19 +733,28 @@ export default function Home() {
                   description="O workspace da SINACE projeta a operação como plataforma digital: Inteligência Cirúrgica, taxonomia cirúrgica persistente, estudo de casos clínicos, enciclopédia operatória, acervo acadêmico e expansão do Network cirúrgico profissional."
                 />
                 <div className="mt-12 grid gap-5 sm:grid-cols-2">
-                  {appCapabilities.map((item) => (
-                    <div key={item} className="surface-panel hover-lift rounded-[1.8rem] border-t-2 border-t-emerald-500 p-6 flex flex-col shadow-[0_16px_40px_rgba(15,23,42,0.04)]">
-                      <div className="flex items-center justify-between">
-                        <div className="icon-badge-emerald">
-                          <GraduationCap className="h-5 w-5" />
+                  {appCapabilities.map((item, index) => {
+                    const capConfigs = [
+                      { cardClass: "surface-card-cyan hover-glow-cyan border-t-2 border-t-cyan-500", badgeClass: "icon-badge-cyan" },
+                      { cardClass: "surface-card-emerald hover-glow-emerald border-t-2 border-t-emerald-500", badgeClass: "icon-badge-emerald" },
+                      { cardClass: "surface-card-blue hover-glow-blue border-t-2 border-t-blue-500", badgeClass: "icon-badge-blue" },
+                      { cardClass: "surface-card-teal hover-glow-emerald border-t-2 border-t-teal-500", badgeClass: "icon-badge-teal" },
+                    ];
+                    const config = capConfigs[index % capConfigs.length];
+                    return (
+                      <div key={item} className={`${config.cardClass} rounded-[1.8rem] p-6 flex flex-col shadow-[0_16px_40px_rgba(15,23,42,0.04)]`}>
+                        <div className="flex items-center justify-between">
+                          <div className={config.badgeClass}>
+                            <GraduationCap className="h-5 w-5" />
+                          </div>
+                          <span className="text-[0.65rem] uppercase tracking-[0.22em] text-slate-500 font-semibold">
+                            Recurso
+                          </span>
                         </div>
-                        <span className="text-[0.65rem] uppercase tracking-[0.22em] text-slate-500 font-semibold">
-                          Recurso
-                        </span>
+                        <p className="mt-5 flex-1 text-sm leading-6 text-slate-600">{item}</p>
                       </div>
-                      <p className="mt-5 flex-1 text-sm leading-6 text-slate-600">{item}</p>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </motion.div>
 
@@ -731,7 +771,7 @@ export default function Home() {
                   className="block group cursor-pointer transition-all duration-300 hover:scale-[1.015]"
                   aria-label="Acessar o Aplicativo SINACE diretamente"
                 >
-                  <div className="surface-panel overflow-hidden rounded-[2.2rem] p-4 border border-cyan-200 shadow-[0_16px_40px_rgba(15,23,42,0.08)] group-hover:border-cyan-400 group-hover:shadow-[0_24px_50px_rgba(34,211,238,0.15)]">
+                  <div className="surface-card-cyan overflow-hidden rounded-[2.2rem] p-4 border border-cyan-300 shadow-[0_16px_40px_rgba(15,23,42,0.08)] group-hover:border-cyan-400 group-hover:shadow-[0_24px_50px_rgba(34,211,238,0.2)]">
                     <div className="overflow-hidden rounded-[1.6rem] bg-white p-2 flex items-center justify-center">
                       <img
                         src={appImage}
@@ -801,13 +841,22 @@ export default function Home() {
                     ["Diagnóstico da Fila", "Identificação precisa da demanda reprimida para organizar fluxos."],
                     ["Inteligência e Network", "Sistema Educacional e Digital com apoio técnico em âmbito nacional."],
                     ["Contato Oficial", `${SINACE_INSTITUTIONAL_PROFILE.phone} · ${SINACE_INSTITUTIONAL_PROFILE.email}`],
-                  ].map(([label, text]) => (
-                    <div key={label} className="surface-panel rounded-[1.6rem] border-2 border-cyan-400 bg-white p-6 shadow-xl flex flex-col min-h-[120px] transition-all hover:scale-[1.02] hover:shadow-2xl">
-                      <p className="text-[0.72rem] uppercase tracking-[0.25em] text-cyan-700 font-extrabold">{label}</p>
-                      <div className="mt-2.5 h-1 w-10 bg-cyan-400 rounded-full" />
-                      <p className="mt-3.5 flex-1 text-sm font-semibold leading-6 text-slate-900">{text}</p>
-                    </div>
-                  ))}
+                  ].map(([label, text], idx) => {
+                    const cardConfigs = [
+                      { cardClass: "surface-card-cyan border-2 border-cyan-400 hover:border-cyan-300", lineClass: "bg-cyan-400", kickerClass: "text-cyan-700" },
+                      { cardClass: "surface-card-emerald border-2 border-emerald-400 hover:border-emerald-300", lineClass: "bg-emerald-400", kickerClass: "text-emerald-700" },
+                      { cardClass: "surface-card-blue border-2 border-blue-400 hover:border-blue-300", lineClass: "bg-blue-400", kickerClass: "text-blue-700" },
+                      { cardClass: "surface-card-teal border-2 border-teal-400 hover:border-teal-300", lineClass: "bg-teal-400", kickerClass: "text-teal-700" },
+                    ];
+                    const cfg = cardConfigs[idx % cardConfigs.length];
+                    return (
+                      <div key={label} className={`${cfg.cardClass} rounded-[1.6rem] bg-white p-6 shadow-xl flex flex-col min-h-[120px] transition-all hover:scale-[1.02] hover:shadow-2xl`}>
+                        <p className={`text-[0.72rem] uppercase tracking-[0.25em] ${cfg.kickerClass} font-extrabold`}>{label}</p>
+                        <div className={`mt-2.5 h-1 w-10 ${cfg.lineClass} rounded-full`} />
+                        <p className="mt-3.5 flex-1 text-sm font-semibold leading-6 text-slate-900">{text}</p>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </motion.div>
@@ -840,21 +889,21 @@ export default function Home() {
                   <div className="mt-10 space-y-4">
                     <p className="text-xs uppercase tracking-[0.26em] text-cyan-700 font-bold">Próximos Passos</p>
                     {[
-                      "Diagnóstico inicial da fila reprimida e infraestrutura disponível.",
-                      "Planejamento da prestação de serviços ambulatoriais e hospitalares de baixa, média e alta complexidade.",
-                      "Estruturação de polos estaduais, regionais e municipais com governança contínua.",
-                    ].map((step, idx) => (
-                      <div key={idx} className="flex items-start gap-4 rounded-2xl border border-cyan-100 bg-cyan-50/50 px-5 py-4">
-                        <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-cyan-50 border border-cyan-100 text-xs font-bold text-cyan-700">
+                      { step: "Diagnóstico inicial da fila reprimida e infraestrutura disponível.", cardBg: "border-cyan-200 bg-cyan-50/70", badge: "bg-cyan-100 border-cyan-200 text-cyan-800" },
+                      { step: "Planejamento da prestação de serviços ambulatoriais e hospitalares de baixa, média e alta complexidade.", cardBg: "border-emerald-200 bg-emerald-50/70", badge: "bg-emerald-100 border-emerald-200 text-emerald-800" },
+                      { step: "Estruturação de polos estaduais, regionais e municipais com governança contínua.", cardBg: "border-blue-200 bg-blue-50/70", badge: "bg-blue-100 border-blue-200 text-blue-800" },
+                    ].map((item, idx) => (
+                      <div key={idx} className={`flex items-start gap-4 rounded-2xl border ${item.cardBg} px-5 py-4 shadow-sm`}>
+                        <span className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border text-xs font-bold ${item.badge}`}>
                           {idx + 1}
                         </span>
-                        <p className="text-sm leading-6 text-slate-600">{step}</p>
+                        <p className="text-sm leading-6 text-slate-700 font-medium">{item.step}</p>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="surface-panel rounded-[2.2rem] border border-slate-200 p-8 text-slate-950 flex flex-col gap-6">
+                <div className="surface-card-cyan rounded-[2.2rem] border border-cyan-200/90 p-8 text-slate-950 flex flex-col gap-6 shadow-md">
                   <div>
                     <p className="text-xs uppercase tracking-[0.28em] text-cyan-700 font-bold">Canais oficiais</p>
                     <h3 className="mt-4 text-2xl font-semibold text-slate-950 tracking-[-0.03em]">Como iniciar o diálogo institucional?</h3>

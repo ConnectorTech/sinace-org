@@ -21,7 +21,7 @@ describe("sinaceCatalog", () => {
   it("mantém as modalidades operacionais oficiais que sustentam o objeto social", () => {
     expect(SINACE_OPERATION_MODALITIES).toEqual([
       "Regime ambulatorial e hospitalar",
-      "Média e alta complexidade",
+      "Baixa, média e alta complexidade",
       "Cirurgia convencional",
       "Cirurgia laparoscópica",
       "Cirurgia endoscópica",
@@ -44,6 +44,7 @@ describe("sinaceCatalog", () => {
 
     expect(SINACE_INSTITUTIONAL_PROFILE.tagline).toContain("redução de filas cirúrgicas");
     expect(SINACE_INSTITUTIONAL_PROFILE.socialObject).toContain("regime ambulatorial e hospitalar");
+    expect(SINACE_INSTITUTIONAL_PROFILE.socialObject).toContain("baixa, média e alta complexidade");
     expect(SINACE_INSTITUTIONAL_PROFILE.socialObject).toContain("todas as cirurgias, convencionais e laparoscópicas");
     expect(SINACE_INSTITUTIONAL_PROFILE.socialObject).toContain("procedimentos minimamente invasivos");
     expect(SINACE_INSTITUTIONAL_PROFILE.socialObject).toContain("transplantes");

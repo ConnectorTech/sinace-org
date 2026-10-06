@@ -102,3 +102,5 @@
 - [x] Diagnosticar por que o app da SINACE não está funcionando, corrigir os problemas identificados e validar a estabilidade do fluxo principal no preview.
 - [x] Criar no app SINACE uma porta de entrada para trabalhos e arquivos educativos com envio por médicos externos, organização por especialidade, pastas de anexos, downloads internos e estrutura de enciclopédia persistente.
 - [x] Corrigir no app SINACE o fluxo de anexar documentos, vídeos e estudos de caso na Enciclopédia, incluindo exibição do campo de anexo e download funcional dos materiais publicados.
+- [x] Atualizar nos cards de Objeto Social Oficial e nas modalidades operacionais a redação 'baixa, média e alta complexidade' em todo o projeto.
+- [x] Adicionar nos cards e espaços vazios da Home as cores azul hospitalar e verde biomédico padrão do sistema, reforçando a identidade de centro cirúrgico sem quebras funcionais.

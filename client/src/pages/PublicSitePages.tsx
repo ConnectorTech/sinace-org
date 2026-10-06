@@ -204,7 +204,7 @@ export function PropostaPage() {
                 A SINACE transforma demanda reprimida em programa estruturado de produção cirúrgica.
               </h2>
               <p className="mt-6 text-base leading-8 text-slate-600 md:text-lg font-medium">
-                Prestação de serviços em regime ambulatorial e hospitalar, de média e alta complexidade, com atuação em todas as cirurgias, convencionais e laparoscópicas, incluindo abordagens endoscópicas, robóticas, transplantes e demais procedimentos minimamente invasivos.
+                {SINACE_INSTITUTIONAL_PROFILE.socialObject}
               </p>
               <div className="mt-8 grid gap-3 sm:grid-cols-2">
                 {SINACE_OPERATION_MODALITIES.map(item => (
