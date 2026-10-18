@@ -1,4 +1,5 @@
 import { useAuth } from "@/_core/hooks/useAuth";
+import AppBottomNav from "@/components/AppBottomNav";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,7 +19,6 @@ import {
   CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command";
-import { Separator } from "@/components/ui/separator";
 import {
   Sidebar,
   SidebarContent,
@@ -35,9 +35,9 @@ import {
 import { getLoginUrl } from "@/const";
 import { useIsMobile } from "@/hooks/useMobile";
 import { sinaceNavigationGroups } from "@/lib/sinace-navigation";
-import { SINACE_INSTITUTIONAL_PROFILE } from "@shared/sinaceCatalog";
 import {
   ChevronRight,
+  Info,
   LogOut,
   PanelLeft,
   Search,
@@ -123,6 +123,11 @@ function DashboardLayoutContent({
   const [isCommandOpen, setIsCommandOpen] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
+  const isHeaderCompact = useCompactHeaderOnScroll();
+  const isMacPlatform = useMemo(
+    () => typeof navigator !== "undefined" && /Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent),
+    []
+  );
 
   const flatNavigation = useMemo(
     () => sinaceNavigationGroups.flatMap(group => group.items.map(item => ({ ...item, group: group.label }))),
@@ -210,12 +215,9 @@ function DashboardLayoutContent({
 
               {!isCollapsed ? (
                 <div className="min-w-0 space-y-1">
-                  <div className="flex items-center gap-2">
-                    <img src="/images/sinace-logo.png" alt="Marca SINACE" className="h-6 w-6 object-contain" />
-                    <h2 className="text-base font-bold tracking-[-0.03em] text-sidebar-foreground">
-                      SINACE
-                    </h2>
-                  </div>
+                  <h2 className="text-base font-bold tracking-[-0.03em] text-sidebar-foreground">
+                    SINACE
+                  </h2>
                   <p className="text-xs leading-5 text-sidebar-foreground/72">
                     Workspace assistencial &amp; governança cirúrgica.
                   </p>
@@ -225,48 +227,6 @@ function DashboardLayoutContent({
           </SidebarHeader>
 
           <SidebarContent className="gap-0 px-2 pb-3 pt-3">
-            {!isCollapsed ? (
-              <>
-                <div className="mb-4 rounded-[1.5rem] border border-sidebar-border/70 bg-white/70 p-4 shadow-[0_16px_38px_rgba(15,54,104,0.08)]">
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">
-                        Contexto ativo
-                      </p>
-                      <p className="mt-2 text-sm leading-6 text-slate-600">
-                        {activeMenuItem?.description ??
-                          "Navegação estratégica da plataforma unificada da SINACE."}
-                      </p>
-                    </div>
-                    <Badge className="rounded-full bg-primary/8 px-2.5 py-1 text-primary hover:bg-primary/8">
-                      Beta estrutural
-                    </Badge>
-                  </div>
-                </div>
-
-                <div className="mb-4 rounded-[1.5rem] border border-sidebar-border/70 bg-[linear-gradient(180deg,rgba(7,24,52,0.96),rgba(12,37,70,0.92))] p-4 text-white shadow-[0_18px_42px_rgba(10,28,56,0.18)]">
-                  <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-200/85">
-                    Identidade institucional
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-slate-100/86">
-                    {SINACE_INSTITUTIONAL_PROFILE.socialObject}
-                  </p>
-                  <div className="mt-4 grid gap-2">
-                    {[
-                      `Sede: ${SINACE_INSTITUTIONAL_PROFILE.headquarters}`,
-                      `Contato: ${SINACE_INSTITUTIONAL_PROFILE.phone}`,
-                      `E-mail: ${SINACE_INSTITUTIONAL_PROFILE.email}`,
-                      `Instagram: ${SINACE_INSTITUTIONAL_PROFILE.instagram}`,
-                    ].map(item => (
-                      <div key={item} className="rounded-2xl border border-white/10 bg-white/6 px-3 py-2 text-xs leading-5 text-slate-100/84">
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </>
-            ) : null}
-
             {sinaceNavigationGroups.map(group => (
               <div key={group.label} className="mb-3">
                 {!isCollapsed ? (
@@ -282,23 +242,29 @@ function DashboardLayoutContent({
                         <SidebarMenuButton
                           isActive={isActive}
                           onClick={() => setLocation(item.path)}
-                          tooltip={item.label}
-                          className="h-auto min-h-11 items-start gap-3 rounded-2xl px-3 py-3 font-normal data-[active=true]:bg-white data-[active=true]:text-primary data-[active=true]:shadow-[0_14px_34px_rgba(14,50,98,0.10)]"
+                          tooltip={{
+                            hidden: isMobile,
+                            className: "max-w-64",
+                            children: isCollapsed ? (
+                              <div>
+                                <p className="font-semibold">{item.label}</p>
+                                <p className="mt-0.5 opacity-80">{item.description}</p>
+                              </div>
+                            ) : (
+                              item.description
+                            ),
+                          }}
+                          className="h-10 gap-3 rounded-2xl px-3 font-normal data-[active=true]:bg-white data-[active=true]:text-primary data-[active=true]:shadow-[0_14px_34px_rgba(14,50,98,0.10)]"
                         >
-                          <item.icon className={`mt-0.5 h-4 w-4 shrink-0 ${isActive ? "text-primary" : "text-sidebar-foreground/72"}`} />
-                          <div className="min-w-0 text-left group-data-[collapsible=icon]:hidden">
-                            <div className="flex items-center gap-2">
-                              <span className="truncate text-sm font-medium">{item.label}</span>
-                              {item.requiresAdmin ? (
-                                <Badge className="rounded-full bg-slate-900/8 px-2 py-0.5 text-[0.62rem] uppercase tracking-[0.18em] text-slate-600 hover:bg-slate-900/8">
-                                  Admin
-                                </Badge>
-                              ) : null}
-                            </div>
-                            <p className="mt-1 line-clamp-2 text-xs leading-5 text-sidebar-foreground/58">
-                              {item.description}
-                            </p>
-                          </div>
+                          <item.icon className={`h-4 w-4 shrink-0 ${isActive ? "text-primary" : "text-sidebar-foreground/72"}`} />
+                          <span className="min-w-0 flex-1 truncate text-sm font-medium group-data-[collapsible=icon]:hidden">
+                            {item.label}
+                          </span>
+                          {item.requiresAdmin ? (
+                            <Badge className="shrink-0 rounded-full bg-slate-900/8 px-2 py-0.5 text-[0.62rem] uppercase tracking-[0.18em] text-slate-600 hover:bg-slate-900/8 group-data-[collapsible=icon]:hidden">
+                              Admin
+                            </Badge>
+                          ) : null}
                         </SidebarMenuButton>
                       </SidebarMenuItem>
                     );
@@ -309,20 +275,6 @@ function DashboardLayoutContent({
           </SidebarContent>
 
           <SidebarFooter className="border-t border-sidebar-border/70 p-3">
-            {!isCollapsed ? (
-              <div className="mb-3 rounded-[1.35rem] border border-sidebar-border/70 bg-white/70 p-4">
-                <div className="flex items-center gap-2 text-primary">
-                  <ShieldCheck className="h-4 w-4" />
-                  <span className="text-[0.72rem] font-semibold uppercase tracking-[0.22em]">
-                    Perfil autenticado
-                  </span>
-                </div>
-                <p className="mt-2 text-sm leading-6 text-slate-600">
-                  A plataforma já está preparada para evoluir permissões por papel, instituição e responsabilidade editorial.
-                </p>
-              </div>
-            ) : null}
-
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button className="flex w-full items-center gap-3 rounded-2xl border border-sidebar-border/70 bg-white/74 px-2 py-2 text-left transition-colors hover:bg-sidebar-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring group-data-[collapsible=icon]:justify-center">
@@ -342,6 +294,10 @@ function DashboardLayoutContent({
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuItem onClick={() => setLocation("/app/sobre")} className="cursor-pointer">
+                  <Info className="mr-2 h-4 w-4" />
+                  <span>Sobre a SINACE</span>
+                </DropdownMenuItem>
                 <DropdownMenuItem onClick={logout} className="cursor-pointer text-destructive focus:text-destructive">
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Sair</span>
@@ -363,45 +319,80 @@ function DashboardLayoutContent({
 
       <SidebarInset>
         <div className="min-h-screen bg-[linear-gradient(180deg,rgba(246,250,255,0.72),rgba(238,246,252,0.92))]">
-          <header className="sticky top-0 z-40 border-b border-border/70 bg-background/84 backdrop-blur-xl">
-            <div className="flex flex-col gap-4 px-4 py-4 md:px-6 xl:flex-row xl:items-center xl:justify-between">
-              <div className="flex items-start gap-3">
-                {isMobile ? <SidebarTrigger className="mt-1 h-9 w-9 rounded-xl bg-white/80 shadow-sm" /> : null}
-                <div>
-                  <div className="flex flex-wrap items-center gap-2 text-sm text-slate-500">
-                    <span>Plataforma</span>
-                    <ChevronRight className="h-4 w-4" />
-                    <span>{activeMenuItem?.group ?? "Workspace"}</span>
-                  </div>
-                  <h1 className="mt-1 text-2xl font-semibold tracking-[-0.04em] text-slate-950">
+          <header
+            data-compact={isHeaderCompact}
+            className={`sticky top-0 z-40 border-b bg-background/84 pt-[env(safe-area-inset-top)] backdrop-blur-xl transition-[border-color,box-shadow] duration-200 motion-reduce:transition-none ${
+              isHeaderCompact
+                ? "border-border/70 shadow-[0_10px_30px_rgba(15,54,104,0.08)]"
+                : "border-transparent"
+            }`}
+          >
+            <div
+              className={`px-4 transition-[padding] duration-200 motion-reduce:transition-none md:px-6 ${
+                isHeaderCompact ? "py-2" : "py-3 md:py-4"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                {isMobile ? <SidebarTrigger className="h-10 w-10 shrink-0 rounded-xl bg-white/80 shadow-sm" /> : null}
+
+                <div className="min-w-0 flex-1">
+                  <CollapsibleRow open={!isHeaderCompact}>
+                    <div className="flex min-w-0 items-center gap-2 pb-0.5 text-xs text-slate-500">
+                      <span className="truncate font-medium">{activeMenuItem?.group ?? "Workspace"}</span>
+                      {activeMenuItem?.requiresAdmin ? (
+                        <span className="shrink-0 rounded-full border border-slate-200 bg-white/70 px-2 py-px text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-slate-500">
+                          Admin
+                        </span>
+                      ) : null}
+                      <span className="hidden shrink-0 items-center gap-1 rounded-full border border-cyan-200/70 bg-cyan-50/70 px-2 py-px text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-cyan-800 sm:inline-flex">
+                        <span className="h-1.5 w-1.5 rounded-full bg-cyan-500" aria-hidden="true" />
+                        Beta
+                      </span>
+                    </div>
+                  </CollapsibleRow>
+                  <h1
+                    className={`truncate font-semibold tracking-[-0.04em] text-slate-950 transition-[font-size,line-height] duration-200 motion-reduce:transition-none ${
+                      isHeaderCompact ? "text-base leading-6 md:text-lg" : "text-2xl leading-8 md:text-[1.75rem] md:leading-9"
+                    }`}
+                  >
                     {activeMenuItem?.label ?? "Dashboard"}
                   </h1>
-                  <p className="mt-1 max-w-3xl text-sm leading-6 text-slate-600">
-                    {activeMenuItem?.description ??
-                      "Ambiente unificado para organizar operação, educação e expansão institucional da SINACE."}
-                  </p>
                 </div>
+
+                {isMobile ? (
+                  <button
+                    type="button"
+                    onClick={() => setIsCommandOpen(true)}
+                    aria-label="Abrir busca global do workspace"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border/70 bg-white/84 text-slate-600 shadow-sm transition hover:border-primary/30 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                  >
+                    <Search className="h-5 w-5" />
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setIsCommandOpen(true)}
+                    aria-label="Abrir busca global do workspace"
+                    aria-keyshortcuts={isMacPlatform ? "Meta+K" : "Control+K"}
+                    className="flex w-[260px] shrink-0 items-center justify-between gap-3 rounded-full border border-border/70 bg-white/84 px-4 py-2 text-left text-sm text-slate-500 shadow-[0_12px_28px_rgba(15,54,104,0.06)] transition hover:border-primary/30 hover:text-slate-700 lg:w-[300px]"
+                  >
+                    <span className="flex min-w-0 items-center gap-2">
+                      <Search className="h-4 w-4 shrink-0 text-slate-400" />
+                      <span className="truncate">Buscar módulos e atalhos</span>
+                    </span>
+                    <kbd className="rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                      {isMacPlatform ? "⌘ K" : "Ctrl K"}
+                    </kbd>
+                  </button>
+                )}
               </div>
 
-              <div className="flex flex-col gap-3 md:flex-row md:items-center">
-                <button
-                  type="button"
-                  onClick={() => setIsCommandOpen(true)}
-                  aria-label="Abrir busca global do workspace"
-                  className="flex min-w-[240px] items-center justify-between gap-3 rounded-full border border-border/70 bg-white/84 px-4 py-2 text-left text-sm text-slate-500 shadow-[0_12px_28px_rgba(15,54,104,0.06)] transition hover:border-primary/30 hover:text-slate-700"
-                >
-                  <span className="flex min-w-0 items-center gap-2">
-                    <Search className="h-4 w-4 shrink-0 text-slate-400" />
-                    <span className="truncate">Buscar módulos, áreas e atalhos</span>
-                  </span>
-                  <span className="rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Ctrl K
-                  </span>
-                </button>
-                <Badge className="rounded-full border border-cyan-200/60 bg-cyan-50 px-3 py-1 text-cyan-900 hover:bg-cyan-50">
-                  Base pronta para dados reais
-                </Badge>
-              </div>
+              <CollapsibleRow open={!isHeaderCompact}>
+                <p className={`line-clamp-2 max-w-3xl pt-1 md:line-clamp-none text-sm leading-6 text-slate-600 ${isMobile ? "pl-[3.25rem]" : ""}`}>
+                  {activeMenuItem?.description ??
+                    "Ambiente unificado para organizar operação, educação e expansão institucional da SINACE."}
+                </p>
+              </CollapsibleRow>
             </div>
           </header>
 
@@ -410,10 +401,13 @@ function DashboardLayoutContent({
             onOpenChange={setIsCommandOpen}
             title="Busca global do workspace"
             description="Navegue rapidamente entre módulos, áreas operacionais e ações institucionais da SINACE."
-            className="max-w-2xl"
+            className="max-w-2xl max-md:top-[calc(0.75rem+env(safe-area-inset-top))] max-md:max-w-[calc(100%-1.5rem)] max-md:translate-y-0"
           >
-            <CommandInput placeholder="Busque por módulo, área, rota ou ação rápida..." />
-            <CommandList className="max-h-[420px]">
+            <CommandInput
+              placeholder={isMobile ? "Buscar módulos e ações..." : "Busque por módulo, área, rota ou ação rápida..."}
+              className="max-md:text-base"
+            />
+            <CommandList className="max-h-[420px] max-md:max-h-[calc(100dvh-8rem)]">
               <CommandEmpty>Nenhum resultado encontrado para sua busca.</CommandEmpty>
               <CommandGroup heading="Módulos do workspace">
                 {commandEntries.map(item => (
@@ -431,7 +425,7 @@ function DashboardLayoutContent({
                       <p className="truncate font-medium text-slate-900">{item.label}</p>
                       <p className="truncate text-xs text-slate-500">{item.description}</p>
                     </div>
-                    <CommandShortcut>{item.group}</CommandShortcut>
+                    <CommandShortcut className="max-md:hidden">{item.group}</CommandShortcut>
                   </CommandItem>
                 ))}
               </CommandGroup>
@@ -474,50 +468,62 @@ function DashboardLayoutContent({
             </CommandList>
           </CommandDialog>
 
-          <main className="flex-1 px-4 py-5 md:px-6 md:py-6">
+          <main className="flex-1 px-4 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-5 md:px-6 md:py-6">
             <div className="mx-auto max-w-[1600px]">
-              <div className="mb-6 rounded-[1.5rem] border border-border/70 bg-white/78 px-4 py-4 shadow-[0_18px_42px_rgba(15,54,104,0.06)] md:px-5">
-                <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
-                  <div className="max-w-4xl">
-                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">
-                      Estrutura ativa do produto
-                    </p>
-                    <p className="mt-2 text-sm leading-7 text-slate-600">
-                      A navegação, a identidade visual e a organização modular do workspace já estão alinhadas ao posicionamento institucional e educacional da SINACE.
-                    </p>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">
-                      <span className="font-semibold text-slate-900">Objeto social:</span> {SINACE_INSTITUTIONAL_PROFILE.socialObject}
-                    </p>
-                  </div>
-                  <div className="grid gap-2 text-xs leading-5 text-slate-600 md:grid-cols-2 xl:min-w-[420px]">
-                    <div className="rounded-2xl border border-border/70 bg-slate-50/90 px-3 py-2">
-                      <span className="font-semibold text-slate-900">CNPJ:</span> {SINACE_INSTITUTIONAL_PROFILE.cnpj}
-                    </div>
-                    <div className="rounded-2xl border border-border/70 bg-slate-50/90 px-3 py-2">
-                      <span className="font-semibold text-slate-900">Sede:</span> {SINACE_INSTITUTIONAL_PROFILE.headquarters}
-                    </div>
-                    <div className="rounded-2xl border border-border/70 bg-slate-50/90 px-3 py-2">
-                      <span className="font-semibold text-slate-900">Telefone:</span> {SINACE_INSTITUTIONAL_PROFILE.phone}
-                    </div>
-                    <div className="rounded-2xl border border-border/70 bg-slate-50/90 px-3 py-2">
-                      <span className="font-semibold text-slate-900">E-mail:</span> {SINACE_INSTITUTIONAL_PROFILE.email}
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
-                  <span className="rounded-full bg-primary/8 px-3 py-1 text-primary">Operação</span>
-                  <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-emerald-700">Aprendizagem</span>
-                  <span className="rounded-full bg-sky-500/10 px-3 py-1 text-sky-700">Governança</span>
-                  <span className="rounded-full bg-slate-900/8 px-3 py-1 text-slate-700">{SINACE_INSTITUTIONAL_PROFILE.instagram}</span>
-                </div>
-              </div>
-
-              <Separator className="mb-6 opacity-60" />
               {children}
             </div>
           </main>
         </div>
       </SidebarInset>
+
+      <AppBottomNav />
     </>
+  );
+}
+
+const HEADER_COMPACT_AT = 96;
+const HEADER_EXPAND_AT = 8;
+
+/**
+ * Recolhe o cabeçalho (Large Title → Top Bar) ao rolar a página.
+ * Usa histerese para evitar oscilação quando a altura do cabeçalho muda.
+ */
+function useCompactHeaderOnScroll() {
+  const [isCompact, setIsCompact] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const y = window.scrollY;
+      setIsCompact(current => (current ? y > HEADER_EXPAND_AT : y > HEADER_COMPACT_AT));
+    };
+    const handleScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+
+    update();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (frame) window.cancelAnimationFrame(frame);
+    };
+  }, []);
+
+  return isCompact;
+}
+
+function CollapsibleRow({ open, children }: { open: boolean; children: ReactNode }) {
+  return (
+    <div
+      aria-hidden={!open}
+      className={`grid transition-[grid-template-rows,opacity] duration-200 motion-reduce:transition-none ${
+        open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+      }`}
+    >
+      <div className="min-h-0 overflow-hidden">{children}</div>
+    </div>
   );
 }

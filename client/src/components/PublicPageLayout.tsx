@@ -140,6 +140,15 @@ export default function PublicPageLayout({
               {SINACE_INSTITUTIONAL_PROFILE.email}
             </a>
             <span className="text-slate-300 hidden sm:inline">•</span>
+            <a
+              href={`https://instagram.com/${SINACE_INSTITUTIONAL_PROFILE.instagram.replace("@", "")}`}
+              target="_blank"
+              rel="noreferrer"
+              className="hover:text-cyan-600 transition-colors"
+            >
+              {SINACE_INSTITUTIONAL_PROFILE.instagram}
+            </a>
+            <span className="text-slate-300 hidden sm:inline">•</span>
             <span>{SINACE_INSTITUTIONAL_PROFILE.headquarters}</span>
           </div>
 

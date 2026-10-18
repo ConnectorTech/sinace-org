@@ -267,7 +267,7 @@ describe("AppModules", () => {
     const markup = renderToStaticMarkup(<AppInstitutions />);
 
     expect(markup).toContain("<h2 class=\"text-2xl font-semibold tracking-[-0.03em] text-slate-950\">Instituições já prontas para leitura operacional</h2>");
-    expect(markup).toContain("<h2 class=\"text-2xl font-semibold tracking-[-0.03em] text-white\">Leitura temática derivada da taxonomia oficial do SINACE</h2>");
+    expect(markup).toContain("<h2 class=\"text-2xl font-semibold tracking-[-0.03em] text-slate-950\">Leitura temática derivada da taxonomia oficial do SINACE</h2>");
   });
 
   it("mostra estado vazio docente quando não existem instituições com perfil de ensino", () => {

@@ -38,7 +38,10 @@ export default function AppSpecialties() {
   const activeSpecialties = specialtyRows.filter(item => item.status === "active");
   const institutionalCoverage = specialtyRows.filter(item => item.institutionsCount > 0).length;
   const queueCoverage = specialtyRows.filter(item => item.queueCount > 0).length;
-  const educationalCoverage = specialtyRows.filter(item => item.tracksCount > 0 || item.documentsCount > 0).length;
+  const protocolCoverage = specialtyRows.filter(item => item.documentsCount > 0).length;
+  const standardizedShare = specialtyRows.length
+    ? Math.round((specialtyRows.filter(item => item.operationalFocus && item.educationalFocus).length / specialtyRows.length) * 100)
+    : 0;
 
   const topOperationalSpecialties = [...specialtyRows]
     .sort((a, b) => {
@@ -51,54 +54,51 @@ export default function AppSpecialties() {
   return (
     <SinaceSectionShell
       eyebrow="Especialidades persistidas"
-      title="O núcleo cirúrgico do SINACE agora nasce do banco de dados e organiza operação, educação e governança por área." 
-      description="A taxonomia obrigatória das 19 especialidades foi consolidada como fonte persistente do produto. Cada área pode concentrar coordenação, trilhas, documentos, contratos, instituições e leitura da fila cirúrgica em uma única estrutura de domínio."
+      title="Catálogo de especialidades"
+      description="Áreas cirúrgicas com coordenação, trilhas e cobertura."
       icon={Stethoscope}
       badge={isLoading ? "Sincronizando base" : `${specialtyRows.length} especialidades no banco`}
       ctaLabel="Atualizar catálogo"
       highlights={[
         {
-          title: "Taxonomia oficial sincronizada",
-          description:
-            "As especialidades do SINACE deixam de ser seed visual e passam a existir como catálogo persistente, com slug, descrição, coordenação e ordem de exibição.",
-          metric: isLoading ? "…" : `${activeSpecialties.length} ativas`,
+          title: "Especialidades ativas",
+          description: "Especialidades publicadas e ativas no catálogo persistente.",
+          metric: isLoading ? "…" : `${activeSpecialties.length} especialidades ativas`,
         },
         {
-          title: "Cobertura institucional real",
-          description:
-            "A base já conecta especialidades a instituições, contratos governamentais, equipes e frentes assistenciais configuráveis.",
-          metric: isLoading ? "…" : `${institutionalCoverage} com instituições`,
+          title: "Padronização",
+          description: "Parcela do catálogo alinhada à taxonomia oficial, com foco operacional e educacional definidos.",
+          metric: isLoading ? "…" : `${standardizedShare}% padronizadas`,
         },
         {
-          title: "Camada educacional integrada",
-          description:
-            "As áreas podem concentrar trilhas, documentos e, em seguida, casos clínicos, enciclopédia e curadoria científica sem depender de hardcode.",
-          metric: isLoading ? "…" : `${educationalCoverage} com conteúdo`,
+          title: "Protocolos",
+          description: "Especialidades com protocolos ou documentos técnicos publicados no acervo.",
+          metric: isLoading ? "…" : `${protocolCoverage} com protocolos e documentos`,
         },
       ]}
     >
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
-        <Card className="border-border/70 bg-white/82 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] xl:items-start">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Leitura do catálogo persistente
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               As especialidades passam a ser unidades operacionais e educacionais do sistema
             </CardTitle>
           </CardHeader>
-          <CardContent className="grid gap-4 md:grid-cols-3">
+          <CardContent className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1 2xl:grid-cols-3">
             <div className="rounded-[1.35rem] border border-border/70 bg-slate-50/90 p-4">
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/8 text-primary">
                 <Building2 className="h-5 w-5" />
               </div>
-              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.22em] text-primary/80">
+              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">
                 Cobertura institucional
               </p>
               <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">
                 {isLoading ? "…" : institutionalCoverage}
               </p>
-              <p className="mt-3 text-sm leading-7 text-slate-600">
+              <p className="mt-3 text-sm leading-6 text-slate-600">
                 Especialidades já vinculadas a instituições operacionais ou docentes na base persistente.
               </p>
             </div>
@@ -107,7 +107,7 @@ export default function AppSpecialties() {
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-cyan-500/10 text-cyan-700">
                 <BookOpenText className="h-5 w-5" />
               </div>
-              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.22em] text-primary/80">
+              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">
                 Acervo estruturado
               </p>
               <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">
@@ -115,7 +115,7 @@ export default function AppSpecialties() {
                   ? "…"
                   : specialtyRows.reduce((total, item) => total + item.tracksCount + item.documentsCount, 0)}
               </p>
-              <p className="mt-3 text-sm leading-7 text-slate-600">
+              <p className="mt-3 text-sm leading-6 text-slate-600">
                 Relações já materializadas entre especialidades, trilhas e documentos do ambiente educacional.
               </p>
             </div>
@@ -124,25 +124,25 @@ export default function AppSpecialties() {
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-700">
                 <BriefcaseMedical className="h-5 w-5" />
               </div>
-              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.22em] text-primary/80">
+              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">
                 Pressão assistencial
               </p>
               <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">
                 {isLoading ? "…" : queueCoverage}
               </p>
-              <p className="mt-3 text-sm leading-7 text-slate-600">
+              <p className="mt-3 text-sm leading-6 text-slate-600">
                 Linhas com fila já observada no banco, prontas para priorização e leitura operacional do contrato.
               </p>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="border-border/70 bg-[linear-gradient(180deg,rgba(9,23,51,0.95),rgba(12,37,70,0.92))] text-white shadow-[0_24px_60px_rgba(8,22,48,0.2)]">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-200/85">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Estrutura de dados ativa
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-white">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               O banco já suporta a espinha dorsal cirúrgica do SINACE
             </CardTitle>
           </CardHeader>
@@ -153,11 +153,11 @@ export default function AppSpecialties() {
               "Catálogo pronto para alimentar site, aplicativo e futuras superfícies administrativas.",
               "Base preparada para evolução com casos clínicos, enciclopédia e curadoria científica por área.",
             ].map((item, index) => (
-              <div key={item} className="flex items-start gap-4 rounded-[1.2rem] border border-white/10 bg-white/6 px-4 py-4">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-sm font-semibold text-cyan-100">
+              <div key={item} className="flex items-start gap-4 rounded-[1.2rem] border border-border/70 bg-slate-50/90 px-4 py-4">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/8 text-sm font-semibold text-primary">
                   0{index + 1}
                 </div>
-                <p className="text-sm leading-7 text-slate-100/86">{item}</p>
+                <p className="text-sm leading-6 text-slate-600">{item}</p>
               </div>
             ))}
 
@@ -165,7 +165,7 @@ export default function AppSpecialties() {
               type="button"
               variant="outline"
               onClick={() => void refetch()}
-              className="mt-2 w-full border-white/15 bg-white/8 text-white hover:bg-white/12 hover:text-white"
+              className="mt-2 w-full border-border/70 bg-slate-50/90 text-slate-950 hover:bg-slate-100 hover:text-slate-950"
             >
               {isRefetching ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
               Reconsultar dados persistentes
@@ -174,13 +174,13 @@ export default function AppSpecialties() {
         </Card>
       </div>
 
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
-        <Card className="border-border/70 bg-white/82 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] xl:items-start">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Prioridades operacionais
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               Especialidades com maior densidade relacional no estado atual do banco
             </CardTitle>
           </CardHeader>
@@ -191,7 +191,7 @@ export default function AppSpecialties() {
                 Carregando especialidades persistidas...
               </div>
             ) : topOperationalSpecialties.length === 0 ? (
-              <div className="rounded-[1.4rem] border border-dashed border-border/80 bg-slate-50/80 p-6 text-sm leading-7 text-slate-600">
+              <div className="rounded-[1.4rem] border border-dashed border-border/80 bg-slate-50/80 p-6 text-sm leading-6 text-slate-600">
                 Ainda não há especialidades relacionadas a instituições, contratos ou fila na base atual.
               </div>
             ) : (
@@ -205,10 +205,10 @@ export default function AppSpecialties() {
                           {statusLabel[item.status] ?? item.status}
                         </span>
                       </div>
-                      <p className="mt-3 text-sm leading-7 text-slate-600">{item.description}</p>
+                      <p className="mt-3 text-sm leading-6 text-slate-600">{item.description}</p>
                     </div>
                     <div className="rounded-2xl bg-white px-4 py-3 text-right shadow-[0_10px_30px_rgba(15,54,104,0.08)]">
-                      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-primary/70">
+                      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-primary/70">
                         Coordenação
                       </p>
                       <p className="mt-2 text-sm font-medium leading-6 text-slate-700">
@@ -225,7 +225,7 @@ export default function AppSpecialties() {
                       { label: "Conteúdo", value: item.tracksCount + item.documentsCount },
                     ].map(metric => (
                       <div key={metric.label} className="rounded-[1.1rem] border border-border/70 bg-white px-4 py-3">
-                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-primary/70">
+                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-primary/70">
                           {metric.label}
                         </p>
                         <p className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-slate-950">{metric.value}</p>
@@ -238,18 +238,18 @@ export default function AppSpecialties() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/70 bg-white/82 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Catálogo integral
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               Taxonomia persistida das 19 áreas cirúrgicas do SINACE
             </CardTitle>
           </CardHeader>
           <CardContent>
             {error ? (
-              <div className="rounded-[1.4rem] border border-rose-200 bg-rose-50 px-5 py-4 text-sm leading-7 text-rose-700">
+              <div className="rounded-[1.4rem] border border-rose-200 bg-rose-50 px-5 py-4 text-sm leading-6 text-rose-700">
                 Não foi possível carregar as especialidades do banco agora. Tente atualizar a consulta para verificar o estado persistente.
               </div>
             ) : (
@@ -262,7 +262,7 @@ export default function AppSpecialties() {
                           <Activity className="h-4 w-4 text-primary" />
                           <h3 className="text-base font-semibold tracking-[-0.02em] text-slate-950">{item.shortLabel || item.name}</h3>
                         </div>
-                        <p className="mt-2 text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                        <p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
                           {item.slug}
                         </p>
                       </div>
@@ -271,17 +271,17 @@ export default function AppSpecialties() {
                       </span>
                     </div>
 
-                    <p className="mt-4 text-sm leading-7 text-slate-600">{item.operationalFocus || item.description}</p>
+                    <p className="mt-4 text-sm leading-6 text-slate-600">{item.operationalFocus || item.description}</p>
 
                     <div className="mt-4 space-y-3 rounded-[1.05rem] bg-white px-4 py-4">
                       <div>
-                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-primary/70">
+                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-primary/70">
                           Foco operacional
                         </p>
                         <p className="mt-2 text-sm leading-6 text-slate-700">{item.operationalFocus || "Em estruturação"}</p>
                       </div>
                       <div>
-                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-primary/70">
+                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-primary/70">
                           Foco educacional
                         </p>
                         <p className="mt-2 text-sm leading-6 text-slate-700">{item.educationalFocus || "Em estruturação"}</p>
@@ -332,13 +332,15 @@ export default function AppSpecialties() {
               "As relações com contratos, instituições e fila tornam possível medir pressão assistencial por área antes de abrir módulos analíticos mais profundos.",
           },
         ].map(card => (
-          <Card key={card.title} className="border-border/70 bg-white/82 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
-            <CardContent className="p-6">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/8 text-primary">
-                <card.icon className="h-6 w-6" />
+          <Card key={card.title} className="gap-0 py-0">
+            <CardContent className="p-5">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/8 text-primary">
+                  <card.icon className="h-5 w-5" />
+                </div>
+                <h3 className="text-base font-semibold leading-6 tracking-[-0.02em] text-slate-950">{card.title}</h3>
               </div>
-              <h3 className="mt-5 text-xl font-semibold tracking-[-0.03em] text-slate-950">{card.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-600">{card.description}</p>
+              <p className="mt-3 text-sm leading-6 text-slate-600">{card.description}</p>
             </CardContent>
           </Card>
         ))}

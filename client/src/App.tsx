@@ -25,6 +25,7 @@ import {
   AppPublications,
   AppTrainingTracks,
 } from "@/pages/AppPlatformModules";
+import AppInstitutionalProfile from "@/pages/AppInstitutionalProfile";
 import AppSpecialties from "@/pages/AppSpecialties";
 import Home from "@/pages/Home";
 import NotFound from "@/pages/NotFound";
@@ -62,6 +63,7 @@ const AppWorkspaceProfiles = () => <WorkspaceRoute component={AppMedicalProfiles
 const AppWorkspacePrivateMedicalArea = () => <WorkspaceRoute component={AppPrivateMedicalWorkspace} />;
 const AppWorkspaceNetwork = () => <WorkspaceRoute component={AppProfessionalNetwork} />;
 const AppWorkspaceAdmin = () => <WorkspaceRoute component={AppAdmin} />;
+const AppWorkspaceAbout = () => <WorkspaceRoute component={AppInstitutionalProfile} />;
 
 function Router() {
   return (
@@ -87,9 +89,11 @@ function Router() {
       <Route path="/app/minha-area" component={AppWorkspacePrivateMedicalArea} />
       <Route path="/app/network" component={AppWorkspaceNetwork} />
       <Route path="/app/admin" component={AppWorkspaceAdmin} />
+      <Route path="/app/sobre" component={AppWorkspaceAbout} />
 
       {/* Rotas legadas mantidas por compatibilidade com versões anteriores do workspace. */}
       <Route path="/app/trilhas" component={AppWorkspaceFlowcharts} />
+      <Route path="/app/configuracoes" component={AppWorkspaceAbout} />
       <Route path="/app/professores" component={AppWorkspaceProfiles} />
       <Route path="/app/alunos" component={AppWorkspaceNetwork} />
 

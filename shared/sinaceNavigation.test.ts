@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { sinaceNavigationGroups } from "@/lib/sinace-navigation";
+import {
+  getActiveBottomNavAxis,
+  getBottomNavMoreGroups,
+  sinaceBottomNavAxes,
+  sinaceNavigationGroups,
+} from "@/lib/sinace-navigation";
 
 describe("sinaceNavigationGroups", () => {
   it("expõe os grupos estratégicos da fundação multiárea do app", () => {
@@ -31,5 +36,53 @@ describe("sinaceNavigationGroups", () => {
 
     expect(adminItem).toBeDefined();
     expect(adminItem?.requiresAdmin).toBe(true);
+  });
+
+  it("centraliza os dados institucionais em uma única seção Sobre", () => {
+    const items = sinaceNavigationGroups.flatMap(group => group.items);
+    const aboutItems = items.filter(item => item.path === "/app/sobre");
+
+    expect(aboutItems).toHaveLength(1);
+    expect(aboutItems[0]?.label).toBe("Sobre a SINACE");
+  });
+
+  it("mantém descrições curtas para o cabeçalho compacto", () => {
+    sinaceNavigationGroups
+      .flatMap(group => group.items)
+      .forEach(item => expect(item.description.length).toBeLessThanOrEqual(80));
+  });
+});
+
+describe("sinaceBottomNavAxes", () => {
+  it("expõe os quatro eixos principais da Bottom Navigation Bar", () => {
+    expect(sinaceBottomNavAxes.map(axis => axis.label)).toEqual([
+      "Início",
+      "Rede",
+      "Conhecimento",
+      "Minha Área",
+    ]);
+  });
+
+  it("aponta cada eixo para uma rota existente do workspace", () => {
+    const paths = sinaceNavigationGroups.flatMap(group => group.items.map(item => item.path));
+    sinaceBottomNavAxes.forEach(axis => expect(paths).toContain(axis.path));
+  });
+
+  it("ativa o eixo correto para rotas relacionadas e deixa o restante em 'Mais'", () => {
+    expect(getActiveBottomNavAxis("/app")?.key).toBe("inicio");
+    expect(getActiveBottomNavAxis("/app/perfis")?.key).toBe("rede");
+    expect(getActiveBottomNavAxis("/app/enciclopedia/")?.key).toBe("conhecimento");
+    expect(getActiveBottomNavAxis("/app/minha-area")?.key).toBe("minha-area");
+    expect(getActiveBottomNavAxis("/app/publicacoes")).toBeNull();
+    expect(getActiveBottomNavAxis("/app/admin")).toBeNull();
+  });
+
+  it("agrupa em 'Mais' todos os módulos que não são destino direto de um eixo", () => {
+    const morePaths = getBottomNavMoreGroups().flatMap(group => group.items.map(item => item.path));
+    const axisPaths = sinaceBottomNavAxes.map(axis => axis.path);
+    const allPaths = sinaceNavigationGroups.flatMap(group => group.items.map(item => item.path));
+
+    expect(morePaths.some(path => axisPaths.includes(path))).toBe(false);
+    expect([...morePaths, ...axisPaths].sort()).toEqual([...allPaths].sort());
   });
 });

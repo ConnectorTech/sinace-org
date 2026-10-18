@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
+import { SinaceModuleHeader } from "@/components/SinaceSectionShell";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -49,24 +50,7 @@ function ModuleShell({
 }) {
   return (
     <div className="space-y-6">
-      <section className="overflow-hidden rounded-[2rem] border border-border/70 bg-[linear-gradient(135deg,rgba(8,25,53,0.98),rgba(18,61,108,0.95))] px-6 py-7 text-white shadow-[0_28px_80px_rgba(8,25,53,0.22)] md:px-8 md:py-9">
-        <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/8 px-3 py-1 text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-100/88">
-              <Icon className="h-4 w-4" />
-              {eyebrow}
-            </div>
-            <h1 className="mt-5 max-w-4xl text-balance text-3xl font-semibold tracking-[-0.04em] text-white md:text-5xl">
-              {title}
-            </h1>
-            <p className="mt-5 max-w-3xl text-base leading-8 text-slate-100/82 md:text-lg">{description}</p>
-          </div>
-          <div className="rounded-[1.25rem] border border-white/12 bg-white/8 px-4 py-4 text-sm text-slate-100/88 backdrop-blur">
-            <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-200/90">Status operacional</p>
-            <p className="mt-2 text-base font-medium text-white">{badge}</p>
-          </div>
-        </div>
-      </section>
+      <SinaceModuleHeader eyebrow={eyebrow} title={title} description={description} icon={Icon} badges={[badge]} />
       {children}
     </div>
   );
@@ -77,24 +61,18 @@ function StateCard({
   description,
   onRetry,
   retrying,
-  inverse = false,
 }: {
   title: string;
   description: string;
   onRetry?: () => void;
   retrying?: boolean;
-  inverse?: boolean;
 }) {
   return (
-    <div
-      className={`rounded-[1.25rem] border p-5 ${
-        inverse ? "border-white/12 bg-white/8 text-slate-100/86" : "border-border/70 bg-slate-50/85 text-slate-600"
-      }`}
-    >
-      <p className={`text-sm font-semibold tracking-[-0.01em] ${inverse ? "text-white" : "text-slate-950"}`}>{title}</p>
-      <p className={`mt-3 text-sm leading-7 ${inverse ? "text-slate-100/82" : "text-slate-600"}`}>{description}</p>
+    <div className="rounded-[1.25rem] border border-border/70 bg-slate-50/85 p-5 text-slate-600">
+      <p className="text-sm font-semibold tracking-[-0.01em] text-slate-950">{title}</p>
+      <p className="mt-3 text-sm leading-6 text-slate-600">{description}</p>
       {onRetry ? (
-        <Button variant="outline" onClick={onRetry} className={`mt-4 ${inverse ? "border-white/15 bg-white/8 text-white hover:bg-white/12 hover:text-white" : "bg-white"}`}>
+        <Button variant="outline" onClick={onRetry} className="mt-4 bg-white">
           {retrying ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
           Tentar novamente
         </Button>
@@ -103,13 +81,9 @@ function StateCard({
   );
 }
 
-function LoadingCard({ label, inverse = false }: { label: string; inverse?: boolean }) {
+function LoadingCard({ label }: { label: string }) {
   return (
-    <div
-      className={`flex min-h-[220px] items-center justify-center rounded-[1.25rem] border ${
-        inverse ? "border-white/12 bg-white/8 text-slate-100/86" : "border-dashed border-border/80 bg-slate-50/85 text-slate-500"
-      }`}
-    >
+    <div className="flex min-h-[220px] items-center justify-center rounded-[1.25rem] border border-dashed border-border/80 bg-slate-50/85 text-slate-500">
       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
       {label}
     </div>
@@ -124,7 +98,9 @@ function labelize(value: string | null | undefined) {
   if (!value) return "Não definido";
   return value
     .replace(/_/g, " ")
-    .replace(/\b\w/g, letter => letter.toUpperCase());
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
 }
 
 function getList<T = Record<string, unknown>>(value: unknown): T[] {
@@ -155,17 +131,17 @@ export function AppKnowledgeHub() {
 
   return (
     <ModuleShell
-      eyebrow="Biblioteca cirúrgica ampliada"
-      title="Um hub nacional para protocolos, casos, fluxogramas e formação contínua em todas as frentes cirúrgicas do SINACE."
-      description="Esta área consolida o acervo clínico e editorial da plataforma para servir como drive de estudo, consulta rápida, trilhas de aprofundamento e base de decisão para expansão nacional e internacional."
+      eyebrow="Biblioteca"
+      title="Hub de conhecimento"
+      description="Protocolos, casos, fluxogramas e formação contínua."
       badge={loading ? "Consolidando acervo" : `${snapshot?.metrics?.libraryAssets ?? 0} ativos curatoriais mapeados`}
       icon={BookOpen}
     >
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-        <Card className="border-border/70 bg-white/85 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">Acervo central</CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">Biblioteca viva para estudo, governança e consulta por especialidade</CardTitle>
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Acervo central</CardDescription>
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">Biblioteca viva para estudo, governança e consulta por especialidade</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {loading ? (
@@ -186,24 +162,24 @@ export function AppKnowledgeHub() {
               <>
                 <div className="grid gap-3 md:grid-cols-3">
                   <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
-                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Ativos</p>
+                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Ativos</p>
                     <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">{snapshot.metrics?.libraryAssets ?? 0}</p>
                     <p className="mt-2 text-sm leading-6 text-slate-600">Materiais entre biblioteca, suporte clínico e documentação complementar.</p>
                   </div>
                   <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
-                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Casos</p>
+                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Casos</p>
                     <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">{snapshot.metrics?.caseStudies ?? 0}</p>
                     <p className="mt-2 text-sm leading-6 text-slate-600">Casos estruturados para ensino, publicação e memória institucional.</p>
                   </div>
                   <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
-                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Fluxogramas</p>
+                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Fluxogramas</p>
                     <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">{snapshot.metrics?.flowcharts ?? 0}</p>
                     <p className="mt-2 text-sm leading-6 text-slate-600">Fluxos operacionais para fila zero cirúrgica e redes hospitalares.</p>
                   </div>
                 </div>
 
                 <div className="rounded-[1.25rem] border border-border/70 bg-white p-5">
-                  <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Especialidades em destaque</p>
+                  <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Especialidades em destaque</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {coverage.length > 0 ? (
                       coverage.slice(0, 10).map(name => (
@@ -217,9 +193,9 @@ export function AppKnowledgeHub() {
                   </div>
                 </div>
 
-                <div className="grid gap-3 md:grid-cols-2">
+                <div className="grid gap-3 lg:grid-cols-2">
                   <div className="rounded-[1.25rem] border border-border/70 bg-white p-5">
-                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Trilhas recentes</p>
+                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Trilhas recentes</p>
                     <div className="mt-4 space-y-3">
                       {tracks.length > 0 ? (
                         tracks.slice(0, 3).map(item => (
@@ -234,7 +210,7 @@ export function AppKnowledgeHub() {
                     </div>
                   </div>
                   <div className="rounded-[1.25rem] border border-border/70 bg-white p-5">
-                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Documentos recentes</p>
+                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Documentos recentes</p>
                     <div className="mt-4 space-y-3">
                       {documents.length > 0 ? (
                         documents.slice(0, 3).map(item => (
@@ -254,21 +230,20 @@ export function AppKnowledgeHub() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/70 bg-[linear-gradient(180deg,rgba(9,23,51,0.95),rgba(12,37,70,0.92))] text-white shadow-[0_24px_60px_rgba(8,22,48,0.2)]">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-200/85">Arquitetura editorial</CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-white">Como o app evolui de biblioteca para infraestrutura nacional de conhecimento</CardTitle>
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Arquitetura editorial</CardDescription>
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">Como o app evolui de biblioteca para infraestrutura nacional de conhecimento</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3">
+          <CardContent className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
             {loading ? (
-              <LoadingCard label="Mapeando a espinha editorial..." inverse />
+              <LoadingCard label="Mapeando a espinha editorial..." />
             ) : error ? (
               <StateCard
                 title="A arquitetura editorial não pôde ser carregada"
                 description={error.message}
                 onRetry={() => void snapshotQuery.refetch()}
                 retrying={retrying}
-                inverse
               />
             ) : (
               [
@@ -277,7 +252,7 @@ export function AppKnowledgeHub() {
                 "Fluxogramas clínicos e operacionais para acelerar decisão assistencial e reduzir gargalos.",
                 "Base preparada para anexos, indexação futura e expansão internacional de conteúdo.",
               ].map(item => (
-                <div key={item} className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4 text-sm leading-7 text-slate-100/88">
+                <div key={item} className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4 text-sm leading-6 text-slate-600">
                   {item}
                 </div>
               ))
@@ -300,17 +275,17 @@ export function AppPublications() {
 
   return (
     <ModuleShell
-      eyebrow="Publicações institucionais"
-      title="A vitrine editorial do SINACE para relatórios do CEO, reduções de filas, resultados assistenciais e demonstração pública de autoridade institucional."
-      description="Aqui o aplicativo passa a concentrar publicações institucionais, peças editoriais e ativos de mídia que sustentam comunicação com governos, parceiros, hospitais, médicos especialistas e ecossistema internacional."
+      eyebrow="Publicações"
+      title="Vitrine editorial"
+      description="Relatórios, resultados assistenciais e mídias."
       badge={loading ? "Consolidando publicações" : `${publications.length} publicações e ${showcase.length} mídias`}
       icon={Newspaper}
     >
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
-        <Card className="border-border/70 bg-white/85 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] xl:items-start">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">Publicações recentes</CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">Mensagens institucionais, provas sociais e narrativa de impacto</CardTitle>
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Publicações recentes</CardDescription>
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">Mensagens institucionais, provas sociais e narrativa de impacto</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {loading ? (
@@ -331,17 +306,17 @@ export function AppPublications() {
               <>
                 <div className="grid gap-3 sm:grid-cols-3">
                   <div className="rounded-[1.1rem] border border-border/70 bg-slate-50/90 p-4">
-                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Destaques</p>
+                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Destaques</p>
                     <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">{publications.filter(item => item?.featured === "yes").length}</p>
                     <p className="mt-2 text-sm leading-6 text-slate-600">Peças que já podem funcionar como vitrine principal para governo, parceiros e imprensa.</p>
                   </div>
                   <div className="rounded-[1.1rem] border border-border/70 bg-slate-50/90 p-4">
-                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Clínico-editoriais</p>
+                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Clínico-editoriais</p>
                     <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">{publications.filter(item => Boolean(item?.specialtyName)).length}</p>
                     <p className="mt-2 text-sm leading-6 text-slate-600">Conteúdos ancorados em especialidade para apoiar credibilidade técnica e repertório médico.</p>
                   </div>
                   <div className="rounded-[1.1rem] border border-border/70 bg-slate-50/90 p-4">
-                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Prova social</p>
+                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Prova social</p>
                     <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">{showcase.length}</p>
                     <p className="mt-2 text-sm leading-6 text-slate-600">Ativos visuais e multimídia disponíveis para reforçar alcance, narrativa e demonstração pública.</p>
                   </div>
@@ -354,7 +329,7 @@ export function AppPublications() {
                       <Badge className="rounded-full border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-50">{labelize(item?.status)}</Badge>
                     </div>
                     <h3 className="mt-4 text-xl font-semibold tracking-[-0.03em] text-slate-950">{item?.title ?? "Publicação institucional"}</h3>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">{item?.excerpt ?? "Publicação institucional pronta para reforçar autoridade, governança e expansão da marca SINACE."}</p>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{item?.excerpt ?? "Publicação institucional pronta para reforçar autoridade, governança e expansão da marca SINACE."}</p>
                     <div className="mt-4 flex flex-wrap items-center gap-3 text-[0.78rem] font-medium text-slate-500">
                       <span>{item?.authorName ?? "Editorial SINACE"}</span>
                       {item?.specialtyName ? (
@@ -369,13 +344,13 @@ export function AppPublications() {
                   </article>
                 ))}
                 <div className="grid gap-3 md:grid-cols-3">
-                  <div className="rounded-[1.1rem] border border-border/70 bg-white p-4 text-sm leading-7 text-slate-600">
+                  <div className="rounded-[1.1rem] border border-border/70 bg-white p-4 text-sm leading-6 text-slate-600">
                     Relatórios do CEO e mensagens institucionais sustentam a camada executiva da marca diante de governos, OSS e investidores estratégicos.
                   </div>
-                  <div className="rounded-[1.1rem] border border-border/70 bg-white p-4 text-sm leading-7 text-slate-600">
+                  <div className="rounded-[1.1rem] border border-border/70 bg-white p-4 text-sm leading-6 text-slate-600">
                     Provas de redução de fila, produtividade e ganho assistencial podem ser convertidas em peças recorrentes de autoridade pública.
                   </div>
-                  <div className="rounded-[1.1rem] border border-border/70 bg-white p-4 text-sm leading-7 text-slate-600">
+                  <div className="rounded-[1.1rem] border border-border/70 bg-white p-4 text-sm leading-6 text-slate-600">
                     Artigos por especialidade aproximam o núcleo médico do app da narrativa institucional e da futura esteira científica da startup.
                   </div>
                 </div>
@@ -384,58 +359,56 @@ export function AppPublications() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/70 bg-[linear-gradient(180deg,rgba(9,23,51,0.95),rgba(12,37,70,0.92))] text-white shadow-[0_24px_60px_rgba(8,22,48,0.2)]">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-200/85">Showcase de mídia</CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-white">Vídeos, campanhas, ativos institucionais e base multimídia do app</CardTitle>
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Showcase de mídia</CardDescription>
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">Vídeos, campanhas, ativos institucionais e base multimídia do app</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {loading ? (
-              <LoadingCard label="Carregando vitrine de mídia..." inverse />
+              <LoadingCard label="Carregando vitrine de mídia..." />
             ) : error ? (
               <StateCard
                 title="A vitrine de mídia não pôde ser carregada"
                 description={error.message}
                 onRetry={() => void refetchAll(publicationsQuery, showcaseQuery)}
                 retrying={retrying}
-                inverse
               />
             ) : showcase.length === 0 ? (
               <StateCard
                 title="Ainda não há itens de mídia destacados"
                 description="A plataforma está pronta para receber vídeos, fotos, peças de campanha e demonstrações institucionais do SINACE."
-                inverse
               />
             ) : (
               <>
                 <div className="grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-[1.1rem] border border-white/10 bg-white/6 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">Vídeos</p>
-                    <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white">{showcase.filter(item => String(item?.mediaType ?? "").toLowerCase().includes("video")).length}</p>
+                  <div className="rounded-[1.1rem] border border-border/70 bg-slate-50/90 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">Vídeos</p>
+                    <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">{showcase.filter(item => String(item?.mediaType ?? "").toLowerCase().includes("video")).length}</p>
                   </div>
-                  <div className="rounded-[1.1rem] border border-white/10 bg-white/6 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">Imagens</p>
-                    <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white">{showcase.filter(item => {
+                  <div className="rounded-[1.1rem] border border-border/70 bg-slate-50/90 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">Imagens</p>
+                    <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">{showcase.filter(item => {
                       const mediaType = String(item?.mediaType ?? "").toLowerCase();
                       return mediaType.includes("image") || mediaType.includes("foto");
                     }).length}</p>
                   </div>
-                  <div className="rounded-[1.1rem] border border-white/10 bg-white/6 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">Campanhas</p>
-                    <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white">{showcase.filter(item => String(item?.title ?? item?.description ?? "").toLowerCase().includes("campanha")).length}</p>
+                  <div className="rounded-[1.1rem] border border-border/70 bg-slate-50/90 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">Campanhas</p>
+                    <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">{showcase.filter(item => String(item?.title ?? item?.description ?? "").toLowerCase().includes("campanha")).length}</p>
                   </div>
                 </div>
                 {showcase.slice(0, 4).map(item => (
-                  <div key={String(item?.id ?? item?.slug ?? item?.title)} className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4">
-                    <div className="flex items-center gap-2 text-cyan-200/90">
+                  <div key={String(item?.id ?? item?.slug ?? item?.title)} className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
+                    <div className="flex items-center gap-2 text-primary/80">
                       <Video className="h-4 w-4" />
-                      <p className="text-xs font-semibold uppercase tracking-[0.22em]">{labelize(item?.mediaType)}</p>
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em]">{labelize(item?.mediaType)}</p>
                     </div>
-                    <p className="mt-3 text-base font-semibold tracking-[-0.02em] text-white">{item?.title ?? "Ativo institucional"}</p>
-                    <p className="mt-3 text-sm leading-7 text-slate-100/84">{item?.description ?? "Ativo institucional pronto para campanhas, presença pública e apoio comercial."}</p>
+                    <p className="mt-3 text-base font-semibold tracking-[-0.02em] text-slate-950">{item?.title ?? "Ativo institucional"}</p>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{item?.description ?? "Ativo institucional pronto para campanhas, presença pública e apoio comercial."}</p>
                   </div>
                 ))}
-                <div className="rounded-[1.2rem] border border-cyan-200/15 bg-cyan-200/10 p-4 text-sm leading-7 text-slate-100/88">
+                <div className="rounded-[1.2rem] border border-primary/15 bg-primary/8 p-4 text-sm leading-6 text-slate-600">
                   A vitrine multimídia já pode ser organizada para três frentes complementares: apresentação executiva, prova social de impacto e repertório de marca para expansão institucional.
                 </div>
               </>
@@ -459,16 +432,16 @@ export function AppMedicalProfiles() {
   return (
     <ModuleShell
       eyebrow="Perfis médicos"
-      title="Um diretório nacional de especialistas com currículo, áreas de atuação, disponibilidade institucional e base para credenciamento digital."
-      description="O aplicativo passa a ter uma superfície própria para atrair médicos especialistas, organizar o cadastro profissional por nicho cirúrgico e preparar credenciais, verificações, anexos, vínculos e descoberta por especialidade."
+      title="Diretório de especialistas"
+      description="Currículo, áreas de atuação e credenciamento digital."
       badge={loading ? "Consolidando diretório médico" : `${snapshot?.metrics?.professionals ?? doctors.length} perfis com base cirúrgica`}
       icon={Stethoscope}
     >
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
-        <Card className="border-border/70 bg-white/85 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">Diretório ativo</CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">Especialistas prontos para descoberta, vínculo e expansão da rede</CardTitle>
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Diretório ativo</CardDescription>
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">Especialistas prontos para descoberta, vínculo e expansão da rede</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {loading ? (
@@ -486,18 +459,19 @@ export function AppMedicalProfiles() {
                 description="A plataforma já está preparada para receber currículos, vínculos, credenciais, CRM e áreas de atuação por especialidade."
               />
             ) : (
-              doctors.map(item => (
-                <article key={String(item?.id ?? item?.fullName)} className="rounded-[1.25rem] border border-border/70 bg-slate-50/90 p-5">
+              <div className="grid gap-3 lg:grid-cols-2">
+              {doctors.map(item => (
+                <article key={String(item?.id ?? item?.fullName)} className="flex flex-col rounded-[1.25rem] border border-border/70 bg-slate-50/90 p-4 md:p-5">
                   <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="text-lg font-semibold tracking-[-0.03em] text-slate-950">{item?.fullName ?? "Especialista"}</h3>
+                    <h3 className="text-base font-semibold leading-6 tracking-[-0.02em] text-slate-950">{item?.fullName ?? "Especialista"}</h3>
                     {item?.specialtyName ? (
-                      <Badge className="rounded-full border border-cyan-200 bg-cyan-50 text-cyan-700 hover:bg-cyan-50">{item.specialtyName}</Badge>
+                      <Badge className="h-auto max-w-full whitespace-normal text-left rounded-full border border-cyan-200 bg-cyan-50 text-cyan-700 hover:bg-cyan-50">{item.specialtyName}</Badge>
                     ) : null}
                     {item?.verificationStatus ? (
                       <Badge className="rounded-full border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-50">{labelize(item.verificationStatus)}</Badge>
                     ) : null}
                   </div>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">
+                  <p className="mt-3 text-sm leading-6 text-slate-600">
                     {item?.curriculumSummary ?? item?.miniBio ?? "Perfil preparado para receber currículo detalhado, comprovações e histórico de atuação institucional."}
                   </p>
                   <div className="mt-4 flex flex-wrap items-center gap-3 text-[0.78rem] font-medium text-slate-500">
@@ -518,71 +492,70 @@ export function AppMedicalProfiles() {
                       </>
                     ) : null}
                   </div>
-                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                    <div className="rounded-[1rem] border border-border/60 bg-white p-4">
-                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary/80">Rede</p>
+                  <div className="mt-auto grid gap-3 pt-4 sm:grid-cols-2">
+                    <div className="rounded-[1rem] border border-border/60 bg-white p-3">
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">Rede</p>
                       <p className="mt-2 text-sm leading-6 text-slate-600">{item?.connectionsCount ?? 0} conexões aceitas</p>
                     </div>
-                    <div className="rounded-[1rem] border border-border/60 bg-white p-4">
-                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary/80">Equipes</p>
+                    <div className="rounded-[1rem] border border-border/60 bg-white p-3">
+                      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">Equipes</p>
                       <p className="mt-2 text-sm leading-6 text-slate-600">{item?.teamsCount ?? 0} equipes cirúrgicas vinculadas</p>
                     </div>
                   </div>
                 </article>
-              ))
+              ))}
+              </div>
             )}
           </CardContent>
         </Card>
 
-        <Card className="border-border/70 bg-[linear-gradient(180deg,rgba(9,23,51,0.95),rgba(12,37,70,0.92))] text-white shadow-[0_24px_60px_rgba(8,22,48,0.2)]">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-200/85">Capacidade da rede</CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-white">A base do cadastro médico pronta para credenciais, comunidade e matching cirúrgico</CardTitle>
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Capacidade da rede</CardDescription>
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">A base do cadastro médico pronta para credenciais, comunidade e matching cirúrgico</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {loading ? (
-              <LoadingCard label="Consolidando a capacidade da rede médica..." inverse />
+              <LoadingCard label="Consolidando a capacidade da rede médica..." />
             ) : error ? (
               <StateCard
                 title="A capacidade da rede médica não pôde ser carregada"
                 description={error.message}
                 onRetry={() => void refetchAll(directoryQuery, snapshotQuery)}
                 retrying={retrying}
-                inverse
               />
             ) : !snapshot ? (
               <StateCard
                 title="O snapshot da rede médica ainda não está disponível"
                 description="Assim que a camada de dados estiver completa, esta coluna exibirá verificações, disponibilidade e sinais de expansão profissional."
-                inverse
               />
             ) : (
-              <>
+              <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
                 <div className="grid gap-3 sm:grid-cols-2">
-                  <div className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">Perfis</p>
-                    <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-white">{snapshot.metrics?.professionals ?? 0}</p>
+                  <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">Perfis</p>
+                    <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">{snapshot.metrics?.professionals ?? 0}</p>
                   </div>
-                  <div className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">Verificados</p>
-                    <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-white">{snapshot.metrics?.verifiedProfiles ?? 0}</p>
+                  <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">Verificados</p>
+                    <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">{snapshot.metrics?.verifiedProfiles ?? 0}</p>
                   </div>
                 </div>
-                <div className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4 text-sm leading-7 text-slate-100/88">
+                <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4 text-sm leading-6 text-slate-600">
                   {snapshot.metrics?.acceptedConnections ?? 0} conexões aceitas já formam a base para relacionamento, convites e matching especializado.
                 </div>
-                <div className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4 text-sm leading-7 text-slate-100/88">
+                <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4 text-sm leading-6 text-slate-600">
                   {snapshot.metrics?.specialties ?? 0} especialidades mapeadas e {snapshot.metrics?.institutions ?? 0} instituições conectadas ao ecossistema do aplicativo.
                 </div>
                 {getList<any>(snapshot.featuredProfiles)
                   .slice(0, 3)
                   .map(item => (
-                    <div key={String(item?.id ?? item?.fullName)} className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4">
-                      <p className="text-sm font-semibold text-white">{item?.fullName ?? "Especialista"}</p>
-                      <p className="mt-2 text-sm leading-6 text-slate-100/84">{item?.specialtyName ?? item?.roleTitle ?? "Perfil médico"}</p>
+                    <div key={String(item?.id ?? item?.fullName)} className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
+                      <p className="text-sm font-semibold text-slate-950">{item?.fullName ?? "Especialista"}</p>
+                      <p className="mt-2 text-sm leading-6 text-slate-600">{item?.specialtyName ?? item?.roleTitle ?? "Perfil médico"}</p>
                     </div>
                   ))}
-              </>
+              </div>
             )}
           </CardContent>
         </Card>
@@ -1082,17 +1055,17 @@ export function AppPrivateMedicalWorkspace() {
 
   return (
     <ModuleShell
-      eyebrow="Área privada do especialista"
-      title="Currículo profissional, credenciais verificáveis e drive pessoal do médico em uma superfície autenticada dentro do ecossistema SINACE."
-      description="Esta área transforma o cadastro do especialista em um workspace contínuo: perfil editável, vínculo por especialidade, resumo curricular, disponibilidade para colaboração e acervo técnico relacionado ao seu nicho cirúrgico."
+      eyebrow="Área privada"
+      title="Seu perfil profissional"
+      description="Currículo, credenciais e drive pessoal em um só lugar."
       badge={loading ? "Carregando área privada" : `${Math.round(completionScore)}% do perfil estruturado`}
       icon={BriefcaseMedical}
     >
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
-        <Card className="border-border/70 bg-white/85 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] xl:items-start">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">Identidade profissional</CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">Meu perfil médico privado</CardTitle>
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Identidade profissional</CardDescription>
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">Meu perfil médico privado</CardTitle>
           </CardHeader>
           <CardContent>
             {loading ? (
@@ -1107,9 +1080,9 @@ export function AppPrivateMedicalWorkspace() {
             ) : (
               <form className="space-y-5" onSubmit={event => void handleSubmit(event)}>
                 <div className="rounded-[1.25rem] border border-primary/15 bg-primary/5 p-4">
-                  <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                  <div className="flex flex-col gap-3 2xl:flex-row 2xl:items-start 2xl:justify-between">
                     <div>
-                      <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">Onboarding do especialista</p>
+                      <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Onboarding do especialista</p>
                       <p className="mt-2 text-lg font-semibold tracking-[-0.02em] text-slate-950">
                         {workspace?.onboarding?.stage === "start"
                           ? "Início do cadastro"
@@ -1119,7 +1092,7 @@ export function AppPrivateMedicalWorkspace() {
                               ? "Validação de credenciais"
                               : "Abertura para networking"}
                       </p>
-                      <p className="mt-2 text-sm leading-7 text-slate-600">
+                      <p className="mt-2 text-sm leading-6 text-slate-600">
                         {workspace?.onboarding?.nextAction ?? "Preencha as informações principais para liberar o ecossistema profissional do app."}
                       </p>
                     </div>
@@ -1128,27 +1101,23 @@ export function AppPrivateMedicalWorkspace() {
                       <p className="mt-1 text-slate-600">O score acompanha identidade, credenciais, acesso privado, bio, currículo e disponibilidade institucional.</p>
                     </div>
                   </div>
-                  <div className="mt-4 grid gap-4 xl:grid-cols-[minmax(0,1.02fr)_minmax(0,0.98fr)]">
-                    <div className="grid gap-3 md:grid-cols-2">
+                  <div className="mt-4 grid gap-4">
+                    <div className="grid gap-3 sm:grid-cols-2">
                       {onboardingSections.map(section => (
                         <div
                           key={section.key}
                           className={`rounded-[1rem] border px-4 py-4 text-sm leading-6 ${section.done ? "border-emerald-200 bg-emerald-50 text-emerald-800" : "border-border/70 bg-white/80 text-slate-600"}`}
                         >
-                          <div className="flex items-start justify-between gap-3">
-                            <div>
-                              <p className="font-semibold">{section.title}</p>
-                              <p className="mt-1">{section.summary}</p>
-                            </div>
-                            <span className={`rounded-full px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] ${section.done ? "bg-emerald-100 text-emerald-800" : "bg-slate-100 text-slate-600"}`}>
-                              {section.done ? "Concluído" : "Prioritário"}
-                            </span>
-                          </div>
+                          <span className={`inline-flex rounded-full px-2.5 py-0.5 text-[0.68rem] font-semibold uppercase tracking-[0.12em] ${section.done ? "bg-emerald-100 text-emerald-800" : "bg-slate-100 text-slate-600"}`}>
+                            {section.done ? "Concluído" : "Prioritário"}
+                          </span>
+                          <p className="mt-2 font-semibold">{section.title}</p>
+                          <p className="mt-1">{section.summary}</p>
                         </div>
                       ))}
                     </div>
                     <div className="rounded-[1rem] border border-border/70 bg-white/80 p-4">
-                      <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">Próximas liberações</p>
+                      <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Próximas liberações</p>
                       <div className="mt-3 space-y-3">
                         {nextOnboardingActions.length > 0 ? (
                           nextOnboardingActions.map(item => (
@@ -1164,7 +1133,7 @@ export function AppPrivateMedicalWorkspace() {
                       </div>
                       {onboardingChecklist.length > 0 ? (
                         <div className="mt-4 border-t border-border/60 pt-4">
-                          <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">Checklist monitorado</p>
+                          <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Checklist monitorado</p>
                           <div className="mt-3 grid gap-2">
                             {onboardingChecklist.slice(0, 4).map(item => (
                               <div
@@ -1172,7 +1141,7 @@ export function AppPrivateMedicalWorkspace() {
                                 className="flex items-center justify-between gap-3 rounded-[0.95rem] border border-border/60 bg-slate-50/80 px-3 py-3 text-sm"
                               >
                                 <p className="text-slate-700">{item?.label ?? "Etapa do onboarding"}</p>
-                                <span className={`rounded-full px-2 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] ${item?.done ? "bg-emerald-100 text-emerald-800" : "bg-slate-200 text-slate-600"}`}>
+                                <span className={`rounded-full px-2 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em] ${item?.done ? "bg-emerald-100 text-emerald-800" : "bg-slate-200 text-slate-600"}`}>
                                   {item?.done ? "ok" : "pendente"}
                                 </span>
                               </div>
@@ -1183,7 +1152,7 @@ export function AppPrivateMedicalWorkspace() {
                     </div>
                   </div>
                 </div>
-                <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                <div className="grid gap-3 sm:grid-cols-2">
                   {readinessFronts.map(front => {
                     const Icon = front.icon;
 
@@ -1255,7 +1224,7 @@ export function AppPrivateMedicalWorkspace() {
                   </label>
                 </div>
 
-                <div className="grid gap-4 md:grid-cols-3">
+                <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-2 2xl:grid-cols-3">
                   <label className="space-y-2 text-sm font-medium text-slate-700">
                     <span>Número do conselho</span>
                     <input value={form.credentialNumber} onChange={event => handleChange("credentialNumber", event.target.value)} className="h-11 w-full rounded-xl border border-border/70 bg-white px-3 text-sm outline-none ring-0" />
@@ -1291,7 +1260,7 @@ export function AppPrivateMedicalWorkspace() {
                   </label>
                 </div>
 
-                <div className="grid gap-4 md:grid-cols-3">
+                <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-2 2xl:grid-cols-3">
                   <label className="space-y-2 text-sm font-medium text-slate-700">
                     <span>Cidade</span>
                     <input value={form.city} onChange={event => handleChange("city", event.target.value)} className="h-11 w-full rounded-xl border border-border/70 bg-white px-3 text-sm outline-none ring-0" />
@@ -1351,7 +1320,7 @@ export function AppPrivateMedicalWorkspace() {
                   </label>
                 </div>
 
-                <div className="flex flex-col gap-3 rounded-[1.2rem] border border-border/70 bg-slate-50/80 p-4 text-sm leading-7 text-slate-600 md:flex-row md:items-center md:justify-between">
+                <div className="flex flex-col gap-3 rounded-[1.2rem] border border-border/70 bg-slate-50/80 p-4 text-sm leading-6 text-slate-600 md:flex-row md:items-center md:justify-between">
                   <div>
                     <p className="font-semibold text-slate-950">Status do cadastro</p>
                     <p className="mt-1">O perfil privado conversa com o diretório médico, com o network profissional e com o drive técnico da sua especialidade.</p>
@@ -1367,81 +1336,81 @@ export function AppPrivateMedicalWorkspace() {
         </Card>
 
         <div className="space-y-4">
-          <Card className="overflow-hidden border-white/10 bg-[linear-gradient(135deg,rgba(8,25,53,0.98),rgba(18,61,108,0.95))] text-white shadow-[0_24px_70px_rgba(8,25,53,0.24)]">
+          <Card className="overflow-hidden">
             <CardHeader>
-              <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-200/90">Leitura executiva</CardDescription>
-              <CardTitle className="text-2xl tracking-[-0.03em] text-white">Prontidão do especialista dentro da plataforma</CardTitle>
+              <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Leitura executiva</CardDescription>
+              <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">Prontidão do especialista dentro da plataforma</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-2">
-                <div className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">Conclusão do perfil</p>
-                  <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-white">{Math.round(completionScore)}%</p>
+                <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">Conclusão do perfil</p>
+                  <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">{Math.round(completionScore)}%</p>
                 </div>
-                <div className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">Especialidade foco</p>
-                  <p className="mt-3 text-lg font-semibold text-white">{featuredSpecialtyLabel}</p>
+                <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">Especialidade foco</p>
+                  <p className="mt-3 text-lg font-semibold text-slate-950">{featuredSpecialtyLabel}</p>
                 </div>
-                <div className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">Trilhas sugeridas</p>
-                  <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-white">{quickStats.learningTracks ?? tracks.length}</p>
+                <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">Trilhas sugeridas</p>
+                  <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">{quickStats.learningTracks ?? tracks.length}</p>
                 </div>
-                <div className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">Fluxogramas</p>
-                  <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-white">{quickStats.flowcharts ?? flowcharts.length}</p>
+                <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">Fluxogramas</p>
+                  <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">{quickStats.flowcharts ?? flowcharts.length}</p>
                 </div>
               </div>
-              <div className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4 text-sm leading-7 text-slate-100/88">
+              <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4 text-sm leading-6 text-slate-600">
                 {connections.length} conexões aceitas ou mapeadas já aproximam este perfil da comunidade do app, enquanto {networkHighlights.length} especialistas relacionados permanecem no radar da mesma especialidade.
               </div>
-              <div className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4 text-sm leading-7 text-slate-100/88">
+              <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4 text-sm leading-6 text-slate-600">
                 {workspace?.featureFlags?.driveReady ? "Drive técnico habilitado para a especialidade selecionada, com curadoria de trilhas, documentos, casos e fluxogramas." : "O drive técnico ainda depende da seleção de especialidade e da evolução editorial do acervo."}
               </div>
-              <div className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4 text-sm leading-7 text-slate-100/88">
+              <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4 text-sm leading-6 text-slate-600">
                 {profile?.privateAccessEmail
                   ? `Acesso privado parametrizado em ${profile.privateAccessEmail}${profile.passwordAccessStatus && profile.passwordAccessStatus !== "not_started" ? ` com status ${profile.passwordAccessStatus}.` : "."}`
                   : "O acesso privado por senha ainda não foi parametrizado neste perfil e permanece como etapa operacional pendente."}
               </div>
-              <div className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4 text-sm leading-7 text-slate-100/88">
+              <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4 text-sm leading-6 text-slate-600">
                 {workspace?.featureFlags?.canConnect ? "O network profissional já pode descobrir este especialista de forma estruturada e relacioná-lo por instituição, estado e interesse de colaboração." : "A descoberta pública do perfil ainda está em preparação dentro do ecossistema."}
               </div>
               <div className="flex flex-wrap gap-2">
                 {profileHighlights.slice(0, 3).map(item => (
-                  <Badge key={item} className="rounded-full border border-white/12 bg-white/8 text-white hover:bg-white/8">{item}</Badge>
+                  <Badge key={item} className="rounded-full border border-border/70 bg-slate-50/90 text-slate-950 hover:bg-slate-50/90">{item}</Badge>
                 ))}
                 {profilePracticeAreas.slice(0, 2).map(item => (
-                  <Badge key={item} className="rounded-full border border-cyan-200/20 bg-cyan-200/10 text-cyan-100 hover:bg-cyan-200/10">{item}</Badge>
+                  <Badge key={item} className="rounded-full border border-primary/20 bg-primary/8 text-primary hover:bg-primary/8">{item}</Badge>
                 ))}
               </div>
             </CardContent>
           </Card>
 
-          <Card className="border-border/70 bg-white/85 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+          <Card>
             <CardHeader>
-              <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">Drive por especialidade</CardDescription>
-              <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">Acervo recomendado para o seu nicho</CardTitle>
+              <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Drive por especialidade</CardDescription>
+              <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">Acervo recomendado para o seu nicho</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid gap-3 md:grid-cols-4">
+              <div className="grid grid-cols-2 gap-3 md:grid-cols-4 xl:grid-cols-2 2xl:grid-cols-4">
                 <div className="rounded-[1.1rem] border border-border/70 bg-slate-50/80 p-4">
-                  <p className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Documentos</p>
+                  <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Documentos</p>
                   <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">{quickStats.documents ?? documents.length}</p>
                 </div>
                 <div className="rounded-[1.1rem] border border-border/70 bg-slate-50/80 p-4">
-                  <p className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Casos</p>
+                  <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Casos</p>
                   <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">{quickStats.caseStudies ?? caseStudies.length}</p>
                 </div>
                 <div className="rounded-[1.1rem] border border-border/70 bg-slate-50/80 p-4">
-                  <p className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Publicações</p>
+                  <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Publicações</p>
                   <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">{quickStats.publications ?? publications.length}</p>
                 </div>
                 <div className="rounded-[1.1rem] border border-border/70 bg-slate-50/80 p-4">
-                  <p className="text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Trilhas</p>
+                  <p className="text-[0.7rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Trilhas</p>
                   <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">{quickStats.learningTracks ?? tracks.length}</p>
                 </div>
               </div>
-              <div className="rounded-[1.15rem] border border-border/70 bg-slate-50/85 p-4 text-sm leading-7 text-slate-600">
-                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">Recorte ativo do drive</p>
+              <div className="rounded-[1.15rem] border border-border/70 bg-slate-50/85 p-4 text-sm leading-6 text-slate-600">
+                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Recorte ativo do drive</p>
                 <p className="mt-2">
                   {workspace?.featureFlags?.driveReady
                     ? "A curadoria já está segmentando o acervo por especialidade, território e sinais de prontidão do perfil."
@@ -1461,16 +1430,16 @@ export function AppPrivateMedicalWorkspace() {
                   )}
                 </div>
               </div>
-              <div className="grid gap-3 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+              <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-1">
                 <div className="rounded-[1.15rem] border border-border/70 bg-white p-4">
-                  <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">Segmentação por tipo de acervo</p>
+                  <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Segmentação por tipo de acervo</p>
                   <div className="mt-3 space-y-2">
                     {driveCategorySummary.length > 0 ? (
                       driveCategorySummary.map(item => (
                         <div key={item.key} className="rounded-[0.95rem] border border-border/60 bg-slate-50/80 px-3 py-3">
                           <div className="flex items-center justify-between gap-3">
                             <p className="text-sm font-semibold text-slate-950">{item.title}</p>
-                            <span className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-primary/75">{item.count} itens</span>
+                            <span className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-primary/75">{item.count} itens</span>
                           </div>
                           <p className="mt-1 text-sm leading-6 text-slate-600">{item.description}</p>
                         </div>
@@ -1483,11 +1452,11 @@ export function AppPrivateMedicalWorkspace() {
                   </div>
                 </div>
                 <div className="rounded-[1.15rem] border border-border/70 bg-slate-50/85 p-4">
-                  <p className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">Recortes profissionais ativos</p>
+                  <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Recortes profissionais ativos</p>
                   <div className="mt-3 grid gap-2">
                     {driveProfessionalCuts.map(item => (
                       <div key={item.label} className="rounded-[0.95rem] border border-border/60 bg-white px-3 py-3">
-                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-primary/75">{item.label}</p>
+                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-primary/75">{item.label}</p>
                         <p className="mt-1 text-sm leading-6 text-slate-700">{item.value}</p>
                       </div>
                     ))}
@@ -1513,7 +1482,7 @@ export function AppPrivateMedicalWorkspace() {
                             </div>
                             <div>
                               <p className="text-sm font-semibold text-slate-950">{segment.title}</p>
-                              <p className="mt-1 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/75">
+                              <p className="mt-1 text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/75">
                                 {segment.count} sinais ou itens disponíveis
                               </p>
                             </div>
@@ -1526,7 +1495,7 @@ export function AppPrivateMedicalWorkspace() {
                               <div key={`${segment.key}-${item.title}`} className="rounded-[0.95rem] border border-border/60 bg-slate-50/80 p-3">
                                 <div className="flex items-center justify-between gap-3">
                                   <p className="text-sm font-semibold text-slate-950">{item.title}</p>
-                                  <span className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-primary/75">{item.badge}</span>
+                                  <span className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-primary/75">{item.badge}</span>
                                 </div>
                                 <p className="mt-1 text-sm leading-6 text-slate-600">{item.description}</p>
                               </div>
@@ -1545,12 +1514,12 @@ export function AppPrivateMedicalWorkspace() {
             </CardContent>
           </Card>
 
-          <Card className="border-border/70 bg-white/85 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+          <Card>
             <CardHeader>
-              <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">Radar de networking</CardDescription>
-              <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">Especialistas e conexões com maior aderência ao seu perfil</CardTitle>
+              <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Radar de networking</CardDescription>
+              <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">Especialistas e conexões com maior aderência ao seu perfil</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3 text-sm leading-7 text-slate-600">
+            <CardContent className="space-y-3 text-sm leading-6 text-slate-600">
               {connections.slice(0, 2).map(item => (
                 <div key={String(item?.id ?? item?.profileId ?? item?.fullName)} className="rounded-[1.1rem] border border-border/70 bg-slate-50/80 p-4">
                   <div className="flex items-center justify-between gap-3">
@@ -1582,12 +1551,12 @@ export function AppPrivateMedicalWorkspace() {
             </CardContent>
           </Card>
 
-          <Card className="border-border/70 bg-white/85 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+          <Card>
             <CardHeader>
-              <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">Checklist de confiança</CardDescription>
-              <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">Sinais de verificação do perfil</CardTitle>
+              <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Checklist de confiança</CardDescription>
+              <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">Sinais de verificação do perfil</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3 text-sm leading-7 text-slate-600">
+            <CardContent className="space-y-3 text-sm leading-6 text-slate-600">
               {[
                 profile?.credentialNumber ? "Conselho profissional informado." : "Adicionar número de conselho para destravar verificação institucional.",
                 profile?.rqeNumber ? "RQE registrado para reforçar a qualificação da especialidade." : "Registrar RQE quando aplicável para fortalecer o diretório público.",
@@ -1621,17 +1590,17 @@ export function AppProfessionalNetwork() {
 
   return (
     <ModuleShell
-      eyebrow="Network profissional"
-      title="Conexão entre especialistas, parceiros, instituições e ecossistema SUS para acelerar cooperação clínica, expansão territorial e inteligência operacional."
-      description="Esta área organiza a comunidade do app como um hub de relacionamento entre médicos, hospitais, secretarias, OSS, parceiros acadêmicos e frentes institucionais nas esferas federal, estadual, municipal e regional."
+      eyebrow="Network"
+      title="Conexões profissionais"
+      description="Especialistas, instituições e parceiros por nicho e território."
       badge={loading ? "Consolidando ecossistema" : `${ecosystem?.metrics?.partners ?? 0} parceiros e ${network?.metrics?.professionals ?? 0} perfis`}
       icon={Network}
     >
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
-        <Card className="border-border/70 bg-white/85 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">Rede institucional</CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">Frentes do SUS, parceiros e vetores de cooperação nacional</CardTitle>
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Rede institucional</CardDescription>
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">Frentes do SUS, parceiros e vetores de cooperação nacional</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {loading ? (
@@ -1652,19 +1621,19 @@ export function AppProfessionalNetwork() {
               <>
                 <div className="grid gap-3 sm:grid-cols-3">
                   <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
-                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Parceiros</p>
+                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Parceiros</p>
                     <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">{ecosystem.metrics?.partners ?? 0}</p>
                   </div>
                   <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
-                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Instituições</p>
+                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Instituições</p>
                     <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">{ecosystem.metrics?.institutions ?? 0}</p>
                   </div>
                   <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
-                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Contratos</p>
+                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Contratos</p>
                     <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">{ecosystem.metrics?.contracts ?? 0}</p>
                   </div>
                 </div>
-                <div className="grid gap-3 md:grid-cols-2">
+                <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                   {Object.entries(
                     partners.reduce((acc: Record<string, number>, item) => {
                       const key = labelize(item?.sphere ?? item?.partnerType ?? "ecossistema");
@@ -1675,85 +1644,87 @@ export function AppProfessionalNetwork() {
                     .slice(0, 4)
                     .map(([label, count]) => (
                       <div key={label} className="rounded-[1.15rem] border border-border/70 bg-white p-4">
-                        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary/80">{label}</p>
+                        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">{label}</p>
                         <p className="mt-2 text-sm leading-6 text-slate-600">{count} frentes institucionais já aparecem no radar de relacionamento.</p>
                       </div>
                     ))}
                 </div>
                 {partners.length > 0 ? (
-                  partners.slice(0, 4).map(item => (
+                  <div className="grid gap-3 lg:grid-cols-2">
+                  {partners.slice(0, 4).map(item => (
                     <div key={String(item?.id ?? item?.slug ?? item?.name)} className="rounded-[1.25rem] border border-border/70 bg-white p-4">
-                      <div className="flex items-center justify-between gap-4">
-                        <div>
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
                           <p className="text-sm font-semibold tracking-[-0.02em] text-slate-950">{item?.name ?? "Parceiro institucional"}</p>
-                          <p className="mt-2 text-sm leading-7 text-slate-600">{item?.description ?? "Base estratégica para relacionamento, expansão territorial e demonstração de presença institucional."}</p>
+                          <p className="mt-2 text-sm leading-6 text-slate-600">{item?.description ?? "Base estratégica para relacionamento, expansão territorial e demonstração de presença institucional."}</p>
                         </div>
-                        <Badge className="rounded-full border border-cyan-200 bg-cyan-50 text-cyan-700 hover:bg-cyan-50">{labelize(item?.sphere ?? item?.partnerType)}</Badge>
+                        <Badge className="h-auto max-w-full whitespace-normal text-left shrink-0 rounded-full border border-cyan-200 bg-cyan-50 text-cyan-700 hover:bg-cyan-50">{labelize(item?.sphere ?? item?.partnerType)}</Badge>
                       </div>
                     </div>
-                  ))
+                  ))}
+                  </div>
                 ) : (
                   <StateCard
                     title="A cobertura de parceiros ainda está em formação"
                     description="Os parceiros por esfera do SUS aparecerão aqui conforme o cadastro institucional for enriquecido."
                   />
                 )}
+                <div className="grid gap-3 lg:grid-cols-2">
                 {institutions.slice(0, 2).map(item => (
-                  <div key={String(item?.id ?? item?.slug ?? item?.name)} className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4 text-sm leading-7 text-slate-600">
+                  <div key={String(item?.id ?? item?.slug ?? item?.name)} className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4 text-sm leading-6 text-slate-600">
                     <p className="font-semibold text-slate-950">{item?.name ?? "Instituição assistencial"}</p>
                     <p className="mt-2">{item?.description ?? item?.regionLabel ?? "Instituição conectada ao eixo regional do ecossistema SINACE."}</p>
                   </div>
                 ))}
+                </div>
               </>
             )}
           </CardContent>
         </Card>
 
-        <Card className="border-border/70 bg-[linear-gradient(180deg,rgba(9,23,51,0.95),rgba(12,37,70,0.92))] text-white shadow-[0_24px_60px_rgba(8,22,48,0.2)]">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-200/85">Comunidade médica</CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-white">A rede profissional pronta para relacionamento, publicação e matching especializado</CardTitle>
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Comunidade médica</CardDescription>
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">A rede profissional pronta para relacionamento, publicação e matching especializado</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {loading ? (
-              <LoadingCard label="Carregando sinais da comunidade médica..." inverse />
+              <LoadingCard label="Carregando sinais da comunidade médica..." />
             ) : error ? (
               <StateCard
                 title="A comunidade médica não pôde ser consolidada"
                 description={error.message}
                 onRetry={() => void refetchAll(directoryQuery, ecosystemQuery)}
                 retrying={retrying}
-                inverse
               />
             ) : !network ? (
               <StateCard
                 title="O snapshot da comunidade médica ainda não está disponível"
                 description="Quando os perfis, conexões e vínculos estiverem mais completos, esta área mostrará densidade relacional e oportunidades de matching."
-                inverse
               />
             ) : (
-              <>
-                <div className="grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-[1.1rem] border border-white/10 bg-white/6 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">Perfis</p>
-                    <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white">{network.metrics?.professionals ?? 0}</p>
+              <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+                <div className="grid gap-3 sm:grid-cols-3 md:col-span-2 xl:col-span-4">
+                  <div className="rounded-[1.1rem] border border-border/70 bg-slate-50/90 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">Perfis</p>
+                    <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">{network.metrics?.professionals ?? 0}</p>
                   </div>
-                  <div className="rounded-[1.1rem] border border-white/10 bg-white/6 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">Conexões</p>
-                    <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white">{network.metrics?.acceptedConnections ?? 0}</p>
+                  <div className="rounded-[1.1rem] border border-border/70 bg-slate-50/90 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">Conexões</p>
+                    <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">{network.metrics?.acceptedConnections ?? 0}</p>
                   </div>
-                  <div className="rounded-[1.1rem] border border-white/10 bg-white/6 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">Verificados</p>
-                    <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-white">{network.metrics?.verifiedProfiles ?? 0}</p>
+                  <div className="rounded-[1.1rem] border border-border/70 bg-slate-50/90 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">Verificados</p>
+                    <p className="mt-2 text-2xl font-semibold tracking-[-0.03em] text-slate-950">{network.metrics?.verifiedProfiles ?? 0}</p>
                   </div>
                 </div>
                 {featuredProfiles.slice(0, 3).map(item => (
-                  <div key={String(item?.id ?? item?.fullName)} className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4 text-sm leading-7 text-slate-100/88">
-                    <div className="flex items-center justify-between gap-3">
-                      <p className="font-semibold text-white">{item?.fullName ?? "Especialista sugerido"}</p>
-                      <Badge className="rounded-full border border-white/12 bg-white/8 text-white hover:bg-white/8">{labelize(item?.specialtyName ?? item?.collaborationInterest ?? "match")}</Badge>
+                  <div key={String(item?.id ?? item?.fullName)} className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4 text-sm leading-6 text-slate-600">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <p className="min-w-0 font-semibold text-slate-950">{item?.fullName ?? "Especialista sugerido"}</p>
+                      <Badge className="h-auto max-w-full whitespace-normal text-left rounded-full border border-border/70 bg-slate-50/90 text-slate-950 hover:bg-slate-50/90">{labelize(item?.specialtyName ?? item?.collaborationInterest ?? "match")}</Badge>
                     </div>
-                    <p className="mt-2 text-slate-100/84">{item?.miniBio ?? item?.curriculumSummary ?? "Perfil com aderência potencial para cooperação clínica e construção de comunidade especializada."}</p>
+                    <p className="mt-2 text-slate-600">{item?.miniBio ?? item?.curriculumSummary ?? "Perfil com aderência potencial para cooperação clínica e construção de comunidade especializada."}</p>
                   </div>
                 ))}
                 {featuredProfiles.length === 0
@@ -1763,15 +1734,15 @@ export function AppProfessionalNetwork() {
                       `${network.metrics?.verifiedProfiles ?? 0} perfis verificados formam a base para confiança e credenciamento.`,
                       "A próxima etapa conecta convites, interesses, mensagens e vínculos institucionais por especialidade.",
                     ].map(item => (
-                      <div key={item} className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4 text-sm leading-7 text-slate-100/88">
+                      <div key={item} className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4 text-sm leading-6 text-slate-600">
                         {item}
                       </div>
                     ))
                   : null}
-                <div className="rounded-[1.2rem] border border-cyan-200/15 bg-cyan-200/10 p-4 text-sm leading-7 text-slate-100/88">
+                <div className="rounded-[1.2rem] border border-primary/15 bg-primary/8 p-4 text-sm leading-6 text-slate-600 md:col-span-2 xl:col-span-1">
                   O networking já combina descoberta por especialidade, perfis verificados e base de conexões aceitas para sustentar matching profissional mais qualificado.
                 </div>
-              </>
+              </div>
             )}
           </CardContent>
         </Card>
@@ -1792,17 +1763,17 @@ export function AppInstitutionalEcosystem() {
 
   return (
     <ModuleShell
-      eyebrow="Ecossistema institucional"
-      title="Parceiros, instituições, vitrines públicas e cobertura por esfera para sustentar a startup cirúrgica em escala nacional."
-      description="Esta área resume a malha institucional do SINACE para mostrar como o aplicativo pode reunir governo, redes hospitalares, comunidade médica, conteúdo e mídia em uma mesma plataforma de expansão."
+      eyebrow="Ecossistema"
+      title="Ecossistema de parceiros"
+      description="Cobertura por esfera: governo, hospitais e comunidade médica."
       badge={loading ? "Consolidando ecossistema institucional" : `${ecosystem?.metrics?.partners ?? 0} parceiros ativos no radar`}
       icon={Globe2}
     >
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-        <Card className="border-border/70 bg-white/85 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] xl:items-start">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">Matriz institucional</CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">Presença nas esferas de governo, ensino, operação e articulação regional</CardTitle>
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Matriz institucional</CardDescription>
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">Presença nas esferas de governo, ensino, operação e articulação regional</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {loading ? (
@@ -1823,17 +1794,17 @@ export function AppInstitutionalEcosystem() {
               <>
                 <div className="grid gap-3 sm:grid-cols-3">
                   <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
-                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Parceiros</p>
+                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Parceiros</p>
                     <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">{ecosystem.metrics?.partners ?? 0}</p>
                     <p className="mt-2 text-sm leading-6 text-slate-600">Organizações mapeadas para expansão e cooperação operacional.</p>
                   </div>
                   <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
-                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Instituições</p>
+                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Instituições</p>
                     <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">{ecosystem.metrics?.institutions ?? 0}</p>
                     <p className="mt-2 text-sm leading-6 text-slate-600">Unidades assistenciais e formativas que dão tração à plataforma.</p>
                   </div>
                   <div className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
-                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/80">Contratos</p>
+                    <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Contratos</p>
                     <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">{ecosystem.metrics?.contracts ?? contracts.length}</p>
                     <p className="mt-2 text-sm leading-6 text-slate-600">Frentes já convertidas em relacionamento formal ou tração institucional.</p>
                   </div>
@@ -1849,7 +1820,7 @@ export function AppInstitutionalEcosystem() {
                     .slice(0, 4)
                     .map(([label, count]) => (
                       <div key={label} className="rounded-[1.15rem] border border-border/70 bg-white p-4">
-                        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary/80">{label}</p>
+                        <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">{label}</p>
                         <p className="mt-2 text-sm leading-6 text-slate-600">{count} relações já mapeadas nesta frente institucional.</p>
                       </div>
                     ))}
@@ -1863,7 +1834,7 @@ export function AppInstitutionalEcosystem() {
                         <Badge className="rounded-full border border-cyan-200 bg-cyan-50 text-cyan-700 hover:bg-cyan-50">{labelize(item?.status)}</Badge>
                         <Badge className="rounded-full border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-50">{labelize(item?.sphere ?? "regional")}</Badge>
                       </div>
-                      <p className="mt-3 text-sm leading-7 text-slate-600">{item?.description ?? "Parceiro estratégico do ecossistema institucional do SINACE."}</p>
+                      <p className="mt-3 text-sm leading-6 text-slate-600">{item?.description ?? "Parceiro estratégico do ecossistema institucional do SINACE."}</p>
                     </div>
                   ))}
                   {institutions.slice(0, 2).map(item => (
@@ -1874,7 +1845,7 @@ export function AppInstitutionalEcosystem() {
                           <Badge className="rounded-full border border-cyan-200 bg-cyan-50 text-cyan-700 hover:bg-cyan-50">{item.regionLabel}</Badge>
                         ) : null}
                       </div>
-                      <p className="mt-3 text-sm leading-7 text-slate-600">{item?.description ?? item?.regionLabel ?? "Instituição do ecossistema assistencial e formativo do SINACE."}</p>
+                      <p className="mt-3 text-sm leading-6 text-slate-600">{item?.description ?? item?.regionLabel ?? "Instituição do ecossistema assistencial e formativo do SINACE."}</p>
                     </div>
                   ))}
                 </div>
@@ -1883,10 +1854,10 @@ export function AppInstitutionalEcosystem() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/70 bg-[linear-gradient(180deg,rgba(9,23,51,0.95),rgba(12,37,70,0.92))] text-white shadow-[0_24px_60px_rgba(8,22,48,0.2)]">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-200/85">Vetores de expansão</CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-white">Os movimentos que transformam o site publicado em plataforma de startup expansiva</CardTitle>
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Vetores de expansão</CardDescription>
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">Os movimentos que transformam o site publicado em plataforma de startup expansiva</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {error || loading ? (
@@ -1896,10 +1867,9 @@ export function AppInstitutionalEcosystem() {
                   description={error.message}
                   onRetry={() => void ecosystemQuery.refetch()}
                   retrying={retrying}
-                  inverse
                 />
               ) : (
-                <LoadingCard label="Projetando vetores de expansão..." inverse />
+                <LoadingCard label="Projetando vetores de expansão..." />
               )
             ) : (
               <>
@@ -1909,11 +1879,11 @@ export function AppInstitutionalEcosystem() {
                   "Publicações institucionais do CEO e da rede para demonstrar redução de filas e impacto operacional.",
                   "Camada de parceiros e instituições por esfera para abrir portas regionais, estaduais, federais e internacionais.",
                 ].map(item => (
-                  <div key={item} className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4 text-sm leading-7 text-slate-100/88">
+                  <div key={item} className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4 text-sm leading-6 text-slate-600">
                     {item}
                   </div>
                 ))}
-                <div className="rounded-[1.2rem] border border-cyan-200/15 bg-cyan-200/10 p-4 text-sm leading-7 text-slate-100/88">
+                <div className="rounded-[1.2rem] border border-primary/15 bg-primary/8 p-4 text-sm leading-6 text-slate-600">
                   Hoje o ecossistema já pode ser lido em três camadas complementares: rede médica, malha institucional por esfera e ativos editoriais capazes de sustentar expansão nacional.
                 </div>
               </>
@@ -1929,17 +1899,17 @@ export function AppTrainingTracks() {
   return (
     <ModuleShell
       eyebrow="Formação contínua"
-      title="Uma camada de trilhas, anexos e desenvolvimento profissional para transformar estudo em recorrência dentro do app."
-      description="Esta visão antecipa a evolução da biblioteca para uma plataforma de aprendizagem estruturada, com jornadas por especialidade, anexos, certificações e histórico de aprofundamento do médico dentro do ecossistema SINACE."
+      title="Trilhas e certificações"
+      description="Jornadas por especialidade, anexos e histórico de estudo."
       badge="Base conceitual pronta para evolução"
       icon={GraduationCap}
     >
-      <Card className="border-border/70 bg-white/85 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <Card>
         <CardHeader>
-          <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">Próxima expansão</CardDescription>
-          <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">Trilhas, anexos e jornadas por nicho cirúrgico</CardTitle>
+          <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">Próxima expansão</CardDescription>
+          <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">Trilhas, anexos e jornadas por nicho cirúrgico</CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3 text-sm leading-7 text-slate-600">
+        <CardContent className="space-y-3 text-sm leading-6 text-slate-600">
           <p>O núcleo editorial já está preparado para evoluir para percursos completos de estudo, indexação de arquivos, anexos multimídia, casos comentados e progressão por especialidade.</p>
           <p>Na próxima etapa, esta camada pode incorporar histórico individual, favoritos, listas personalizadas, checkpoints e mecanismos de publicação científica por comunidade médica.</p>
         </CardContent>

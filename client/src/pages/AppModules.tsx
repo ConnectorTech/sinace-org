@@ -150,30 +150,20 @@ function resolveModuleError(errors: Array<{ message: string } | null | undefined
 function ModuleStateNotice({
   title,
   description,
-  inverse = false,
   onRetry,
   retrying = false,
 }: {
   title: string;
   description: string;
-  inverse?: boolean;
   onRetry?: () => void;
   retrying?: boolean;
 }) {
-  const containerClassName = inverse
-    ? "border-white/10 bg-white/6 text-slate-100/88"
-    : "border-dashed border-border/80 bg-slate-50/80 text-slate-600";
-
-  const actionClassName = inverse
-    ? "border-white/15 bg-white/8 text-white hover:bg-white/12 hover:text-white"
-    : "border-border/70 bg-white text-slate-700 hover:bg-slate-100";
-
   return (
-    <div className={`rounded-[1.25rem] border p-5 ${containerClassName}`}>
-      <p className={`text-sm font-semibold tracking-[-0.01em] ${inverse ? "text-white" : "text-slate-950"}`}>{title}</p>
-      <p className={`mt-3 text-sm leading-7 ${inverse ? "text-slate-100/86" : "text-slate-600"}`}>{description}</p>
+    <div className="rounded-[1.25rem] border border-dashed border-border/80 bg-slate-50/80 p-5 text-slate-600">
+      <p className="text-sm font-semibold tracking-[-0.01em] text-slate-950">{title}</p>
+      <p className="mt-3 text-sm leading-6 text-slate-600">{description}</p>
       {onRetry ? (
-        <Button type="button" variant="outline" onClick={onRetry} className={`mt-4 ${actionClassName}`}>
+        <Button type="button" variant="outline" onClick={onRetry} className="mt-4 border-border/70 bg-white text-slate-700 hover:bg-slate-100">
           {retrying ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
           Tentar novamente
         </Button>
@@ -206,8 +196,8 @@ export function AppTracks() {
   return (
     <SinaceModulePlaceholder
       eyebrow="Trilhas"
-      title="As trilhas agora se conectam à taxonomia persistente e aos percursos formativos já registrados no banco do SINACE."
-      description="Esta superfície deixa de depender de descrições isoladas e passa a refletir a malha real entre especialidades, trilhas e dificuldade pedagógica, mantendo a evolução do produto ancorada na base relacional compartilhada."
+      title="Trilhas formativas"
+      description="Percursos por especialidade e nível de dificuldade."
       icon={GraduationCap}
       badge={loading ? "Sincronizando trilhas" : `${tracks.length} trilhas persistidas`}
       highlights={[
@@ -251,13 +241,13 @@ export function AppTracks() {
         "Expandir recomendações automáticas usando a mesma espinha dorsal relacional.",
       ]}
     >
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-        <Card className="border-border/70 bg-white/82 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] xl:items-start">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Percursos persistidos
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               Trilhas já disponíveis para leitura por especialidade
             </CardTitle>
           </CardHeader>
@@ -291,7 +281,7 @@ export function AppTracks() {
                       {publicationStatusLabel[track.status] ?? track.status}
                     </Badge>
                   </div>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">{track.summary ?? "Resumo editorial em consolidação."}</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{track.summary ?? "Resumo editorial em consolidação."}</p>
                   <div className="mt-4 grid gap-3 sm:grid-cols-2">
                     <div className="rounded-[1rem] border border-border/70 bg-white px-4 py-3">
                       <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-slate-500">Especialidade</p>
@@ -308,18 +298,18 @@ export function AppTracks() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/70 bg-[linear-gradient(180deg,rgba(9,23,51,0.95),rgba(12,37,70,0.92))] text-white shadow-[0_24px_60px_rgba(8,22,48,0.2)]">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-200/85">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Cobertura do catálogo
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-white">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               Especialidades que já servem de âncora para formação e conteúdo
             </CardTitle>
           </CardHeader>
           <CardContent className="grid gap-3 sm:grid-cols-2">
             {loading ? (
-              <div className="col-span-full flex min-h-[220px] items-center justify-center rounded-[1.2rem] border border-white/10 bg-white/6 text-slate-100/86">
+              <div className="col-span-full flex min-h-[220px] items-center justify-center rounded-[1.2rem] border border-border/70 bg-slate-50/90 text-slate-600">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Consolidando cobertura pedagógica...
               </div>
@@ -328,7 +318,6 @@ export function AppTracks() {
                 <ModuleStateNotice
                   title="A cobertura pedagógica não pôde ser consolidada agora"
                   description={moduleError.message}
-                  inverse
                   onRetry={handleRetry}
                   retrying={retrying}
                 />
@@ -338,14 +327,13 @@ export function AppTracks() {
                 <ModuleStateNotice
                   title="Ainda não há especialidades vinculadas às trilhas"
                   description="Ative a taxonomia persistente para que esta seção destaque as áreas cirúrgicas que ancoram os percursos formativos do workspace."
-                  inverse
                 />
               </div>
             ) : (
               leadingSpecialties.map(item => (
-                <div key={item.id} className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">{item.shortLabel ?? item.name}</p>
-                  <p className="mt-3 text-sm leading-7 text-slate-100/88">{item.coordinationModel ?? item.description ?? "Especialidade pronta para receber percursos estruturados."}</p>
+                <div key={item.id} className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">{item.shortLabel ?? item.name}</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{item.coordinationModel ?? item.description ?? "Especialidade pronta para receber percursos estruturados."}</p>
                 </div>
               ))
             )}
@@ -374,8 +362,8 @@ export function AppLibrary() {
   return (
     <SinaceModulePlaceholder
       eyebrow="Biblioteca"
-      title="A biblioteca passa a exibir um acervo persistente vinculado à taxonomia cirúrgica e às trilhas do SINACE."
-      description="O módulo documental deixa de ser apenas conceitual e passa a refletir tipos, visibilidade, vínculos com especialidades e estados editoriais já modelados no banco relacional."
+      title="Acervo técnico"
+      description="Documentos por especialidade, tipo e status editorial."
       icon={Library}
       badge={loading ? "Sincronizando acervo" : `${documents.length} documentos persistidos`}
       highlights={[
@@ -419,13 +407,13 @@ export function AppLibrary() {
         "Conectar documentos a casos clínicos e verbetes correlatos.",
       ]}
     >
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-        <Card className="border-border/70 bg-white/82 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] xl:items-start">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Acervo persistido
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               Materiais já estruturados para consulta e governança
             </CardTitle>
           </CardHeader>
@@ -459,8 +447,8 @@ export function AppLibrary() {
                       {visibilityLabel[document.visibility] ?? document.visibility}
                     </Badge>
                   </div>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">{document.description ?? "Material editorial ainda sem descrição longa."}</p>
-                  <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{document.description ?? "Material editorial ainda sem descrição longa."}</p>
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2 2xl:grid-cols-3">
                     <div className="rounded-[1rem] border border-border/70 bg-white px-4 py-3">
                       <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-slate-500">Especialidade</p>
                       <p className="mt-2 text-sm font-medium text-slate-900">{document.specialtyName ?? "Transversal"}</p>
@@ -480,18 +468,18 @@ export function AppLibrary() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/70 bg-[linear-gradient(180deg,rgba(9,23,51,0.95),rgba(12,37,70,0.92))] text-white shadow-[0_24px_60px_rgba(8,22,48,0.2)]">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-200/85">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Especialidades em foco
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-white">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               O acervo já pode ser lido como extensão do catálogo cirúrgico oficial
             </CardTitle>
           </CardHeader>
           <CardContent className="grid gap-3 sm:grid-cols-2">
             {loading ? (
-              <div className="col-span-full flex min-h-[220px] items-center justify-center rounded-[1.2rem] border border-white/10 bg-white/6 text-slate-100/86">
+              <div className="col-span-full flex min-h-[220px] items-center justify-center rounded-[1.2rem] border border-border/70 bg-slate-50/90 text-slate-600">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Cruzando acervo com especialidades...
               </div>
@@ -500,7 +488,6 @@ export function AppLibrary() {
                 <ModuleStateNotice
                   title="O cruzamento entre acervo e especialidades falhou nesta consulta"
                   description={moduleError.message}
-                  inverse
                   onRetry={handleRetry}
                   retrying={retrying}
                 />
@@ -510,17 +497,16 @@ export function AppLibrary() {
                 <ModuleStateNotice
                   title="Ainda não há especialidades para contextualizar o acervo"
                   description="Ative o catálogo persistente para que a biblioteca destaque o vínculo entre cada documento e sua área de atuação."
-                  inverse
                 />
               </div>
             ) : (
               specialties.slice(0, 4).map(item => {
                 const matchingDocuments = documents.filter(document => document.specialtyName === item.name).length;
                 return (
-                  <div key={item.id} className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">{item.shortLabel ?? item.name}</p>
-                    <p className="mt-3 text-sm leading-7 text-slate-100/88">{item.description ?? "Especialidade pronta para receber materiais assistenciais e educacionais."}</p>
-                    <p className="mt-4 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-cyan-100/80">
+                  <div key={item.id} className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">{item.shortLabel ?? item.name}</p>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{item.description ?? "Especialidade pronta para receber materiais assistenciais e educacionais."}</p>
+                    <p className="mt-4 text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
                       {matchingDocuments} documentos associados
                     </p>
                   </div>
@@ -555,8 +541,8 @@ export function AppCases() {
   return (
     <SinaceModulePlaceholder
       eyebrow="Casos clínicos"
-      title="O módulo de casos passa a se apoiar na fila persistente e no catálogo oficial para orientar raciocínio e priorização clínica."
-      description="Mesmo antes do cadastro editorial completo de casos, esta superfície já deixa de ser genérica ao se ancorar nas especialidades persistidas, nas entradas recentes de fila e nos materiais clínicos relacionados disponíveis na base."
+      title="Raciocínio clínico"
+      description="Casos apoiados na fila e no catálogo de especialidades."
       icon={ClipboardList}
       badge={loading ? "Sincronizando casos observados" : `${queueEntries.length} entradas recentes`}
       highlights={[
@@ -600,13 +586,13 @@ export function AppCases() {
         "Evoluir da observação da fila para um acervo clínico estruturado e pesquisável.",
       ]}
     >
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-        <Card className="border-border/70 bg-white/82 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] xl:items-start">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Observação assistencial
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               Entradas recentes que já podem orientar a curadoria clínica
             </CardTitle>
           </CardHeader>
@@ -640,7 +626,7 @@ export function AppCases() {
                       {queueStatusLabel[entry.status] ?? entry.status}
                     </Badge>
                   </div>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">
+                  <p className="mt-3 text-sm leading-6 text-slate-600">
                     Paciente {entry.patientCode} · Origem {entry.institutionName ?? "não informada"}.
                   </p>
                 </div>
@@ -649,18 +635,18 @@ export function AppCases() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/70 bg-[linear-gradient(180deg,rgba(9,23,51,0.95),rgba(12,37,70,0.92))] text-white shadow-[0_24px_60px_rgba(8,22,48,0.2)]">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-200/85">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Base de especialidades
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-white">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               Áreas cirúrgicas prontas para receber curadoria de casos
             </CardTitle>
           </CardHeader>
           <CardContent className="grid gap-3 sm:grid-cols-2">
             {loading ? (
-              <div className="col-span-full flex min-h-[220px] items-center justify-center rounded-[1.2rem] border border-white/10 bg-white/6 text-slate-100/86">
+              <div className="col-span-full flex min-h-[220px] items-center justify-center rounded-[1.2rem] border border-border/70 bg-slate-50/90 text-slate-600">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Consolidando catálogo clínico...
               </div>
@@ -669,7 +655,6 @@ export function AppCases() {
                 <ModuleStateNotice
                   title="A leitura do catálogo clínico falhou nesta consulta"
                   description={moduleError.message}
-                  inverse
                   onRetry={handleRetry}
                   retrying={retrying}
                 />
@@ -679,17 +664,16 @@ export function AppCases() {
                 <ModuleStateNotice
                   title="Ainda não há especialidades disponíveis para curadoria de casos"
                   description="Ative o catálogo persistente para que esta coluna destaque as áreas cirúrgicas prontas para receber casos clínicos relacionados."
-                  inverse
                 />
               </div>
             ) : (
               specialties.slice(0, 4).map(item => {
                 const matchingDocuments = documents.filter(document => document.specialtyName === item.name).length;
                 return (
-                  <div key={item.id} className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">{item.shortLabel ?? item.name}</p>
-                    <p className="mt-3 text-sm leading-7 text-slate-100/88">{item.coordinationModel ?? item.description ?? "Especialidade pronta para curadoria de cenários clínicos."}</p>
-                    <p className="mt-4 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-cyan-100/80">
+                  <div key={item.id} className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">{item.shortLabel ?? item.name}</p>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{item.coordinationModel ?? item.description ?? "Especialidade pronta para curadoria de cenários clínicos."}</p>
+                    <p className="mt-4 text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
                       {matchingDocuments} materiais de apoio
                     </p>
                   </div>
@@ -864,8 +848,8 @@ export function AppEncyclopedia() {
   return (
     <SinaceModulePlaceholder
       eyebrow="Enciclopédia"
-      title="A enciclopédia do SINACE agora funciona como um drive educativo por especialidade, com pasta de anexos, upload médico e download imediato dentro do aplicativo."
-      description="Cada especialidade passa a ter sua própria aba de materiais, permitindo que médicos externos publiquem estudos, protocolos, artigos e documentos de apoio em um acervo navegável que amadurece como enciclopédia cirúrgica viva."
+      title="Drive educativo"
+      description="Envie, consulte e baixe materiais por especialidade."
       icon={BookOpen}
       badge={loading ? "Sincronizando drive educativo" : `${metrics?.totalDocuments ?? 0} materiais prontos para consulta`}
       highlights={[
@@ -909,13 +893,13 @@ export function AppEncyclopedia() {
         "Permitir moderação administrativa e histórico de versões dos arquivos enviados.",
       ]}
     >
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)]">
-        <Card className="border-border/70 bg-white/82 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] xl:items-start">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Drive por especialidade
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               Pastas educativas e anexos disponíveis para consulta
             </CardTitle>
           </CardHeader>
@@ -975,7 +959,7 @@ export function AppEncyclopedia() {
                             {activeSpecialty.documentsCount} anexos
                           </Badge>
                         </div>
-                        <p className="mt-3 text-sm leading-7 text-slate-600">
+                        <p className="mt-3 text-sm leading-6 text-slate-600">
                           {activeSpecialty.description || "Especialidade pronta para centralizar estudos, protocolos, manuais e arquivos enviados pela rede médica externa."}
                         </p>
                       </div>
@@ -1004,7 +988,7 @@ export function AppEncyclopedia() {
                           <div key={`${activeSpecialty.slug}-${folder.folderLabel}`} className="rounded-[1.2rem] border border-border/70 bg-white p-4">
                             <div className="flex items-start justify-between gap-3">
                               <div>
-                                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/75">Pasta educativa</p>
+                                <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/75">Pasta educativa</p>
                                 <h4 className="mt-2 text-base font-semibold tracking-[-0.02em] text-slate-950">{folder.folderLabel}</h4>
                               </div>
                               <Badge className="rounded-full border border-slate-200 bg-slate-50 text-slate-600 hover:bg-slate-50">
@@ -1068,12 +1052,12 @@ export function AppEncyclopedia() {
         </Card>
 
         <div className="space-y-4">
-          <Card className="border-border/70 bg-[linear-gradient(180deg,rgba(9,23,51,0.95),rgba(12,37,70,0.92))] text-white shadow-[0_24px_60px_rgba(8,22,48,0.2)]">
+          <Card>
             <CardHeader>
-              <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-200/85">
+              <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
                 Envio por médico externo
               </CardDescription>
-              <CardTitle className="text-2xl tracking-[-0.03em] text-white">
+              <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
                 Publicar novo estudo ou arquivo educativo
               </CardTitle>
             </CardHeader>
@@ -1081,7 +1065,7 @@ export function AppEncyclopedia() {
               <form className="space-y-4" onSubmit={handleSubmit}>
                 <div className="grid gap-4">
                   <div>
-                    <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-cyan-100/80">Especialidade</label>
+                    <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary/80">Especialidade</label>
                     <select
                       value={activeSpecialty?.slug ?? ""}
                       onChange={event => {
@@ -1094,7 +1078,7 @@ export function AppEncyclopedia() {
                           }));
                         }
                       }}
-                      className="mt-2 w-full rounded-[1rem] border border-white/12 bg-white/8 px-4 py-3 text-sm text-white outline-none transition focus:border-cyan-300"
+                      className="mt-2 w-full rounded-[1rem] border border-border/70 bg-slate-50/90 px-4 py-3 text-sm text-slate-950 outline-none transition focus:border-primary/50"
                     >
                       {specialties.map(item => (
                         <option key={item.id} value={item.slug} className="text-slate-900">
@@ -1105,31 +1089,31 @@ export function AppEncyclopedia() {
                   </div>
 
                   <div>
-                    <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-cyan-100/80">Título do material</label>
+                    <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary/80">Título do material</label>
                     <input
                       value={formState.title}
                       onChange={event => setFormState(current => ({ ...current, title: event.target.value }))}
-                      className="mt-2 w-full rounded-[1rem] border border-white/12 bg-white/8 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-300/60 focus:border-cyan-300"
+                      className="mt-2 w-full rounded-[1rem] border border-border/70 bg-slate-50/90 px-4 py-3 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-primary/50"
                       placeholder="Ex.: Protocolo de preparo pré-operatório"
                     />
                   </div>
 
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-cyan-100/80">Pasta / aba</label>
+                      <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary/80">Pasta / aba</label>
                       <input
                         value={formState.folderLabel}
                         onChange={event => setFormState(current => ({ ...current, folderLabel: event.target.value }))}
-                        className="mt-2 w-full rounded-[1rem] border border-white/12 bg-white/8 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-300/60 focus:border-cyan-300"
+                        className="mt-2 w-full rounded-[1rem] border border-border/70 bg-slate-50/90 px-4 py-3 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-primary/50"
                         placeholder="Ex.: Estudos clínicos"
                       />
                     </div>
                     <div>
-                      <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-cyan-100/80">Tipo de material</label>
+                      <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary/80">Tipo de material</label>
                       <select
                         value={formState.documentType}
                         onChange={event => setFormState(current => ({ ...current, documentType: event.target.value }))}
-                        className="mt-2 w-full rounded-[1rem] border border-white/12 bg-white/8 px-4 py-3 text-sm text-white outline-none transition focus:border-cyan-300"
+                        className="mt-2 w-full rounded-[1rem] border border-border/70 bg-slate-50/90 px-4 py-3 text-sm text-slate-950 outline-none transition focus:border-primary/50"
                       >
                         {Object.entries(documentTypeLabel).map(([value, label]) => (
                           <option key={value} value={value} className="text-slate-900">
@@ -1142,20 +1126,20 @@ export function AppEncyclopedia() {
 
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-cyan-100/80">Autor médico</label>
+                      <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary/80">Autor médico</label>
                       <input
                         value={formState.contributorName}
                         onChange={event => setFormState(current => ({ ...current, contributorName: event.target.value }))}
-                        className="mt-2 w-full rounded-[1rem] border border-white/12 bg-white/8 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-300/60 focus:border-cyan-300"
+                        className="mt-2 w-full rounded-[1rem] border border-border/70 bg-slate-50/90 px-4 py-3 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-primary/50"
                         placeholder="Nome do médico responsável"
                       />
                     </div>
                     <div>
-                      <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-cyan-100/80">Instituição</label>
+                      <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary/80">Instituição</label>
                       <input
                         value={formState.contributorInstitution}
                         onChange={event => setFormState(current => ({ ...current, contributorInstitution: event.target.value }))}
-                        className="mt-2 w-full rounded-[1rem] border border-white/12 bg-white/8 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-300/60 focus:border-cyan-300"
+                        className="mt-2 w-full rounded-[1rem] border border-border/70 bg-slate-50/90 px-4 py-3 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-primary/50"
                         placeholder="Hospital, clínica ou universidade"
                       />
                     </div>
@@ -1163,20 +1147,20 @@ export function AppEncyclopedia() {
 
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div>
-                      <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-cyan-100/80">Registro / credencial</label>
+                      <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary/80">Registro / credencial</label>
                       <input
                         value={formState.contributorCredential}
                         onChange={event => setFormState(current => ({ ...current, contributorCredential: event.target.value }))}
-                        className="mt-2 w-full rounded-[1rem] border border-white/12 bg-white/8 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-300/60 focus:border-cyan-300"
+                        className="mt-2 w-full rounded-[1rem] border border-border/70 bg-slate-50/90 px-4 py-3 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-primary/50"
                         placeholder="CRM, RQE ou identificação institucional"
                       />
                     </div>
                     <div>
-                      <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-cyan-100/80">Visibilidade</label>
+                      <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary/80">Visibilidade</label>
                       <select
                         value={formState.visibility}
                         onChange={event => setFormState(current => ({ ...current, visibility: event.target.value }))}
-                        className="mt-2 w-full rounded-[1rem] border border-white/12 bg-white/8 px-4 py-3 text-sm text-white outline-none transition focus:border-cyan-300"
+                        className="mt-2 w-full rounded-[1rem] border border-border/70 bg-slate-50/90 px-4 py-3 text-sm text-slate-950 outline-none transition focus:border-primary/50"
                       >
                         {Object.entries(visibilityLabel).map(([value, label]) => (
                           <option key={value} value={value} className="text-slate-900">
@@ -1188,52 +1172,52 @@ export function AppEncyclopedia() {
                   </div>
 
                   <div>
-                    <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-cyan-100/80">Resumo do material</label>
+                    <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary/80">Resumo do material</label>
                     <textarea
                       value={formState.description}
                       onChange={event => setFormState(current => ({ ...current, description: event.target.value }))}
-                      className="mt-2 min-h-[132px] w-full rounded-[1rem] border border-white/12 bg-white/8 px-4 py-3 text-sm leading-7 text-white outline-none transition placeholder:text-slate-300/60 focus:border-cyan-300"
+                      className="mt-2 min-h-[132px] w-full rounded-[1rem] border border-border/70 bg-slate-50/90 px-4 py-3 text-sm leading-6 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-primary/50"
                       placeholder="Descreva o conteúdo do arquivo, a finalidade clínica e o contexto de uso educacional."
                     />
                   </div>
 
-                  <div className="rounded-[1rem] border border-dashed border-white/15 bg-white/6 p-4">
-                    <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-cyan-100/80">Arquivo para anexar</label>
+                  <div className="rounded-[1rem] border border-dashed border-border/70 bg-slate-50/90 p-4">
+                    <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary/80">Arquivo para anexar</label>
                     <input
                       type="file"
                       accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.csv,.txt,.md,.zip,video/*"
                       onChange={handleFileChange}
-                      className="mt-3 block w-full text-sm text-slate-100 file:mr-4 file:rounded-full file:border-0 file:bg-cyan-300 file:px-4 file:py-2 file:font-semibold file:text-slate-950 hover:file:bg-cyan-200"
+                      className="mt-3 block w-full text-sm text-slate-600 file:mr-4 file:rounded-full file:border-0 file:bg-primary file:px-4 file:py-2 file:font-semibold file:text-primary-foreground hover:file:bg-primary/90"
                     />
-                    <p className="mt-3 text-xs leading-6 text-slate-200/80">
+                    <p className="mt-3 text-xs leading-6 text-slate-600">
                       Você pode anexar documentos, apresentações, planilhas, estudos de caso compactados e vídeos leves de até 15 MB por envio.
                     </p>
                     {selectedFile ? (
-                      <div className="mt-3 rounded-[0.9rem] border border-white/12 bg-white/8 px-3 py-2 text-sm text-slate-100">
+                      <div className="mt-3 rounded-[0.9rem] border border-border/70 bg-slate-50/90 px-3 py-2 text-sm text-slate-600">
                         Arquivo selecionado: {selectedFile.name} • {formatBytes(selectedFile.size)}
                       </div>
                     ) : null}
                   </div>
 
                   <div>
-                    <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-cyan-100/80">Link externo do material</label>
+                    <label className="text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-primary/80">Link externo do material</label>
                     <input
                       value={formState.sourceUrl}
                       onChange={event => setFormState(current => ({ ...current, sourceUrl: event.target.value }))}
-                      className="mt-2 w-full rounded-[1rem] border border-white/12 bg-white/8 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-300/60 focus:border-cyan-300"
+                      className="mt-2 w-full rounded-[1rem] border border-border/70 bg-slate-50/90 px-4 py-3 text-sm text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-primary/50"
                       placeholder="Ex.: https://... (use para vídeos ou estudos hospedados fora do app)"
                     />
-                    <p className="mt-3 text-xs leading-6 text-slate-200/80">
+                    <p className="mt-3 text-xs leading-6 text-slate-600">
                       Se o material estiver hospedado externamente, informe o link. O envio pode ser feito com arquivo, com link, ou com os dois.
                     </p>
                   </div>
                 </div>
 
                 {uploadFeedback ? (
-                  <div className="rounded-[1rem] border border-white/12 bg-white/8 px-4 py-3 text-sm text-slate-100">{uploadFeedback}</div>
+                  <div className="rounded-[1rem] border border-border/70 bg-slate-50/90 px-4 py-3 text-sm text-slate-600">{uploadFeedback}</div>
                 ) : null}
 
-                <Button type="submit" className="w-full rounded-full bg-cyan-300 text-slate-950 hover:bg-cyan-200" disabled={uploadMutation.isPending || loading || !specialties.length}>
+                <Button type="submit" className="w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90" disabled={uploadMutation.isPending || loading || !specialties.length}>
                   {uploadMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
                   Enviar para o drive da especialidade
                 </Button>
@@ -1241,12 +1225,12 @@ export function AppEncyclopedia() {
             </CardContent>
           </Card>
 
-          <Card className="border-border/70 bg-white/82 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+          <Card>
             <CardHeader>
-              <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">
+              <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
                 Últimos materiais e destaques
               </CardDescription>
-              <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">
+              <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
                 Downloads mais recentes da enciclopédia cirúrgica
               </CardTitle>
             </CardHeader>
@@ -1289,7 +1273,7 @@ export function AppEncyclopedia() {
 
               {featuredDocuments.length ? (
                 <div className="rounded-[1.1rem] border border-border/70 bg-white p-4">
-                  <p className="text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/75">Curadoria em destaque</p>
+                  <p className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/75">Curadoria em destaque</p>
                   <div className="mt-3 space-y-3">
                     {featuredDocuments.slice(0, 3).map(document => (
                       <div key={`featured-${document.id}`} className="rounded-[0.95rem] border border-border/70 bg-slate-50/90 p-3">
@@ -1329,8 +1313,8 @@ export function AppPartners() {
   return (
     <SinaceModulePlaceholder
       eyebrow="Parceiros"
-      title="A rede de parceiros agora já reflete relacionamentos persistidos com instituições, contratos e frentes de expansão do SINACE."
-      description="Este módulo deixa de depender de narrativas genéricas e passa a mostrar atores institucionais reais do banco, com tipologia, status, instituições associadas e coerência com a malha operacional publicada no restante do workspace."
+      title="Rede de parceiros"
+      description="Instituições, contratos e frentes de expansão."
       icon={Network}
       badge={loading ? "Sincronizando rede" : `${partners.length} parceiros persistidos`}
       highlights={[
@@ -1374,13 +1358,13 @@ export function AppPartners() {
         "Evoluir para governança comercial e institucional mais detalhada.",
       ]}
     >
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-        <Card className="border-border/70 bg-white/82 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] xl:items-start">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Parceiros persistidos
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               Relações institucionais já estruturadas no workspace
             </CardTitle>
           </CardHeader>
@@ -1414,8 +1398,8 @@ export function AppPartners() {
                       {partnerStatusLabel[partner.status] ?? partner.status}
                     </Badge>
                   </div>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">{partner.description ?? "Parceiro institucional sem descrição expandida."}</p>
-                  <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{partner.description ?? "Parceiro institucional sem descrição expandida."}</p>
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2 2xl:grid-cols-3">
                     <div className="rounded-[1rem] border border-border/70 bg-white px-4 py-3">
                       <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-slate-500">Instituições</p>
                       <p className="mt-2 text-sm font-medium text-slate-900">{partner.institutionsCount}</p>
@@ -1435,18 +1419,18 @@ export function AppPartners() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/70 bg-[linear-gradient(180deg,rgba(9,23,51,0.95),rgba(12,37,70,0.92))] text-white shadow-[0_24px_60px_rgba(8,22,48,0.2)]">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-200/85">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Malha assistencial vinculada
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-white">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               Instituições já associadas à rede de relacionamento do SINACE
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {loading ? (
-              <div className="flex min-h-[220px] items-center justify-center rounded-[1.2rem] border border-white/10 bg-white/6 text-slate-100/86">
+              <div className="flex min-h-[220px] items-center justify-center rounded-[1.2rem] border border-border/70 bg-slate-50/90 text-slate-600">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Cruzando parceiros com instituições...
               </div>
@@ -1454,7 +1438,6 @@ export function AppPartners() {
               <ModuleStateNotice
                 title="A malha assistencial vinculada não pôde ser consolidada agora"
                 description={moduleError.message}
-                inverse
                 onRetry={handleRetry}
                 retrying={retrying}
               />
@@ -1462,13 +1445,12 @@ export function AppPartners() {
               <ModuleStateNotice
                 title="Ainda não há instituições associadas à rede de parceiros"
                 description="Assim que a base institucional for preenchida, esta coluna poderá mostrar os vínculos operacionais já conectados aos parceiros persistidos."
-                inverse
               />
             ) : (
               institutions.slice(0, 4).map(item => (
-                <div key={item.id} className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">{item.name}</p>
-                  <p className="mt-3 text-sm leading-7 text-slate-100/88">{item.partnerName ? `Parceiro: ${item.partnerName}. ` : "Relação direta com a SINACE. "}{item.capacityProfile ?? "Capacidade assistencial em detalhamento."}</p>
+                <div key={item.id} className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">{item.name}</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{item.partnerName ? `Parceiro: ${item.partnerName}. ` : "Relação direta com a SINACE. "}{item.capacityProfile ?? "Capacidade assistencial em detalhamento."}</p>
                 </div>
               ))
             )}
@@ -1496,8 +1478,8 @@ export function AppInstitutions() {
   return (
     <SinaceModulePlaceholder
       eyebrow="Instituições"
-      title="A rede assistencial agora já consome instituições persistidas com perfil, localização, cobertura e vínculo por especialidade."
-      description="Esta superfície passa a representar unidades reais da malha operacional da SINACE, deixando de lado descrições genéricas e aproveitando diretamente a base que também alimenta dashboard, parceiros e governança."
+      title="Rede assistencial"
+      description="Unidades com perfil, localização e cobertura."
       icon={Building2}
       badge={loading ? "Sincronizando capacidade" : `${institutions.length} instituições persistidas`}
       highlights={[
@@ -1541,10 +1523,10 @@ export function AppInstitutions() {
         "Evoluir para mapas e painéis operacionais mais específicos.",
       ]}
     >
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-        <Card className="border-border/70 bg-white/82 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] xl:items-start">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Rede persistida
             </CardDescription>
             <h2 className="text-2xl font-semibold tracking-[-0.03em] text-slate-950">
@@ -1581,8 +1563,8 @@ export function AppInstitutions() {
                       {institutionStatusLabel[institution.status] ?? institution.status}
                     </Badge>
                   </div>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">{institution.description ?? institution.capacityProfile ?? "Instituição sem descrição expandida."}</p>
-                  <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{institution.description ?? institution.capacityProfile ?? "Instituição sem descrição expandida."}</p>
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2">
                     <div className="rounded-[1rem] border border-border/70 bg-white px-4 py-3">
                       <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-slate-500">Cidade</p>
                       <p className="mt-2 text-sm font-medium text-slate-900">{institution.city ?? "—"}</p>
@@ -1606,18 +1588,18 @@ export function AppInstitutions() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/70 bg-[linear-gradient(180deg,rgba(9,23,51,0.95),rgba(12,37,70,0.92))] text-white shadow-[0_24px_60px_rgba(8,22,48,0.2)]">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-200/85">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Cobertura cirúrgica
             </CardDescription>
-            <h2 className="text-2xl font-semibold tracking-[-0.03em] text-white">
+            <h2 className="text-2xl font-semibold tracking-[-0.03em] text-slate-950">
               Leitura temática derivada da taxonomia oficial do SINACE
             </h2>
           </CardHeader>
           <CardContent className="grid gap-3 sm:grid-cols-2">
             {loading ? (
-              <div className="col-span-full flex min-h-[220px] items-center justify-center rounded-[1.2rem] border border-white/10 bg-white/6 text-slate-100/86">
+              <div className="col-span-full flex min-h-[220px] items-center justify-center rounded-[1.2rem] border border-border/70 bg-slate-50/90 text-slate-600">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Consolidando especialidades por instituição...
               </div>
@@ -1626,7 +1608,6 @@ export function AppInstitutions() {
                 <ModuleStateNotice
                   title="A leitura temática das instituições falhou nesta consulta"
                   description={moduleError.message}
-                  inverse
                   onRetry={handleRetry}
                   retrying={retrying}
                 />
@@ -1636,14 +1617,13 @@ export function AppInstitutions() {
                 <ModuleStateNotice
                   title="Ainda não há instituições para projetar cobertura cirúrgica"
                   description="Assim que a rede institucional estiver preenchida, esta coluna poderá resumir as especialidades vinculadas a cada unidade persistida."
-                  inverse
                 />
               </div>
             ) : (
               institutions.slice(0, 4).map(item => (
-                <div key={item.id} className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">{item.name}</p>
-                  <p className="mt-3 text-sm leading-7 text-slate-100/88">
+                <div key={item.id} className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">{item.name}</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">
                     {(item.specialties ?? []).slice(0, 3).map(specialty => specialty.name).join(" • ") || "Especialidades em detalhamento operacional."}
                   </p>
                 </div>
@@ -1676,8 +1656,8 @@ export function AppFaculty() {
   return (
     <SinaceModulePlaceholder
       eyebrow="Professores"
-      title="O módulo docente passa a se apoiar na taxonomia persistente, nas trilhas já publicadas e nas instituições com perfil de ensino do SINACE."
-      description="Mesmo antes da criação do cadastro individual de professores, esta superfície deixa de ser genérica ao mostrar a base científica já disponível para sustentar autoria, revisão e coordenação acadêmica por especialidade."
+      title="Corpo docente"
+      description="Autoria, revisão e coordenação acadêmica por área."
       icon={Microscope}
       badge={loading ? "Sincronizando governança científica" : `${teachingInstitutions} instituições com perfil de ensino`}
       highlights={[
@@ -1721,13 +1701,13 @@ export function AppFaculty() {
         "Exibir cobertura docente por instituição e frente científica.",
       ]}
     >
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-        <Card className="border-border/70 bg-white/82 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] xl:items-start">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Frente científica
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               Especialidades e trilhas que já podem receber coordenação docente
             </CardTitle>
           </CardHeader>
@@ -1755,8 +1735,8 @@ export function AppFaculty() {
                 return (
                   <div key={item.id} className="rounded-[1.25rem] border border-border/70 bg-slate-50/90 p-4">
                     <h3 className="text-lg font-semibold tracking-[-0.03em] text-slate-950">{item.name}</h3>
-                    <p className="mt-3 text-sm leading-7 text-slate-600">{item.coordinationModel ?? item.educationalFocus ?? item.description ?? "Especialidade pronta para receber coordenação científica."}</p>
-                    <p className="mt-4 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/80">
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{item.coordinationModel ?? item.educationalFocus ?? item.description ?? "Especialidade pronta para receber coordenação científica."}</p>
+                    <p className="mt-4 text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
                       {relatedTracks} trilhas relacionadas
                     </p>
                   </div>
@@ -1766,18 +1746,18 @@ export function AppFaculty() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/70 bg-[linear-gradient(180deg,rgba(9,23,51,0.95),rgba(12,37,70,0.92))] text-white shadow-[0_24px_60px_rgba(8,22,48,0.2)]">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-200/85">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Contexto institucional
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-white">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               Instituições com base para autoria e supervisão acadêmica
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             {loading ? (
-              <div className="flex min-h-[220px] items-center justify-center rounded-[1.2rem] border border-white/10 bg-white/6 text-slate-100/86">
+              <div className="flex min-h-[220px] items-center justify-center rounded-[1.2rem] border border-border/70 bg-slate-50/90 text-slate-600">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Carregando contexto docente...
               </div>
@@ -1785,7 +1765,6 @@ export function AppFaculty() {
               <ModuleStateNotice
                 title="O contexto institucional docente não pôde ser consolidado agora"
                 description={moduleError.message}
-                inverse
                 onRetry={handleRetry}
                 retrying={retrying}
               />
@@ -1793,15 +1772,14 @@ export function AppFaculty() {
               <ModuleStateNotice
                 title="Ainda não há instituições com perfil de ensino vinculado"
                 description="Preencha o perfil de ensino das instituições persistidas para evidenciar a base de autoria e supervisão acadêmica do SINACE."
-                inverse
               />
             ) : (
               facultyContexts
                 .slice(0, 4)
                 .map(item => (
-                  <div key={item.id} className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">{item.name}</p>
-                    <p className="mt-3 text-sm leading-7 text-slate-100/88">{item.teachingProfile}</p>
+                  <div key={item.id} className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">{item.name}</p>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{item.teachingProfile}</p>
                   </div>
                 ))
             )}
@@ -1842,8 +1820,8 @@ export function AppStudents() {
   return (
     <SinaceModulePlaceholder
       eyebrow="Alunos"
-      title="O módulo de alunos passa a refletir a malha real de trilhas, documentos, instituições e especialidades já persistidas no SINACE."
-      description="Mesmo antes do cadastro individual de matrículas e progresso, esta superfície deixa de depender de hardcodes ao se apoiar na base educacional já estruturada, oferecendo uma visão concreta da jornada formativa que o produto pode sustentar."
+      title="Jornada formativa"
+      description="Trilhas, documentos e instituições do percurso do aluno."
       icon={Users}
       badge={loading ? "Sincronizando jornadas" : `${tracks.length} trilhas e ${documents.length} materiais`}
       highlights={[
@@ -1887,13 +1865,13 @@ export function AppStudents() {
         "Permitir jornadas personalizadas e alertas automatizados.",
       ]}
     >
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-        <Card className="border-border/70 bg-white/82 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] xl:items-start">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Oferta formativa
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               Base já disponível para futuras jornadas do aluno
             </CardTitle>
           </CardHeader>
@@ -1924,26 +1902,26 @@ export function AppStudents() {
                       {track.specialtyName ?? "Transversal"}
                     </Badge>
                   </div>
-                  <p className="mt-3 text-sm leading-7 text-slate-600">{track.summary ?? "Trilha pronta para sustentar onboarding e progressão individual."}</p>
-                  <p className="mt-4 text-[0.72rem] font-semibold uppercase tracking-[0.22em] text-primary/80">{track.estimatedHours} horas estimadas</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{track.summary ?? "Trilha pronta para sustentar onboarding e progressão individual."}</p>
+                  <p className="mt-4 text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">{track.estimatedHours} horas estimadas</p>
                 </div>
               ))
             )}
           </CardContent>
         </Card>
 
-        <Card className="border-border/70 bg-[linear-gradient(180deg,rgba(9,23,51,0.95),rgba(12,37,70,0.92))] text-white shadow-[0_24px_60px_rgba(8,22,48,0.2)]">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-200/85">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Contexto de aprendizagem
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-white">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               Especialidades e instituições que já dão forma à comunidade acadêmica
             </CardTitle>
           </CardHeader>
           <CardContent className="grid gap-3 sm:grid-cols-2">
             {loading ? (
-              <div className="col-span-full flex min-h-[220px] items-center justify-center rounded-[1.2rem] border border-white/10 bg-white/6 text-slate-100/86">
+              <div className="col-span-full flex min-h-[220px] items-center justify-center rounded-[1.2rem] border border-border/70 bg-slate-50/90 text-slate-600">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Consolidando contexto discente...
               </div>
@@ -1952,7 +1930,6 @@ export function AppStudents() {
                 <ModuleStateNotice
                   title="O contexto de aprendizagem não pôde ser consolidado agora"
                   description={moduleError.message}
-                  inverse
                   onRetry={handleRetry}
                   retrying={retrying}
                 />
@@ -1962,14 +1939,13 @@ export function AppStudents() {
                 <ModuleStateNotice
                   title="Ainda não há contexto acadêmico suficiente para esta coluna"
                   description="Ative especialidades e perfis institucionais de ensino para que esta área descreva a comunidade acadêmica real do SINACE."
-                  inverse
                 />
               </div>
             ) : (
               specialties.slice(0, 2).map(item => (
-                <div key={item.id} className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">{item.name}</p>
-                  <p className="mt-3 text-sm leading-7 text-slate-100/88">{documents.filter(document => document.specialtyName === item.name).length} materiais vinculados e base pronta para recomendação formativa.</p>
+                <div key={item.id} className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">{item.name}</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{documents.filter(document => document.specialtyName === item.name).length} materiais vinculados e base pronta para recomendação formativa.</p>
                 </div>
               ))
             )}
@@ -1977,9 +1953,9 @@ export function AppStudents() {
               learningContexts
                 .slice(0, 2)
                 .map(item => (
-                  <div key={item.id} className="rounded-[1.2rem] border border-white/10 bg-white/6 p-4">
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cyan-200/90">{item.name}</p>
-                    <p className="mt-3 text-sm leading-7 text-slate-100/88">{item.teachingProfile}</p>
+                  <div key={item.id} className="rounded-[1.2rem] border border-border/70 bg-slate-50/90 p-4">
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">{item.name}</p>
+                    <p className="mt-3 text-sm leading-6 text-slate-600">{item.teachingProfile}</p>
                   </div>
                 ))}
           </CardContent>
@@ -2128,17 +2104,17 @@ export function AppAdmin() {
 
   if (!isAdmin) {
     return (
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_340px]">
-        <Card className="border-border/70 bg-white/82 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_340px] xl:items-start">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Administração restrita
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               Esta área controla a taxonomia persistente e exige papel administrativo.
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-4 text-sm leading-7 text-slate-600">
+          <CardContent className="space-y-4 text-sm leading-6 text-slate-600">
             <p>
               O backend já protege esta superfície com autorização específica para administradores. Quando o seu perfil for promovido,
               você poderá criar, editar, reordenar e publicar especialidades sem depender de mudanças manuais em código.
@@ -2150,7 +2126,7 @@ export function AppAdmin() {
           </CardContent>
         </Card>
 
-        <Card className="border-amber-200/80 bg-amber-50/80 shadow-[0_18px_42px_rgba(147,83,14,0.10)]">
+        <Card className="border-amber-200/80 bg-amber-50/80">
           <CardHeader>
             <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-100 text-amber-700">
               <ShieldAlert className="h-5 w-5" />
@@ -2159,7 +2135,7 @@ export function AppAdmin() {
               Governança acessível apenas para perfis admin
             </CardTitle>
           </CardHeader>
-          <CardContent className="space-y-3 text-sm leading-7 text-amber-900/88">
+          <CardContent className="space-y-3 text-sm leading-6 text-amber-900/88">
             <p>Peça a promoção do seu usuário no banco para ativar o módulo administrativo completo.</p>
             <p className="rounded-[1.1rem] border border-amber-200 bg-white/70 px-4 py-3">
               Perfil atual: <strong>{user?.role ?? "não identificado"}</strong>
@@ -2172,12 +2148,12 @@ export function AppAdmin() {
 
   return (
     <div className="space-y-4">
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)]">
-        <Card className="border-border/70 bg-white/82 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] xl:items-start">
+        <Card>
           <CardHeader>
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">
+                <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
                   Governança da taxonomia
                 </CardDescription>
                 <CardTitle className="mt-2 text-2xl tracking-[-0.03em] text-slate-950">
@@ -2189,7 +2165,7 @@ export function AppAdmin() {
               </Badge>
             </div>
           </CardHeader>
-          <CardContent className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <CardContent className="grid gap-3 sm:grid-cols-2">
             {[
               {
                 label: "Ativas",
@@ -2213,11 +2189,11 @@ export function AppAdmin() {
               },
             ].map(metric => (
               <div key={metric.label} className="rounded-[1.3rem] border border-border/70 bg-slate-50/90 p-4">
-                <span className={`inline-flex rounded-full px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] ${metric.tone}`}>
+                <span className={`inline-flex rounded-full px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em] ${metric.tone}`}>
                   {metric.label}
                 </span>
                 <p className="mt-4 text-3xl font-semibold tracking-[-0.04em] text-slate-950">{isLoading ? "…" : metric.value}</p>
-                <p className="mt-3 text-sm leading-7 text-slate-600">
+                <p className="mt-3 text-sm leading-6 text-slate-600">
                   Indicador derivado da taxonomia persistente administrável pelo backend protegido.
                 </p>
               </div>
@@ -2225,12 +2201,12 @@ export function AppAdmin() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/70 bg-[linear-gradient(180deg,rgba(9,23,51,0.95),rgba(12,37,70,0.92))] text-white shadow-[0_24px_60px_rgba(8,22,48,0.2)]">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-cyan-200/85">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Operação administrativa
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-white">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               O catálogo agora pode evoluir sem editar código-fonte a cada mudança de taxonomia
             </CardTitle>
           </CardHeader>
@@ -2241,11 +2217,11 @@ export function AppAdmin() {
               "Reordenar a navegação operacional do catálogo persistente diretamente pela interface.",
               "Sincronizar dashboard e página de especialidades após cada mutação administrativa.",
             ].map((item, index) => (
-              <div key={item} className="flex items-start gap-4 rounded-[1.2rem] border border-white/10 bg-white/6 px-4 py-4">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 text-sm font-semibold text-cyan-100">
+              <div key={item} className="flex items-start gap-4 rounded-[1.2rem] border border-border/70 bg-slate-50/90 px-4 py-4">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/8 text-sm font-semibold text-primary">
                   0{index + 1}
                 </div>
-                <p className="text-sm leading-7 text-slate-100/86">{item}</p>
+                <p className="text-sm leading-6 text-slate-600">{item}</p>
               </div>
             ))}
 
@@ -2253,7 +2229,7 @@ export function AppAdmin() {
               type="button"
               variant="outline"
               onClick={() => void refetch()}
-              className="w-full border-white/15 bg-white/8 text-white hover:bg-white/12 hover:text-white"
+              className="w-full border-border/70 bg-slate-50/90 text-slate-950 hover:bg-slate-100 hover:text-slate-950"
             >
               {isRefetching ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
               Reconsultar administração persistente
@@ -2262,20 +2238,20 @@ export function AppAdmin() {
         </Card>
       </div>
 
-      <div className="grid gap-4 xl:grid-cols-[420px_minmax(0,1fr)]">
-        <Card className="border-border/70 bg-white/82 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+      <div className="grid gap-4 xl:grid-cols-[380px_minmax(0,1fr)] xl:items-start">
+        <Card className="xl:sticky xl:top-24 xl:max-h-[calc(100dvh-7rem)] xl:overflow-y-auto">
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Editor da taxonomia
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               {editingId ? "Editar especialidade" : "Cadastrar nova especialidade"}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <form className="space-y-4" onSubmit={event => void handleSubmit(event)}>
               <div className="space-y-2">
-                <label className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Nome oficial</label>
+                <label className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Nome oficial</label>
                 <input
                   value={formState.name}
                   onChange={event => setFormState(current => ({ ...current, name: event.target.value }))}
@@ -2286,7 +2262,7 @@ export function AppAdmin() {
 
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Rótulo curto</label>
+                  <label className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Rótulo curto</label>
                   <input
                     value={formState.shortLabel}
                     onChange={event => setFormState(current => ({ ...current, shortLabel: event.target.value }))}
@@ -2295,7 +2271,7 @@ export function AppAdmin() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Ordem</label>
+                  <label className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Ordem</label>
                   <input
                     value={formState.displayOrder}
                     onChange={event => setFormState(current => ({ ...current, displayOrder: event.target.value }))}
@@ -2308,7 +2284,7 @@ export function AppAdmin() {
 
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Categoria</label>
+                  <label className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Categoria</label>
                   <select
                     value={formState.category}
                     onChange={event =>
@@ -2328,7 +2304,7 @@ export function AppAdmin() {
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Status</label>
+                  <label className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Status</label>
                   <select
                     value={formState.status}
                     onChange={event =>
@@ -2349,7 +2325,7 @@ export function AppAdmin() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Modelo de coordenação</label>
+                <label className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Modelo de coordenação</label>
                 <input
                   value={formState.coordinationModel}
                   onChange={event => setFormState(current => ({ ...current, coordinationModel: event.target.value }))}
@@ -2359,11 +2335,11 @@ export function AppAdmin() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Descrição institucional</label>
+                <label className="text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">Descrição institucional</label>
                 <textarea
                   value={formState.description}
                   onChange={event => setFormState(current => ({ ...current, description: event.target.value }))}
-                  className="min-h-[180px] w-full rounded-[1rem] border border-border/70 bg-white px-4 py-3 text-sm leading-7 text-slate-900 outline-none ring-0 transition focus:border-primary"
+                  className="min-h-[120px] w-full rounded-[1rem] border border-border/70 bg-white px-4 py-3 text-sm leading-6 text-slate-900 outline-none ring-0 transition focus:border-primary"
                   placeholder="Descreva o papel assistencial, educacional e institucional da especialidade no ecossistema SINACE."
                 />
               </div>
@@ -2393,12 +2369,12 @@ export function AppAdmin() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/70 bg-white/82 shadow-[0_20px_48px_rgba(15,54,104,0.08)]">
+        <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-primary/80">
+            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
               Catálogo administrável
             </CardDescription>
-            <CardTitle className="text-2xl tracking-[-0.03em] text-slate-950">
+            <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
               Especialidades com leitura operacional, educacional e ordenação configurável
             </CardTitle>
           </CardHeader>
@@ -2409,95 +2385,92 @@ export function AppAdmin() {
                 Carregando catálogo administrativo...
               </div>
             ) : error ? (
-              <div className="rounded-[1.4rem] border border-destructive/20 bg-destructive/5 p-6 text-sm leading-7 text-destructive">
+              <div className="rounded-[1.4rem] border border-destructive/20 bg-destructive/5 p-6 text-sm leading-6 text-destructive">
                 {error.message}
               </div>
             ) : specialtyRows.length === 0 ? (
-              <div className="rounded-[1.4rem] border border-dashed border-border/80 bg-slate-50/80 p-6 text-sm leading-7 text-slate-600">
+              <div className="rounded-[1.4rem] border border-dashed border-border/80 bg-slate-50/80 p-6 text-sm leading-6 text-slate-600">
                 Nenhuma especialidade encontrada na base persistente.
               </div>
             ) : (
               specialtyRows.map((item, index) => (
-                <div key={item.id} className="rounded-[1.35rem] border border-border/70 bg-slate-50/90 p-5">
-                  <div className="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between">
-                    <div className="space-y-3">
+                <div key={item.id} className="@container space-y-4 rounded-[1.35rem] border border-border/70 bg-slate-50/90 p-4 md:p-5">
+                  <div className="flex flex-col gap-3 @xl:flex-row @xl:items-start @xl:justify-between">
+                    <div className="min-w-0 flex-1 space-y-2">
                       <div className="flex flex-wrap items-center gap-2">
-                        <span className="rounded-full bg-primary/8 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-primary">
+                        <span className="rounded-full bg-primary/8 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-primary">
                           Ordem {item.displayOrder}
                         </span>
                         <span
-                          className={`rounded-full border px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] ${specialtyStatusClassName[item.status as SpecialtyFormState["status"]] ?? specialtyStatusClassName.active}`}
+                          className={`rounded-full border px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em] ${specialtyStatusClassName[item.status as SpecialtyFormState["status"]] ?? specialtyStatusClassName.active}`}
                         >
                           {specialtyStatusLabel[item.status as SpecialtyFormState["status"]] ?? item.status}
                         </span>
-                        <span className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-600">
+                        <span className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-slate-600">
                           {specialtyCategoryLabel[item.category as SpecialtyFormState["category"]] ?? item.category}
                         </span>
                       </div>
-
-                      <div>
-                        <h3 className="text-xl font-semibold tracking-[-0.03em] text-slate-950">{item.name}</h3>
-                        <p className="mt-2 text-sm leading-7 text-slate-600">{item.description ?? "Sem descrição institucional registrada."}</p>
-                      </div>
-
-                      <div className="grid gap-3 md:grid-cols-2">
-                        <div className="rounded-[1.1rem] border border-border/70 bg-white px-4 py-3">
-                          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-primary/75">Coordenação</p>
-                          <p className="mt-2 text-sm leading-6 text-slate-700">{item.coordinationModel ?? "A definir"}</p>
-                        </div>
-                        <div className="rounded-[1.1rem] border border-border/70 bg-white px-4 py-3">
-                          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-primary/75">Foco educacional</p>
-                          <p className="mt-2 text-sm leading-6 text-slate-700">{item.educationalFocus ?? "Sem foco educacional catalogado"}</p>
-                        </div>
-                      </div>
-
-                      <div className="rounded-[1.1rem] border border-border/70 bg-white px-4 py-3">
-                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-primary/75">Foco operacional</p>
-                        <p className="mt-2 text-sm leading-6 text-slate-700">{item.operationalFocus ?? "Sem foco operacional catalogado"}</p>
-                      </div>
+                      <h3 className="break-words text-lg font-semibold leading-7 tracking-[-0.03em] text-slate-950">{item.name}</h3>
                     </div>
 
-                    <div className="w-full max-w-[360px] space-y-3 xl:w-[360px]">
-                      <div className="grid gap-3 sm:grid-cols-2">
-                        {[
-                          { label: "Instituições", value: item.institutionsCount },
-                          { label: "Contratos", value: item.contractsCount },
-                          { label: "Fila", value: item.queueCount },
-                          { label: "Conteúdo", value: item.tracksCount + item.documentsCount },
-                        ].map(metric => (
-                          <div key={metric.label} className="rounded-[1.1rem] border border-border/70 bg-white px-4 py-3">
-                            <p className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-slate-500">{metric.label}</p>
-                            <p className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-slate-950">{metric.value}</p>
-                          </div>
-                        ))}
-                      </div>
+                    <div className="flex flex-wrap gap-2">
+                      <Button type="button" variant="outline" size="sm" onClick={() => beginEdit(item)} className="rounded-full">
+                        <Sparkles className="mr-1.5 h-4 w-4" />
+                        Editar
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        disabled={index === 0 || reorderMutation.isPending}
+                        onClick={() => void moveSpecialty(item.id, "up")}
+                        className="rounded-full"
+                      >
+                        <ArrowUp className="mr-1.5 h-4 w-4" />
+                        Subir
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        disabled={index === specialtyRows.length - 1 || reorderMutation.isPending}
+                        onClick={() => void moveSpecialty(item.id, "down")}
+                        className="rounded-full"
+                      >
+                        <ArrowDown className="mr-1.5 h-4 w-4" />
+                        Descer
+                      </Button>
+                    </div>
+                  </div>
 
-                      <div className="flex flex-wrap gap-2">
-                        <Button type="button" variant="outline" onClick={() => beginEdit(item)} className="rounded-full">
-                          <Sparkles className="mr-2 h-4 w-4" />
-                          Editar
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          disabled={index === 0 || reorderMutation.isPending}
-                          onClick={() => void moveSpecialty(item.id, "up")}
-                          className="rounded-full"
-                        >
-                          <ArrowUp className="mr-2 h-4 w-4" />
-                          Subir
-                        </Button>
-                        <Button
-                          type="button"
-                          variant="outline"
-                          disabled={index === specialtyRows.length - 1 || reorderMutation.isPending}
-                          onClick={() => void moveSpecialty(item.id, "down")}
-                          className="rounded-full"
-                        >
-                          <ArrowDown className="mr-2 h-4 w-4" />
-                          Descer
-                        </Button>
+                  <p className="text-sm leading-6 text-slate-600">{item.description ?? "Sem descrição institucional registrada."}</p>
+
+                  <div className="grid grid-cols-2 gap-2 @lg:grid-cols-4">
+                    {[
+                      { label: "Instituições", value: item.institutionsCount },
+                      { label: "Contratos", value: item.contractsCount },
+                      { label: "Fila", value: item.queueCount },
+                      { label: "Conteúdo", value: item.tracksCount + item.documentsCount },
+                    ].map(metric => (
+                      <div key={metric.label} className="rounded-[1rem] border border-border/70 bg-white px-3 py-2.5">
+                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.1em] text-slate-500">{metric.label}</p>
+                        <p className="mt-1 text-xl font-semibold tracking-[-0.03em] text-slate-950">{metric.value}</p>
                       </div>
+                    ))}
+                  </div>
+
+                  <div className="grid gap-2 @2xl:grid-cols-3">
+                    <div className="rounded-[1rem] border border-border/70 bg-white px-4 py-3">
+                      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-primary/75">Coordenação</p>
+                      <p className="mt-1.5 break-words text-sm leading-6 text-slate-700">{item.coordinationModel ?? "A definir"}</p>
+                    </div>
+                    <div className="rounded-[1rem] border border-border/70 bg-white px-4 py-3">
+                      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-primary/75">Foco educacional</p>
+                      <p className="mt-1.5 break-words text-sm leading-6 text-slate-700">{item.educationalFocus ?? "Sem foco educacional catalogado"}</p>
+                    </div>
+                    <div className="rounded-[1rem] border border-border/70 bg-white px-4 py-3">
+                      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-primary/75">Foco operacional</p>
+                      <p className="mt-1.5 break-words text-sm leading-6 text-slate-700">{item.operationalFocus ?? "Sem foco operacional catalogado"}</p>
                     </div>
                   </div>
                 </div>

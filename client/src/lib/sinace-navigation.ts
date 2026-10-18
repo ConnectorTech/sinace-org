@@ -6,8 +6,11 @@ import {
   ClipboardList,
   FileBarChart2,
   GitBranchPlus,
+  House,
+  Info,
   LayoutDashboard,
   Library,
+  LayoutGrid,
   Network,
   Settings2,
   Stethoscope,
@@ -37,13 +40,13 @@ export const sinaceNavigationGroups: SinaceNavigationGroup[] = [
       {
         label: "Dashboard",
         path: "/app",
-        description: "Síntese institucional da plataforma, com leitura executiva da rede, do acervo e da base cirúrgica.",
+        description: "Visão executiva da rede, do acervo e da fila cirúrgica.",
         icon: LayoutDashboard,
       },
       {
         label: "Publicações",
         path: "/app/publicacoes",
-        description: "Comunicados institucionais, visão do CEO, resultados e narrativas estratégicas da SINACE.",
+        description: "Comunicados, relatórios e resultados publicados.",
         icon: FileBarChart2,
       },
     ],
@@ -55,25 +58,25 @@ export const sinaceNavigationGroups: SinaceNavigationGroup[] = [
       {
         label: "Especialidades",
         path: "/app/especialidades",
-        description: "Catálogo nacional de especialidades cirúrgicas e frentes em expansão da plataforma.",
+        description: "Catálogo nacional de especialidades cirúrgicas.",
         icon: Stethoscope,
       },
       {
         label: "Fluxogramas",
         path: "/app/fluxogramas",
-        description: "Fluxos hospitalares, jornadas assistenciais e processos cirúrgicos organizados para consulta.",
+        description: "Fluxos hospitalares e jornadas assistenciais.",
         icon: GitBranchPlus,
       },
       {
         label: "Instituições",
         path: "/app/instituicoes",
-        description: "Hospitais, Santas Casas, centros cirúrgicos e estruturas de atuação vinculadas à SINACE.",
+        description: "Hospitais, Santas Casas e centros cirúrgicos da rede.",
         icon: Building2,
       },
       {
         label: "Parceiros",
         path: "/app/parceiros",
-        description: "Relações institucionais em nível federal, estadual, municipal e regional.",
+        description: "Parceiros nas esferas federal, estadual e municipal.",
         icon: Network,
       },
     ],
@@ -85,19 +88,19 @@ export const sinaceNavigationGroups: SinaceNavigationGroup[] = [
       {
         label: "Biblioteca",
         path: "/app/biblioteca",
-        description: "Drive técnico com documentos, protocolos, materiais de estudo, imagens e vídeos por especialidade.",
+        description: "Protocolos, materiais de estudo e mídias por especialidade.",
         icon: Library,
       },
       {
         label: "Estudos de caso",
         path: "/app/casos",
-        description: "Casos clínicos, publicações de referência e acervo técnico-científico estruturado.",
+        description: "Casos clínicos e publicações de referência.",
         icon: ClipboardList,
       },
       {
         label: "Enciclopédia",
         path: "/app/enciclopedia",
-        description: "Base de consulta cirúrgica contínua, organizada por especialidade e temas correlatos.",
+        description: "Consulta cirúrgica organizada por especialidade.",
         icon: BookOpen,
       },
     ],
@@ -109,19 +112,19 @@ export const sinaceNavigationGroups: SinaceNavigationGroup[] = [
       {
         label: "Minha área",
         path: "/app/minha-area",
-        description: "Workspace privado do especialista com currículo editável, credenciais, visibilidade e drive profissional por especialidade.",
+        description: "Seu currículo, credenciais e drive profissional.",
         icon: BriefcaseMedical,
       },
       {
         label: "Perfis médicos",
         path: "/app/perfis",
-        description: "Diretório profissional com currículo, credenciais, especialidade, região e identidade médica.",
+        description: "Diretório de especialistas por área e região.",
         icon: Users,
       },
       {
         label: "Network médico",
         path: "/app/network",
-        description: "Descoberta e conexão entre especialistas por nicho cirúrgico, território e afinidade institucional.",
+        description: "Conexões entre especialistas por nicho e território.",
         icon: BookText,
       },
     ],
@@ -132,10 +135,84 @@ export const sinaceNavigationGroups: SinaceNavigationGroup[] = [
       {
         label: "Administração",
         path: "/app/admin",
-        description: "Gestão da plataforma, taxonomias, cadastros, permissões e consistência operacional.",
+        description: "Taxonomias, cadastros e permissões da plataforma.",
         icon: Settings2,
         requiresAdmin: true,
+      },
+      {
+        label: "Sobre a SINACE",
+        path: "/app/sobre",
+        description: "Dados institucionais, contatos oficiais e objeto social.",
+        icon: Info,
       },
     ],
   },
 ];
+
+export type SinaceBottomNavAxis = {
+  key: "inicio" | "rede" | "conhecimento" | "minha-area";
+  label: string;
+  path: string;
+  icon: typeof LayoutDashboard;
+  /** Rotas que mantêm o eixo ativo (além do próprio path). */
+  matchPaths: string[];
+};
+
+/**
+ * Eixos principais da Bottom Navigation Bar do workspace.
+ * Os módulos que não pertencem a nenhum eixo ficam agrupados em "Mais".
+ */
+export const sinaceBottomNavAxes: SinaceBottomNavAxis[] = [
+  {
+    key: "inicio",
+    label: "Início",
+    path: "/app",
+    icon: House,
+    matchPaths: ["/app"],
+  },
+  {
+    key: "rede",
+    label: "Rede",
+    path: "/app/network",
+    icon: Network,
+    matchPaths: ["/app/network", "/app/perfis", "/app/alunos", "/app/professores"],
+  },
+  {
+    key: "conhecimento",
+    label: "Conhecimento",
+    path: "/app/biblioteca",
+    icon: Library,
+    matchPaths: ["/app/biblioteca", "/app/casos", "/app/enciclopedia"],
+  },
+  {
+    key: "minha-area",
+    label: "Minha Área",
+    path: "/app/minha-area",
+    icon: BriefcaseMedical,
+    matchPaths: ["/app/minha-area"],
+  },
+];
+
+export const SINACE_BOTTOM_NAV_MORE_ICON = LayoutGrid;
+
+function normalizeAppPath(pathname: string) {
+  if (!pathname || pathname === "/") return "/";
+  return pathname.replace(/\/$/, "");
+}
+
+export function getActiveBottomNavAxis(pathname: string) {
+  const path = normalizeAppPath(pathname);
+  return sinaceBottomNavAxes.find(axis => axis.matchPaths.includes(path)) ?? null;
+}
+
+/** Módulos exibidos em "Mais": tudo que não é destino direto de um eixo principal. */
+export function getBottomNavMoreGroups(): SinaceNavigationGroup[] {
+  const primaryPaths = new Set(sinaceBottomNavAxes.map(axis => axis.path));
+
+  return sinaceNavigationGroups
+    .map(group => ({
+      ...group,
+      items: group.items.filter(item => !primaryPaths.has(item.path)),
+    }))
+    .filter(group => group.items.length > 0);
+}
