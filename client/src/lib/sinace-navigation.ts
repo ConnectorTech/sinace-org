@@ -186,7 +186,7 @@ export const sinaceBottomNavAxes: SinaceBottomNavAxis[] = [
   },
   {
     key: "minha-area",
-    label: "Minha Área",
+    label: "Minha área",
     path: "/app/minha-area",
     icon: BriefcaseMedical,
     matchPaths: ["/app/minha-area"],

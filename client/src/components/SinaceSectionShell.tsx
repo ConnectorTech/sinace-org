@@ -76,7 +76,7 @@ export function SinaceMetricChips({ highlights }: { highlights: HighlightCard[] 
           <li
             key={highlight.title}
             title={highlight.description}
-            className="flex shrink-0 snap-start items-baseline gap-2 rounded-full border border-slate-200/80 bg-white px-4 py-2.5 shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
+            className="flex shrink-0 snap-start items-baseline gap-2 rounded-full border border-slate-200/80 bg-white px-4 py-2.5 shadow-soft"
           >
             <span className="text-lg font-semibold leading-6 tracking-[-0.03em] text-primary tabular-nums">{value}</span>
             <span className="whitespace-nowrap text-sm font-medium leading-6 text-slate-700 first-letter:uppercase">{label}</span>
@@ -105,14 +105,14 @@ export function SinaceModuleHeader({ eyebrow, title, description, icon: Icon, ba
   const visibleBadges = Array.from(new Set(badges.filter((badge): badge is string => Boolean(badge))));
 
   return (
-    <section className="overflow-hidden rounded-[1.5rem] border border-border/70 bg-[linear-gradient(135deg,rgba(11,33,66,0.96),rgba(17,58,105,0.9)_58%,rgba(21,117,122,0.78))] px-4 py-4 text-primary-foreground shadow-[0_18px_44px_rgba(7,21,46,0.14)] md:px-6 md:py-5">
+    <section className="overflow-hidden rounded-surface border border-white/10 bg-[linear-gradient(135deg,rgba(11,33,66,0.96),rgba(22,72,140,0.92)_58%,rgba(13,128,104,0.82))] px-4 py-4 text-primary-foreground shadow-raised md:px-6 md:py-5">
       <div className="flex items-start gap-3 md:gap-4">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/14 bg-white/10 md:h-11 md:w-11">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-chip border border-white/14 bg-white/10 md:h-11 md:w-11">
           <Icon className="h-5 w-5 text-cyan-100" />
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-            <span className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-cyan-100/80">
+            <span className="app-eyebrow text-cyan-100/80">
               {eyebrow}
             </span>
             {visibleBadges.map(badge => (

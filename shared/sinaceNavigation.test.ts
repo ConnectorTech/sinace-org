@@ -59,7 +59,7 @@ describe("sinaceBottomNavAxes", () => {
       "Início",
       "Rede",
       "Conhecimento",
-      "Minha Área",
+      "Minha área",
     ]);
   });
 

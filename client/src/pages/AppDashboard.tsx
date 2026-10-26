@@ -97,7 +97,7 @@ export default function AppDashboard() {
     >
       <Card>
         <CardHeader>
-          <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
+          <CardDescription className="app-label text-primary">
             Síntese executiva
           </CardDescription>
           <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
@@ -106,8 +106,8 @@ export default function AppDashboard() {
         </CardHeader>
         <CardContent className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
           {dashboardMetrics.map(metric => (
-            <div key={metric.label} className="rounded-[1.35rem] border border-border/70 bg-slate-50/90 p-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">{metric.label}</p>
+            <div key={metric.label} className="rounded-tile border border-border/70 bg-tile p-4">
+              <p className="app-label text-primary">{metric.label}</p>
               <p className="mt-4 text-4xl font-semibold tracking-[-0.05em] text-slate-950">
                 {loading ? "…" : metric.value}
               </p>
@@ -119,7 +119,7 @@ export default function AppDashboard() {
 
       <Card>
         <CardHeader>
-          <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
+          <CardDescription className="app-label text-primary">
             Mapa do workspace
           </CardDescription>
           <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
@@ -130,14 +130,14 @@ export default function AppDashboard() {
           {workspaceEntries.map(item => {
             const Icon = item.icon;
             return (
-              <div key={item.path} className="flex flex-col items-start rounded-[1.25rem] border border-border/70 bg-slate-50/90 p-4">
+              <div key={item.path} className="flex flex-col items-start rounded-tile border border-border/70 bg-tile p-4">
                 <div className="flex w-full items-center gap-3">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-chip bg-primary/10 text-primary">
                     <Icon className="h-5 w-5" />
                   </div>
                   <div className="min-w-0">
                     <h3 className="text-base font-semibold leading-6 tracking-[-0.02em] text-slate-950">{item.label}</h3>
-                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-slate-500">{item.group}</p>
+                    <p className="app-label text-slate-500">{item.group}</p>
                   </div>
                 </div>
                 <p className="mb-4 mt-3 text-sm leading-6 text-slate-600">{item.description}</p>
@@ -156,7 +156,7 @@ export default function AppDashboard() {
       <div className="grid gap-4 xl:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] xl:items-start">
         <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
+            <CardDescription className="app-label text-primary">
               Rede institucional
             </CardDescription>
             <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
@@ -165,25 +165,25 @@ export default function AppDashboard() {
           </CardHeader>
           <CardContent className="space-y-4">
             {loading ? (
-              <div className="flex min-h-[240px] items-center justify-center rounded-[1.35rem] border border-dashed border-border/80 bg-slate-50/80 text-slate-500">
+              <div className="flex min-h-[240px] items-center justify-center rounded-tile border border-dashed border-border/80 bg-tile text-slate-500">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Carregando instituições...
               </div>
             ) : institutions.length === 0 ? (
-              <div className="rounded-[1.35rem] border border-dashed border-border/80 bg-slate-50/80 p-5 text-sm leading-6 text-slate-600">
+              <div className="rounded-tile border border-dashed border-border/80 bg-tile p-5 text-sm leading-6 text-slate-600">
                 Ainda não há instituições disponíveis para esta visualização.
               </div>
             ) : (
               institutions.slice(0, 4).map(item => (
-                <div key={item.id} className="rounded-[1.35rem] border border-border/70 bg-slate-50/90 p-5">
+                <div key={item.id} className="rounded-tile border border-border/70 bg-tile p-5">
                   <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                     <div>
                       <h3 className="text-lg font-semibold tracking-[-0.03em] text-slate-950">{item.name}</h3>
-                      <p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-primary/70">
+                      <p className="app-label mt-2 text-primary/70">
                         {item.institutionType} · {item.city}/{item.state}
                       </p>
                     </div>
-                    <div className="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-emerald-700">
+                    <div className="app-eyebrow rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-emerald-700">
                       {item.status}
                     </div>
                   </div>
@@ -194,8 +194,8 @@ export default function AppDashboard() {
                       { label: "Equipes", value: item.teamsCount ?? 0 },
                       { label: "Parceiro", value: item.partnerName || "Direto" },
                     ].map(metric => (
-                      <div key={metric.label} className="rounded-[1rem] border border-border/70 bg-white px-4 py-3">
-                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-slate-500">{metric.label}</p>
+                      <div key={metric.label} className="rounded-chip border border-border/70 bg-white px-4 py-3">
+                        <p className="app-label text-slate-500">{metric.label}</p>
                         <p className="mt-2 text-sm font-medium leading-6 text-slate-900">{metric.value}</p>
                       </div>
                     ))}
@@ -208,7 +208,7 @@ export default function AppDashboard() {
 
         <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
+            <CardDescription className="app-label text-primary">
               Leitura da fila
             </CardDescription>
             <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
@@ -217,25 +217,25 @@ export default function AppDashboard() {
           </CardHeader>
           <CardContent className="space-y-3">
             {loading ? (
-              <div className="flex min-h-[240px] items-center justify-center rounded-[1.35rem] border border-dashed border-border/80 bg-slate-50/80 text-slate-500">
+              <div className="flex min-h-[240px] items-center justify-center rounded-tile border border-dashed border-border/80 bg-tile text-slate-500">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Carregando leitura da fila...
               </div>
             ) : queueEntries.length === 0 ? (
-              <div className="rounded-[1.35rem] border border-dashed border-border/80 bg-slate-50/80 p-5 text-sm leading-6 text-slate-600">
+              <div className="rounded-tile border border-dashed border-border/80 bg-tile p-5 text-sm leading-6 text-slate-600">
                 Ainda não há entradas recentes da fila disponíveis para esta visualização.
               </div>
             ) : (
               queueEntries.map(entry => (
-                <div key={`${entry.patientCode}-${entry.specialtyName}`} className="rounded-[1.25rem] border border-border/70 bg-slate-50/90 p-4">
+                <div key={`${entry.patientCode}-${entry.specialtyName}`} className="rounded-tile border border-border/70 bg-tile p-4">
                   <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                     <div>
                       <div className="flex flex-wrap items-center gap-2">
                         <h3 className="text-base font-semibold tracking-[-0.02em] text-slate-950">{entry.specialtyName}</h3>
-                        <span className="rounded-full border border-cyan-200 bg-cyan-50 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-cyan-700">
+                        <span className="app-eyebrow rounded-full border border-cyan-200 bg-cyan-50 px-2.5 py-1 text-cyan-700">
                           {queuePriorityLabel[entry.priority] ?? entry.priority}
                         </span>
-                        <span className="rounded-full border border-slate-200 bg-white px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-slate-600">
+                        <span className="app-eyebrow rounded-full border border-slate-200 bg-white px-2.5 py-1 text-slate-600">
                           {queueStatusLabel[entry.status] ?? entry.status}
                         </span>
                       </div>
@@ -243,8 +243,8 @@ export default function AppDashboard() {
                         {entry.institutionName || "Instituição não informada"} · {entry.originCity || "Origem não informada"}/{entry.originState || "--"}
                       </p>
                     </div>
-                    <div className="rounded-[1rem] border border-border/70 bg-white px-4 py-3 text-right">
-                      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-slate-500">Tempo em espera</p>
+                    <div className="rounded-chip border border-border/70 bg-white px-4 py-3 text-right">
+                      <p className="app-label text-slate-500">Tempo em espera</p>
                       <p className="mt-2 text-base font-semibold text-slate-950">{entry.waitingDays} dias</p>
                     </div>
                   </div>

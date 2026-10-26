@@ -104,3 +104,7 @@
 - [x] Corrigir no app SINACE o fluxo de anexar documentos, vídeos e estudos de caso na Enciclopédia, incluindo exibição do campo de anexo e download funcional dos materiais publicados.
 - [x] Atualizar nos cards de Objeto Social Oficial e nas modalidades operacionais a redação 'baixa, média e alta complexidade' em todo o projeto.
 - [x] Adicionar nos cards e espaços vazios da Home as cores azul hospitalar e verde biomédico padrão do sistema, reforçando a identidade de centro cirúrgico sem quebras funcionais.
+- [x] Restringir caixa alta no app a etiquetas de categoria e eyebrows de até duas palavras (`.app-eyebrow`), adotando sentence case nos demais títulos, rótulos e descrições (`.app-label`).
+- [x] Padronizar a paleta do app com base luminosa em azul hospitalar e verde biomédico (pedido do cliente), cards brancos, blocos internos com tinta azul suave (`bg-tile`), escala única de cantos (`rounded-surface/tile/chip`) e sombras discretas (`shadow-soft/raised`), reservando o gradiente escuro ao cabeçalho de destaque dos módulos.
+- [x] Adicionar estados de toque (`pressable`, `active:scale-[0.98]`) e transições suaves entre abas, mantendo o shell do workspace montado entre rotas.
+- [x] Garantir `env(safe-area-inset-*)` no cabeçalho, na navegação inferior, na sidebar mobile e nas folhas inferiores do app.

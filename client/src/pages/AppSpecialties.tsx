@@ -80,7 +80,7 @@ export default function AppSpecialties() {
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] xl:items-start">
         <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
+            <CardDescription className="app-label text-primary">
               Leitura do catálogo persistente
             </CardDescription>
             <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
@@ -88,11 +88,11 @@ export default function AppSpecialties() {
             </CardTitle>
           </CardHeader>
           <CardContent className="grid gap-3 sm:grid-cols-3 xl:grid-cols-1 2xl:grid-cols-3">
-            <div className="rounded-[1.35rem] border border-border/70 bg-slate-50/90 p-4">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-primary/8 text-primary">
+            <div className="rounded-tile border border-border/70 bg-tile p-4">
+              <div className="flex h-11 w-11 items-center justify-center rounded-tile bg-primary/8 text-primary">
                 <Building2 className="h-5 w-5" />
               </div>
-              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">
+              <p className="app-eyebrow mt-4 text-primary/80">
                 Cobertura institucional
               </p>
               <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">
@@ -103,11 +103,11 @@ export default function AppSpecialties() {
               </p>
             </div>
 
-            <div className="rounded-[1.35rem] border border-border/70 bg-slate-50/90 p-4">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-cyan-500/10 text-cyan-700">
+            <div className="rounded-tile border border-border/70 bg-tile p-4">
+              <div className="flex h-11 w-11 items-center justify-center rounded-tile bg-cyan-500/10 text-cyan-700">
                 <BookOpenText className="h-5 w-5" />
               </div>
-              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">
+              <p className="app-eyebrow mt-4 text-primary/80">
                 Acervo estruturado
               </p>
               <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">
@@ -120,11 +120,11 @@ export default function AppSpecialties() {
               </p>
             </div>
 
-            <div className="rounded-[1.35rem] border border-border/70 bg-slate-50/90 p-4">
-              <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-700">
+            <div className="rounded-tile border border-border/70 bg-tile p-4">
+              <div className="flex h-11 w-11 items-center justify-center rounded-tile bg-emerald-500/10 text-emerald-700">
                 <BriefcaseMedical className="h-5 w-5" />
               </div>
-              <p className="mt-4 text-xs font-semibold uppercase tracking-[0.12em] text-primary/80">
+              <p className="app-eyebrow mt-4 text-primary/80">
                 Pressão assistencial
               </p>
               <p className="mt-3 text-3xl font-semibold tracking-[-0.04em] text-slate-950">
@@ -139,7 +139,7 @@ export default function AppSpecialties() {
 
         <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
+            <CardDescription className="app-label text-primary">
               Estrutura de dados ativa
             </CardDescription>
             <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
@@ -153,7 +153,7 @@ export default function AppSpecialties() {
               "Catálogo pronto para alimentar site, aplicativo e futuras superfícies administrativas.",
               "Base preparada para evolução com casos clínicos, enciclopédia e curadoria científica por área.",
             ].map((item, index) => (
-              <div key={item} className="flex items-start gap-4 rounded-[1.2rem] border border-border/70 bg-slate-50/90 px-4 py-4">
+              <div key={item} className="flex items-start gap-4 rounded-tile border border-border/70 bg-tile px-4 py-4">
                 <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary/8 text-sm font-semibold text-primary">
                   0{index + 1}
                 </div>
@@ -165,7 +165,7 @@ export default function AppSpecialties() {
               type="button"
               variant="outline"
               onClick={() => void refetch()}
-              className="mt-2 w-full border-border/70 bg-slate-50/90 text-slate-950 hover:bg-slate-100 hover:text-slate-950"
+              className="mt-2 w-full border-border/70 bg-tile text-slate-950 hover:bg-slate-100 hover:text-slate-950"
             >
               {isRefetching ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <RefreshCw className="mr-2 h-4 w-4" />}
               Reconsultar dados persistentes
@@ -177,7 +177,7 @@ export default function AppSpecialties() {
       <div className="grid gap-4 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] xl:items-start">
         <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
+            <CardDescription className="app-label text-primary">
               Prioridades operacionais
             </CardDescription>
             <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
@@ -186,29 +186,29 @@ export default function AppSpecialties() {
           </CardHeader>
           <CardContent className="space-y-4">
             {isLoading ? (
-              <div className="flex min-h-[240px] items-center justify-center rounded-[1.4rem] border border-dashed border-border/80 bg-slate-50/80 text-slate-500">
+              <div className="flex min-h-[240px] items-center justify-center rounded-tile border border-dashed border-border/80 bg-tile text-slate-500">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Carregando especialidades persistidas...
               </div>
             ) : topOperationalSpecialties.length === 0 ? (
-              <div className="rounded-[1.4rem] border border-dashed border-border/80 bg-slate-50/80 p-6 text-sm leading-6 text-slate-600">
+              <div className="rounded-tile border border-dashed border-border/80 bg-tile p-6 text-sm leading-6 text-slate-600">
                 Ainda não há especialidades relacionadas a instituições, contratos ou fila na base atual.
               </div>
             ) : (
               topOperationalSpecialties.map(item => (
-                <div key={item.id} className="rounded-[1.35rem] border border-border/70 bg-slate-50/90 p-5">
+                <div key={item.id} className="rounded-tile border border-border/70 bg-tile p-5">
                   <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                     <div>
                       <div className="flex flex-wrap items-center gap-2">
                         <h3 className="text-lg font-semibold tracking-[-0.03em] text-slate-950">{item.name}</h3>
-                        <span className={`rounded-full border px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.2em] ${statusClassName[item.status] ?? statusClassName.active}`}>
+                        <span className={`app-eyebrow rounded-full border px-2.5 py-1 ${statusClassName[item.status] ?? statusClassName.active}`}>
                           {statusLabel[item.status] ?? item.status}
                         </span>
                       </div>
                       <p className="mt-3 text-sm leading-6 text-slate-600">{item.description}</p>
                     </div>
-                    <div className="rounded-2xl bg-white px-4 py-3 text-right shadow-[0_10px_30px_rgba(15,54,104,0.08)]">
-                      <p className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-primary/70">
+                    <div className="rounded-tile bg-white px-4 py-3 text-right shadow-[0_10px_30px_rgba(15,54,104,0.08)]">
+                      <p className="app-eyebrow text-primary/70">
                         Coordenação
                       </p>
                       <p className="mt-2 text-sm font-medium leading-6 text-slate-700">
@@ -224,8 +224,8 @@ export default function AppSpecialties() {
                       { label: "Fila", value: item.queueCount },
                       { label: "Conteúdo", value: item.tracksCount + item.documentsCount },
                     ].map(metric => (
-                      <div key={metric.label} className="rounded-[1.1rem] border border-border/70 bg-white px-4 py-3">
-                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-primary/70">
+                      <div key={metric.label} className="rounded-tile border border-border/70 bg-white px-4 py-3">
+                        <p className="app-label text-primary/70">
                           {metric.label}
                         </p>
                         <p className="mt-2 text-2xl font-semibold tracking-[-0.04em] text-slate-950">{metric.value}</p>
@@ -240,7 +240,7 @@ export default function AppSpecialties() {
 
         <Card>
           <CardHeader>
-            <CardDescription className="text-[0.72rem] font-semibold uppercase tracking-[0.12em] text-primary/80">
+            <CardDescription className="app-label text-primary">
               Catálogo integral
             </CardDescription>
             <CardTitle className="text-xl leading-7 tracking-[-0.03em] text-slate-950">
@@ -249,39 +249,39 @@ export default function AppSpecialties() {
           </CardHeader>
           <CardContent>
             {error ? (
-              <div className="rounded-[1.4rem] border border-rose-200 bg-rose-50 px-5 py-4 text-sm leading-6 text-rose-700">
+              <div className="rounded-tile border border-rose-200 bg-rose-50 px-5 py-4 text-sm leading-6 text-rose-700">
                 Não foi possível carregar as especialidades do banco agora. Tente atualizar a consulta para verificar o estado persistente.
               </div>
             ) : (
               <div className="grid gap-3 md:grid-cols-2">
                 {specialtyRows.map(item => (
-                  <div key={item.id} className="rounded-[1.25rem] border border-border/70 bg-slate-50/85 p-4">
+                  <div key={item.id} className="rounded-tile border border-border/70 bg-tile p-4">
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <div className="flex items-center gap-2">
                           <Activity className="h-4 w-4 text-primary" />
                           <h3 className="text-base font-semibold tracking-[-0.02em] text-slate-950">{item.shortLabel || item.name}</h3>
                         </div>
-                        <p className="mt-2 text-xs font-semibold uppercase tracking-[0.12em] text-slate-500">
+                        <p className="app-label mt-2 text-slate-500">
                           {item.slug}
                         </p>
                       </div>
-                      <span className={`rounded-full border px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.2em] ${statusClassName[item.status] ?? statusClassName.active}`}>
+                      <span className={`app-eyebrow rounded-full border px-2.5 py-1 ${statusClassName[item.status] ?? statusClassName.active}`}>
                         {statusLabel[item.status] ?? item.status}
                       </span>
                     </div>
 
                     <p className="mt-4 text-sm leading-6 text-slate-600">{item.operationalFocus || item.description}</p>
 
-                    <div className="mt-4 space-y-3 rounded-[1.05rem] bg-white px-4 py-4">
+                    <div className="mt-4 space-y-3 rounded-tile bg-white px-4 py-4">
                       <div>
-                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-primary/70">
+                        <p className="app-eyebrow text-primary/70">
                           Foco operacional
                         </p>
                         <p className="mt-2 text-sm leading-6 text-slate-700">{item.operationalFocus || "Em estruturação"}</p>
                       </div>
                       <div>
-                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.12em] text-primary/70">
+                        <p className="app-eyebrow text-primary/70">
                           Foco educacional
                         </p>
                         <p className="mt-2 text-sm leading-6 text-slate-700">{item.educationalFocus || "Em estruturação"}</p>
@@ -295,8 +295,8 @@ export default function AppSpecialties() {
                         { label: "Instituições", value: item.institutionsCount },
                         { label: "Fila", value: item.queueCount },
                       ].map(metric => (
-                        <div key={metric.label} className="rounded-[1rem] border border-border/70 bg-white px-3 py-3">
-                          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-slate-500">
+                        <div key={metric.label} className="rounded-chip border border-border/70 bg-white px-3 py-3">
+                          <p className="app-label text-slate-500">
                             {metric.label}
                           </p>
                           <p className="mt-2 text-xl font-semibold tracking-[-0.03em] text-slate-950">{metric.value}</p>
@@ -335,7 +335,7 @@ export default function AppSpecialties() {
           <Card key={card.title} className="gap-0 py-0">
             <CardContent className="p-5">
               <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/8 text-primary">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-chip bg-primary/8 text-primary">
                   <card.icon className="h-5 w-5" />
                 </div>
                 <h3 className="text-base font-semibold leading-6 tracking-[-0.02em] text-slate-950">{card.title}</h3>

@@ -148,6 +148,12 @@ function DashboardLayoutContent({
     [flatNavigation]
   );
 
+  // Cada módulo abre no topo; o layout persiste entre rotas, então a rolagem não é resetada sozinha.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" as ScrollBehavior });
+  }, [location]);
+
   useEffect(() => {
     if (isCollapsed) {
       setIsResizing(false);
@@ -207,7 +213,7 @@ function DashboardLayoutContent({
             <div className="flex w-full items-start gap-3 px-1">
               <button
                 onClick={toggleSidebar}
-                className="mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-sidebar-border/80 bg-white/70 text-sidebar-foreground transition-colors hover:bg-sidebar-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                className="pressable mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-chip border border-sidebar-border/80 bg-white/70 text-sidebar-foreground hover:bg-sidebar-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                 aria-label="Alternar navegação"
               >
                 <img src="/images/sinace-logo.png" alt="Marca SINACE" className="h-6 w-6 object-contain" />
@@ -230,7 +236,7 @@ function DashboardLayoutContent({
             {sinaceNavigationGroups.map(group => (
               <div key={group.label} className="mb-3">
                 {!isCollapsed ? (
-                  <p className="px-2 pb-2 text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-sidebar-foreground/55">
+                  <p className="app-eyebrow px-2 pb-2 text-sidebar-foreground/55">
                     {group.label}
                   </p>
                 ) : null}
@@ -254,14 +260,14 @@ function DashboardLayoutContent({
                               item.description
                             ),
                           }}
-                          className="h-10 gap-3 rounded-2xl px-3 font-normal data-[active=true]:bg-white data-[active=true]:text-primary data-[active=true]:shadow-[0_14px_34px_rgba(14,50,98,0.10)]"
+                          className="pressable h-10 gap-3 rounded-tile px-3 font-normal data-[active=true]:bg-white data-[active=true]:text-primary data-[active=true]:shadow-soft"
                         >
                           <item.icon className={`h-4 w-4 shrink-0 ${isActive ? "text-primary" : "text-sidebar-foreground/72"}`} />
                           <span className="min-w-0 flex-1 truncate text-sm font-medium group-data-[collapsible=icon]:hidden">
                             {item.label}
                           </span>
                           {item.requiresAdmin ? (
-                            <Badge className="shrink-0 rounded-full bg-slate-900/8 px-2 py-0.5 text-[0.62rem] uppercase tracking-[0.18em] text-slate-600 hover:bg-slate-900/8 group-data-[collapsible=icon]:hidden">
+                            <Badge className="app-eyebrow shrink-0 rounded-full bg-slate-900/8 px-2 py-0.5 text-[0.62rem] text-slate-600 hover:bg-slate-900/8 group-data-[collapsible=icon]:hidden">
                               Admin
                             </Badge>
                           ) : null}
@@ -277,7 +283,7 @@ function DashboardLayoutContent({
           <SidebarFooter className="border-t border-sidebar-border/70 p-3">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="flex w-full items-center gap-3 rounded-2xl border border-sidebar-border/70 bg-white/74 px-2 py-2 text-left transition-colors hover:bg-sidebar-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring group-data-[collapsible=icon]:justify-center">
+                <button className="pressable flex w-full items-center gap-3 rounded-tile border border-sidebar-border/70 bg-white px-2 py-2 text-left hover:bg-sidebar-accent/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring group-data-[collapsible=icon]:justify-center">
                   <Avatar className="h-10 w-10 border border-sidebar-border/80 shrink-0">
                     <AvatarFallback className="bg-primary/10 text-xs font-semibold text-primary">
                       {user?.name?.charAt(0).toUpperCase() || "S"}
@@ -318,34 +324,34 @@ function DashboardLayoutContent({
       </div>
 
       <SidebarInset>
-        <div className="min-h-screen bg-[linear-gradient(180deg,rgba(246,250,255,0.72),rgba(238,246,252,0.92))]">
+        <div className="min-h-screen bg-background">
           <header
             data-compact={isHeaderCompact}
             className={`sticky top-0 z-40 border-b bg-background/84 pt-[env(safe-area-inset-top)] backdrop-blur-xl transition-[border-color,box-shadow] duration-200 motion-reduce:transition-none ${
               isHeaderCompact
-                ? "border-border/70 shadow-[0_10px_30px_rgba(15,54,104,0.08)]"
+                ? "border-border/70 shadow-raised"
                 : "border-transparent"
             }`}
           >
             <div
-              className={`px-4 transition-[padding] duration-200 motion-reduce:transition-none md:px-6 ${
+              className={`pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] transition-[padding] duration-200 motion-reduce:transition-none md:px-6 ${
                 isHeaderCompact ? "py-2" : "py-3 md:py-4"
               }`}
             >
               <div className="flex items-center gap-3">
-                {isMobile ? <SidebarTrigger className="h-10 w-10 shrink-0 rounded-xl bg-white/80 shadow-sm" /> : null}
+                {isMobile ? <SidebarTrigger className="pressable h-10 w-10 shrink-0 rounded-chip border border-border/70 bg-white shadow-sm" /> : null}
 
                 <div className="min-w-0 flex-1">
                   <CollapsibleRow open={!isHeaderCompact}>
                     <div className="flex min-w-0 items-center gap-2 pb-0.5 text-xs text-slate-500">
                       <span className="truncate font-medium">{activeMenuItem?.group ?? "Workspace"}</span>
                       {activeMenuItem?.requiresAdmin ? (
-                        <span className="shrink-0 rounded-full border border-slate-200 bg-white/70 px-2 py-px text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-slate-500">
+                        <span className="app-eyebrow shrink-0 rounded-full border border-slate-200 bg-white px-2 py-px text-[0.62rem] text-slate-500">
                           Admin
                         </span>
                       ) : null}
-                      <span className="hidden shrink-0 items-center gap-1 rounded-full border border-cyan-200/70 bg-cyan-50/70 px-2 py-px text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-cyan-800 sm:inline-flex">
-                        <span className="h-1.5 w-1.5 rounded-full bg-cyan-500" aria-hidden="true" />
+                      <span className="app-eyebrow hidden shrink-0 items-center gap-1 rounded-full border border-emerald-200/80 bg-emerald-50 px-2 py-px text-[0.62rem] text-emerald-800 sm:inline-flex">
+                        <span className="h-1.5 w-1.5 rounded-full bg-biomedical" aria-hidden="true" />
                         Beta
                       </span>
                     </div>
@@ -364,7 +370,7 @@ function DashboardLayoutContent({
                     type="button"
                     onClick={() => setIsCommandOpen(true)}
                     aria-label="Abrir busca global do workspace"
-                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-border/70 bg-white/84 text-slate-600 shadow-sm transition hover:border-primary/30 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="pressable flex h-10 w-10 shrink-0 items-center justify-center rounded-chip border border-border/70 bg-white text-slate-600 shadow-sm hover:border-primary/30 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <Search className="h-5 w-5" />
                   </button>
@@ -374,13 +380,13 @@ function DashboardLayoutContent({
                     onClick={() => setIsCommandOpen(true)}
                     aria-label="Abrir busca global do workspace"
                     aria-keyshortcuts={isMacPlatform ? "Meta+K" : "Control+K"}
-                    className="flex w-[260px] shrink-0 items-center justify-between gap-3 rounded-full border border-border/70 bg-white/84 px-4 py-2 text-left text-sm text-slate-500 shadow-[0_12px_28px_rgba(15,54,104,0.06)] transition hover:border-primary/30 hover:text-slate-700 lg:w-[300px]"
+                    className="pressable flex w-[260px] shrink-0 items-center justify-between gap-3 rounded-full border border-border/70 bg-white px-4 py-2 text-left text-sm text-slate-500 shadow-soft hover:border-primary/30 hover:text-slate-700 lg:w-[300px]"
                   >
                     <span className="flex min-w-0 items-center gap-2">
                       <Search className="h-4 w-4 shrink-0 text-slate-400" />
                       <span className="truncate">Buscar módulos e atalhos</span>
                     </span>
-                    <kbd className="rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 font-sans text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                    <kbd className="rounded-full border border-slate-200 bg-slate-50 px-2 py-0.5 font-sans text-[0.68rem] font-semibold tracking-[0.08em] text-slate-500">
                       {isMacPlatform ? "⌘ K" : "Ctrl K"}
                     </kbd>
                   </button>
@@ -418,7 +424,7 @@ function DashboardLayoutContent({
                       setIsCommandOpen(false);
                       setLocation(item.path);
                     }}
-                    className="gap-3 rounded-xl px-3 py-3"
+                    className="gap-3 rounded-chip px-3 py-3"
                   >
                     <item.icon className="h-4 w-4 text-primary" />
                     <div className="min-w-0 flex-1">
@@ -437,7 +443,7 @@ function DashboardLayoutContent({
                     setIsCommandOpen(false);
                     setLocation("/app");
                   }}
-                  className="gap-3 rounded-xl px-3 py-3"
+                  className="gap-3 rounded-chip px-3 py-3"
                 >
                   <PanelLeft className="h-4 w-4 text-primary" />
                   <span className="font-medium text-slate-900">Voltar para o dashboard inicial</span>
@@ -448,7 +454,7 @@ function DashboardLayoutContent({
                     setIsCommandOpen(false);
                     setLocation("/");
                   }}
-                  className="gap-3 rounded-xl px-3 py-3"
+                  className="gap-3 rounded-chip px-3 py-3"
                 >
                   <ShieldCheck className="h-4 w-4 text-primary" />
                   <span className="font-medium text-slate-900">Abrir site público da SINACE</span>
@@ -459,7 +465,7 @@ function DashboardLayoutContent({
                     setIsCommandOpen(false);
                     logout();
                   }}
-                  className="gap-3 rounded-xl px-3 py-3"
+                  className="gap-3 rounded-chip px-3 py-3"
                 >
                   <LogOut className="h-4 w-4 text-destructive" />
                   <span className="font-medium text-slate-900">Encerrar sessão</span>
@@ -468,8 +474,12 @@ function DashboardLayoutContent({
             </CommandList>
           </CommandDialog>
 
-          <main className="flex-1 px-4 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pt-5 md:px-6 md:py-6">
-            <div className="mx-auto max-w-[1600px]">
+          <main className="flex-1 pb-[calc(6.5rem+env(safe-area-inset-bottom))] pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] pt-5 md:px-6 md:py-6">
+            {/* A key reinicia só a animação de entrada do módulo, sem remontar o shell do workspace. */}
+            <div
+              key={location}
+              className="mx-auto max-w-[1600px] animate-in fade-in-0 slide-in-from-bottom-1 duration-300 ease-out motion-reduce:animate-none"
+            >
               {children}
             </div>
           </main>

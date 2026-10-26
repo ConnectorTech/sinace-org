@@ -35,17 +35,17 @@ export default function AppBottomNav() {
 
   const tabClassName = (active: boolean) =>
     cn(
-      "flex min-h-[3.75rem] flex-col items-center justify-center gap-1 rounded-2xl px-1 py-2 text-center text-[0.68rem] font-semibold tracking-[0.02em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+      "pressable flex min-h-[3.75rem] flex-col items-center justify-center gap-1 rounded-tile px-1 py-2 text-center text-[0.68rem] font-semibold tracking-[0.02em] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.96]",
       active
-        ? "bg-slate-950 text-cyan-300 shadow-[0_12px_26px_rgba(8,27,54,0.2)]"
-        : "text-slate-600 hover:bg-slate-100 hover:text-slate-950"
+        ? "bg-primary/10 text-primary"
+        : "text-slate-600 hover:bg-tile hover:text-slate-950"
     );
 
   return (
     <>
       <nav
         aria-label="Navegação principal do workspace SINACE"
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200/80 bg-white/94 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 shadow-[0_-18px_40px_rgba(15,23,42,0.12)] backdrop-blur-xl md:hidden"
+        className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200/80 bg-white/94 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pl-[max(0.5rem,env(safe-area-inset-left))] pr-[max(0.5rem,env(safe-area-inset-right))] pt-2 shadow-[0_-8px_24px_rgba(15,54,104,0.07)] backdrop-blur-xl md:hidden"
       >
         <div className="mx-auto grid max-w-3xl grid-cols-5 gap-1">
           {sinaceBottomNavAxes.map(axis => {
@@ -58,7 +58,7 @@ export default function AppBottomNav() {
                 className={tabClassName(active)}
                 aria-current={active ? "page" : undefined}
               >
-                <axis.icon className="h-5 w-5" />
+                <axis.icon className={cn("h-5 w-5 transition-transform duration-200", active && "scale-110")} />
                 <span className="leading-tight">{axis.label}</span>
               </button>
             );
@@ -70,7 +70,7 @@ export default function AppBottomNav() {
             aria-haspopup="dialog"
             aria-expanded={isMoreOpen}
           >
-            <MoreIcon className="h-5 w-5" />
+            <MoreIcon className={cn("h-5 w-5 transition-transform duration-200", isMoreActive && "scale-110")} />
             <span className="leading-tight">Mais</span>
           </button>
         </div>
@@ -79,7 +79,7 @@ export default function AppBottomNav() {
       <Sheet open={isMoreOpen} onOpenChange={setIsMoreOpen}>
         <SheetContent
           side="bottom"
-          className="max-h-[85dvh] gap-0 rounded-t-[1.75rem] pb-[env(safe-area-inset-bottom)]"
+          className="max-h-[calc(85dvh-env(safe-area-inset-top))] gap-0 rounded-t-[1.5rem] pb-[env(safe-area-inset-bottom)] pl-[env(safe-area-inset-left)] pr-[env(safe-area-inset-right)]"
         >
           <SheetHeader className="shrink-0 gap-1 border-b border-slate-200/80 px-5 pb-4 pr-12 pt-5">
             <SheetTitle className="text-base leading-6">Mais módulos</SheetTitle>
@@ -91,7 +91,7 @@ export default function AppBottomNav() {
           <div className="min-h-0 flex-1 space-y-4 overflow-y-auto overscroll-contain px-3 pb-4 pt-4">
             {moreGroups.map(group => (
               <div key={group.label}>
-                <p className="px-2 pb-2 text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-slate-500">
+                <p className="app-eyebrow px-2 pb-2 text-slate-500">
                   {group.label}
                 </p>
                 <div className="grid gap-1">
@@ -104,8 +104,8 @@ export default function AppBottomNav() {
                         onClick={() => navigate(item.path)}
                         aria-current={active ? "page" : undefined}
                         className={cn(
-                          "flex min-h-11 items-center gap-3 rounded-2xl px-3 py-2.5 text-left transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                          active ? "bg-primary/8 text-primary" : "hover:bg-slate-100"
+                          "pressable flex min-h-11 items-center gap-3 rounded-tile px-3 py-2.5 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                          active ? "bg-primary/8 text-primary" : "hover:bg-tile"
                         )}
                       >
                         <item.icon
@@ -120,7 +120,7 @@ export default function AppBottomNav() {
                           {item.label}
                         </span>
                         {item.requiresAdmin ? (
-                          <Badge className="shrink-0 rounded-full bg-slate-900/8 px-2 py-0.5 text-[0.62rem] uppercase tracking-[0.18em] text-slate-600 hover:bg-slate-900/8">
+                          <Badge className="app-eyebrow shrink-0 rounded-full bg-slate-900/8 px-2 py-0.5 text-[0.62rem] text-slate-600 hover:bg-slate-900/8">
                             Admin
                           </Badge>
                         ) : null}

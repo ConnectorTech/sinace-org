@@ -46,11 +46,57 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  /* Identidade pedida pelo cliente: azul hospitalar + verde biomédico. */
+  --color-hospital: var(--hospital-blue);
+  --color-biomedical: var(--biomedical-green);
+  --color-tile: var(--surface-tile);
+  --color-tile-green: var(--surface-tile-green);
+  /* Sombras discretas padronizadas: soft para cards, raised para barras flutuantes. */
+  --shadow-soft: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 54, 104, 0.05);
+  --shadow-raised: 0 1px 2px rgba(15, 23, 42, 0.05), 0 12px 32px rgba(15, 54, 104, 0.09);
+}
+
+/*
+  Escala única de cantos do app:
+  surface = cards e painéis de topo · tile = blocos internos · chip = elementos aninhados e ícones.
+*/
+@utility rounded-surface {
+  border-radius: 1.25rem;
+}
+
+@utility rounded-tile {
+  border-radius: 1rem;
+}
+
+@utility rounded-chip {
+  border-radius: 0.75rem;
+}
+
+/* Estado de toque: pressão suave ao tocar/clicar, sem afetar quem prefere menos movimento. */
+@utility pressable {
+  -webkit-tap-highlight-color: transparent;
+  transition-property: scale, color, background-color, border-color, box-shadow, opacity;
+  transition-duration: 160ms;
+  transition-timing-function: cubic-bezier(0.2, 0, 0, 1);
+
+  &:active:not(:disabled):not([aria-disabled="true"]) {
+    scale: 0.98;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &:active:not(:disabled) {
+      scale: 1;
+    }
+  }
 }
 
 :root {
   --radius: 1.1rem;
-  --background: oklch(0.985 0.004 240);
+  --hospital-blue: oklch(0.5 0.15 250);
+  --biomedical-green: oklch(0.62 0.12 168);
+  --surface-tile: oklch(0.973 0.012 232);
+  --surface-tile-green: oklch(0.975 0.016 170);
+  --background: oklch(0.968 0.012 225);
   --foreground: oklch(0.24 0.028 252);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.24 0.028 252);
@@ -74,7 +120,7 @@
   --chart-3: oklch(0.79 0.09 195);
   --chart-4: oklch(0.48 0.14 257);
   --chart-5: oklch(0.56 0.12 210);
-  --sidebar: oklch(0.975 0.004 240);
+  --sidebar: oklch(0.972 0.01 228);
   --sidebar-foreground: oklch(0.24 0.028 252);
   --sidebar-primary: oklch(0.41 0.16 256);
   --sidebar-primary-foreground: oklch(0.985 0.004 240);
@@ -117,6 +163,8 @@
   --sidebar-accent-foreground: oklch(0.95 0.008 230);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.7 0.11 230);
+  --surface-tile: oklch(0.23 0.022 250);
+  --surface-tile-green: oklch(0.23 0.03 175);
 }
 
 @layer base {
@@ -132,9 +180,9 @@
     @apply bg-background text-foreground antialiased;
     font-family: "IBM Plex Sans", sans-serif;
     background-image:
-      radial-gradient(circle at top left, rgba(111, 215, 199, 0.08), transparent 24%),
-      radial-gradient(circle at 82% 18%, rgba(71, 126, 255, 0.09), transparent 22%),
-      linear-gradient(180deg, rgba(244, 250, 255, 0.96) 0%, rgba(235, 244, 252, 1) 100%);
+      radial-gradient(circle at top left, rgba(16, 163, 127, 0.07), transparent 28%),
+      radial-gradient(circle at 82% 18%, rgba(37, 99, 235, 0.08), transparent 26%),
+      linear-gradient(180deg, rgba(241, 247, 252, 1) 0%, rgba(233, 242, 249, 1) 100%);
   }
 
   h1,
@@ -252,6 +300,16 @@
   .section-kicker {
     @apply text-[0.72rem] font-semibold uppercase tracking-[0.28em];
     color: #67e8f9;
+  }
+
+  /* Caixa alta reservada a etiquetas curtas (até duas palavras). */
+  .app-eyebrow {
+    @apply text-[0.68rem] font-semibold uppercase leading-4 tracking-[0.14em];
+  }
+
+  /* Rótulos e legendas mais longos ficam em sentence case. */
+  .app-label {
+    @apply text-xs font-semibold leading-5;
   }
 
   .text-balance {

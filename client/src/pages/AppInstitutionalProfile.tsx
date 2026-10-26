@@ -84,8 +84,8 @@ export default function AppInstitutionalProfile() {
             <CardContent>
               <dl className="space-y-3">
                 {section.fields.map(field => (
-                  <div key={field.label} className="rounded-2xl border border-border/70 bg-slate-50/90 px-3 py-2">
-                    <dt className="text-[0.68rem] font-semibold uppercase tracking-[0.2em] text-slate-500">
+                  <div key={field.label} className="rounded-tile border border-border/70 bg-tile px-3 py-2">
+                    <dt className="app-label text-slate-500">
                       {field.label}
                     </dt>
                     <dd className="mt-1 break-words text-sm leading-6 text-slate-900">
@@ -131,7 +131,7 @@ export default function AppInstitutionalProfile() {
         </CardHeader>
         <CardContent className="grid gap-3 md:grid-cols-2">
           {focusAreas.map((item, index) => (
-            <div key={item} className="flex items-start gap-3 rounded-2xl border border-border/70 bg-slate-50/90 px-3 py-3">
+            <div key={item} className="flex items-start gap-3 rounded-tile border border-border/70 bg-tile px-3 py-3">
               <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-primary/8 text-xs font-semibold text-primary">
                 0{index + 1}
               </span>
@@ -141,7 +141,7 @@ export default function AppInstitutionalProfile() {
         </CardContent>
       </Card>
 
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border/70 bg-white/82 px-4 py-3">
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-tile border border-border/70 bg-white/82 px-4 py-3">
         <p className="text-sm text-slate-600">Proposta, operação em rede e contato completo estão no site público.</p>
         <Button asChild variant="outline" className="bg-white">
           <a href="/">

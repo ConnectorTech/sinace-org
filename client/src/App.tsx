@@ -37,33 +37,46 @@ import {
   OperacaoPage,
   PropostaPage,
 } from "@/pages/PublicSitePages";
-import { ComponentType } from "react";
-import { Route, Switch } from "wouter";
+import { Redirect, Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 
-function WorkspaceRoute({ component: Component }: { component: ComponentType }) {
+/**
+ * Um único DashboardLayout para todas as rotas /app: sidebar, cabeçalho e navegação inferior
+ * permanecem montados e só o conteúdo do módulo troca, sem recarregamento brusco entre abas.
+ */
+function WorkspaceRouter() {
   return (
     <DashboardLayout>
-      <Component />
+      <Switch>
+        <Route path="/app" component={AppDashboard} />
+        <Route path="/app/especialidades" component={AppSpecialties} />
+        <Route path="/app/fluxogramas" component={AppTrainingTracks} />
+        <Route path="/app/biblioteca" component={AppKnowledgeHub} />
+        <Route path="/app/casos" component={AppCases} />
+        <Route path="/app/publicacoes" component={AppPublications} />
+        <Route path="/app/enciclopedia" component={AppEncyclopedia} />
+        <Route path="/app/parceiros" component={AppPartners} />
+        <Route path="/app/instituicoes" component={AppInstitutions} />
+        <Route path="/app/perfis" component={AppMedicalProfiles} />
+        <Route path="/app/minha-area" component={AppPrivateMedicalWorkspace} />
+        <Route path="/app/network" component={AppProfessionalNetwork} />
+        <Route path="/app/admin" component={AppAdmin} />
+        <Route path="/app/sobre" component={AppInstitutionalProfile} />
+
+        {/* Rotas legadas mantidas por compatibilidade com versões anteriores do workspace. */}
+        <Route path="/app/trilhas" component={AppTrainingTracks} />
+        <Route path="/app/configuracoes" component={AppInstitutionalProfile} />
+        <Route path="/app/professores" component={AppMedicalProfiles} />
+        <Route path="/app/alunos" component={AppProfessionalNetwork} />
+
+        <Route>
+          <Redirect to="/404" />
+        </Route>
+      </Switch>
     </DashboardLayout>
   );
 }
-
-const AppWorkspaceHome = () => <WorkspaceRoute component={AppDashboard} />;
-const AppWorkspaceSpecialties = () => <WorkspaceRoute component={AppSpecialties} />;
-const AppWorkspaceFlowcharts = () => <WorkspaceRoute component={AppTrainingTracks} />;
-const AppWorkspaceLibrary = () => <WorkspaceRoute component={AppKnowledgeHub} />;
-const AppWorkspaceCases = () => <WorkspaceRoute component={AppCases} />;
-const AppWorkspacePublications = () => <WorkspaceRoute component={AppPublications} />;
-const AppWorkspaceEncyclopedia = () => <WorkspaceRoute component={AppEncyclopedia} />;
-const AppWorkspacePartners = () => <WorkspaceRoute component={AppPartners} />;
-const AppWorkspaceInstitutions = () => <WorkspaceRoute component={AppInstitutions} />;
-const AppWorkspaceProfiles = () => <WorkspaceRoute component={AppMedicalProfiles} />;
-const AppWorkspacePrivateMedicalArea = () => <WorkspaceRoute component={AppPrivateMedicalWorkspace} />;
-const AppWorkspaceNetwork = () => <WorkspaceRoute component={AppProfessionalNetwork} />;
-const AppWorkspaceAdmin = () => <WorkspaceRoute component={AppAdmin} />;
-const AppWorkspaceAbout = () => <WorkspaceRoute component={AppInstitutionalProfile} />;
 
 function Router() {
   return (
@@ -76,26 +89,7 @@ function Router() {
       <Route path="/aplicativo" component={AplicativoPage} />
       <Route path="/contato" component={ContatoPage} />
 
-      <Route path="/app" component={AppWorkspaceHome} />
-      <Route path="/app/especialidades" component={AppWorkspaceSpecialties} />
-      <Route path="/app/fluxogramas" component={AppWorkspaceFlowcharts} />
-      <Route path="/app/biblioteca" component={AppWorkspaceLibrary} />
-      <Route path="/app/casos" component={AppWorkspaceCases} />
-      <Route path="/app/publicacoes" component={AppWorkspacePublications} />
-      <Route path="/app/enciclopedia" component={AppWorkspaceEncyclopedia} />
-      <Route path="/app/parceiros" component={AppWorkspacePartners} />
-      <Route path="/app/instituicoes" component={AppWorkspaceInstitutions} />
-      <Route path="/app/perfis" component={AppWorkspaceProfiles} />
-      <Route path="/app/minha-area" component={AppWorkspacePrivateMedicalArea} />
-      <Route path="/app/network" component={AppWorkspaceNetwork} />
-      <Route path="/app/admin" component={AppWorkspaceAdmin} />
-      <Route path="/app/sobre" component={AppWorkspaceAbout} />
-
-      {/* Rotas legadas mantidas por compatibilidade com versões anteriores do workspace. */}
-      <Route path="/app/trilhas" component={AppWorkspaceFlowcharts} />
-      <Route path="/app/configuracoes" component={AppWorkspaceAbout} />
-      <Route path="/app/professores" component={AppWorkspaceProfiles} />
-      <Route path="/app/alunos" component={AppWorkspaceNetwork} />
+      <Route path="/app/*?" component={WorkspaceRouter} />
 
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
