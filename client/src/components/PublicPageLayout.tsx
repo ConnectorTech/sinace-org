@@ -132,11 +132,11 @@ export default function PublicPageLayout({
           </div>
           
           <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-2 text-sm text-slate-500">
-            <a href={`tel:+55${SINACE_INSTITUTIONAL_PROFILE.phone.replace(/\D/g, "")}`} className="hover:text-cyan-600 transition-colors">
+            <a href={`tel:+55${SINACE_INSTITUTIONAL_PROFILE.phone.replace(/\D/g, "")}`} className="inline-flex items-center pointer-coarse:min-h-11 hover:text-cyan-600 transition-colors">
               {SINACE_INSTITUTIONAL_PROFILE.phone}
             </a>
             <span className="text-slate-300 hidden sm:inline">•</span>
-            <a href={`mailto:${SINACE_INSTITUTIONAL_PROFILE.email}`} className="hover:text-cyan-600 transition-colors">
+            <a href={`mailto:${SINACE_INSTITUTIONAL_PROFILE.email}`} className="inline-flex items-center pointer-coarse:min-h-11 hover:text-cyan-600 transition-colors">
               {SINACE_INSTITUTIONAL_PROFILE.email}
             </a>
             <span className="text-slate-300 hidden sm:inline">•</span>

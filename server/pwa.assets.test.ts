@@ -63,3 +63,67 @@ describe("SINACE PWA assets", () => {
     }
   });
 });
+
+describe("SINACE ícones nativos (Android e iOS)", () => {
+  const resourcesDir = path.join(projectRoot, "resources");
+  const androidRes = path.join(resourcesDir, "android", "app", "src", "main", "res");
+  const iosAssets = path.join(resourcesDir, "ios", "App", "App", "Assets.xcassets");
+
+  const pngInfo = (file: string) => {
+    const buffer = fs.readFileSync(file);
+    // Cabeçalho IHDR: largura (16), altura (20), tipo de cor (25): 2 = RGB, 6 = RGBA.
+    return { width: buffer.readUInt32BE(16), height: buffer.readUInt32BE(20), colorType: buffer[25] };
+  };
+
+  it("mantém os masters vetoriais em SVG", () => {
+    for (const name of ["icon.svg", "icon-foreground.svg", "icon-background.svg", "icon-monochrome.svg"]) {
+      const content = fs.readFileSync(path.join(resourcesDir, "icon", name), "utf8");
+      expect(content).toContain('viewBox="0 0 1024 1024"');
+    }
+    expect(fs.existsSync(path.join(publicDir, "icons", "icon.svg"))).toBe(true);
+  });
+
+  it("declara o ícone adaptativo do Android com camadas de fundo, frente e monocromática", () => {
+    for (const name of ["ic_launcher.xml", "ic_launcher_round.xml"]) {
+      const xml = fs.readFileSync(path.join(androidRes, "mipmap-anydpi-v26", name), "utf8");
+      expect(xml).toContain("<adaptive-icon");
+      expect(xml).toContain("@mipmap/ic_launcher_background");
+      expect(xml).toContain("@mipmap/ic_launcher_foreground");
+      expect(xml).toContain("@mipmap/ic_launcher_monochrome");
+    }
+
+    const densities = { mdpi: 1, hdpi: 1.5, xhdpi: 2, xxhdpi: 3, xxxhdpi: 4 };
+    for (const [density, scale] of Object.entries(densities)) {
+      const folder = path.join(androidRes, `mipmap-${density}`);
+      expect(pngInfo(path.join(folder, "ic_launcher.png")).width).toBe(48 * scale);
+      expect(pngInfo(path.join(folder, "ic_launcher_round.png")).width).toBe(48 * scale);
+      for (const layer of ["foreground", "background", "monochrome"]) {
+        expect(pngInfo(path.join(folder, `ic_launcher_${layer}.png`)).width).toBe(108 * scale);
+      }
+    }
+  });
+
+  it("gera o asset catalog do iOS com todos os tamanhos e sem canal alfa", () => {
+    const appIconDir = path.join(iosAssets, "AppIcon.appiconset");
+    const contents = JSON.parse(fs.readFileSync(path.join(appIconDir, "Contents.json"), "utf8"));
+
+    expect(fs.existsSync(path.join(iosAssets, "Contents.json"))).toBe(true);
+    expect(contents.images.some((image: { idiom: string }) => image.idiom === "ios-marketing")).toBe(true);
+
+    for (const image of contents.images as { filename: string; size: string; scale: string }[]) {
+      const info = pngInfo(path.join(appIconDir, image.filename));
+      const expected = Math.round(Number.parseFloat(image.size) * Number.parseInt(image.scale, 10));
+      expect(info.width, image.filename).toBe(expected);
+      expect(info.height, image.filename).toBe(expected);
+      expect(info.colorType, `${image.filename} não pode ter alfa`).toBe(2);
+    }
+  });
+
+  it("disponibiliza os ícones das lojas nos formatos exigidos", () => {
+    const appStore = pngInfo(path.join(resourcesDir, "store", "app-store-icon-1024.png"));
+    const googlePlay = pngInfo(path.join(resourcesDir, "store", "google-play-icon-512.png"));
+
+    expect(appStore).toMatchObject({ width: 1024, height: 1024, colorType: 2 });
+    expect(googlePlay).toMatchObject({ width: 512, height: 512 });
+  });
+});

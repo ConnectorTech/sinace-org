@@ -11,6 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import StickyFormActions from "@/components/StickyFormActions";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { SINACE_PUBLIC_IMAGES } from "@/lib/sinacePublicSite";
@@ -175,7 +176,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4 py-12 relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center bg-slate-50 px-4 py-12 relative overflow-clip">
       {/* Background elements */}
       <div className="absolute top-0 left-0 w-full h-full overflow-hidden z-0 pointer-events-none">
         <div className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-cyan-100/40 blur-3xl" />
@@ -219,7 +220,7 @@ export default function AuthPage() {
                           <FormLabel>E-mail</FormLabel>
                           <FormControl>
                             <div className="relative">
-                              <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                              <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                               <Input placeholder="seu@email.com" className="pl-10" {...field} />
                             </div>
                           </FormControl>
@@ -235,12 +236,13 @@ export default function AuthPage() {
                           <FormLabel>Senha</FormLabel>
                           <FormControl>
                             <div className="relative">
-                              <Lock className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
+                              <Lock className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
                               <Input type={showPassword ? "text" : "password"} className="pl-10 pr-10" {...field} />
                               <button
                                 type="button"
-                                className="absolute right-3 top-3 text-slate-400 hover:text-slate-600"
+                                className="touch-target absolute right-3 top-1/2 inline-flex -translate-y-1/2 text-slate-400 hover:text-slate-600"
                                 onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
                               >
                                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                               </button>
@@ -358,7 +360,12 @@ export default function AuthPage() {
                                   setPasswordStrength(checkPasswordStrength(e.target.value));
                                 }} 
                               />
-                              <button type="button" className="absolute right-3 top-3 text-slate-400 hover:text-slate-600" onClick={() => setShowPassword(!showPassword)}>
+                              <button
+                                type="button"
+                                className="touch-target absolute right-3 top-1/2 inline-flex -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                                onClick={() => setShowPassword(!showPassword)}
+                                aria-label={showPassword ? "Ocultar senha" : "Mostrar senha"}
+                              >
                                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                               </button>
                             </div>
@@ -379,9 +386,11 @@ export default function AuthPage() {
                       )} />
                     </div>
 
-                    <Button type="submit" className="w-full bg-cyan-600 hover:bg-cyan-700 mt-6" disabled={registerMutation.isPending}>
-                      {registerMutation.isPending ? "Cadastrando..." : "Criar Conta SINACE"}
-                    </Button>
+                    <StickyFormActions className="mt-6">
+                      <Button type="submit" className="w-full bg-cyan-600 hover:bg-cyan-700" disabled={registerMutation.isPending}>
+                        {registerMutation.isPending ? "Cadastrando..." : "Criar Conta SINACE"}
+                      </Button>
+                    </StickyFormActions>
                   </form>
                 </Form>
               </CardContent>

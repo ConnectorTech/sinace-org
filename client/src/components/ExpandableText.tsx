@@ -63,7 +63,7 @@ export function ExpandableText({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="pressable mt-1.5 inline-flex items-center gap-0.5 text-sm font-semibold text-primary hover:text-primary/80"
+          className="pressable touch-target relative mt-1.5 inline-flex items-center gap-0.5 text-sm font-semibold text-primary hover:text-primary/80"
         >
           {triggerLabel ?? (isClamped ? "Ler mais" : "Ver detalhes")}
           <ChevronRight className="h-4 w-4" aria-hidden="true" />

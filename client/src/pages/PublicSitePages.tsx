@@ -4,6 +4,7 @@ import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { MapView } from "@/components/Map";
 import PublicPageLayout from "@/components/PublicPageLayout";
+import StickyFormActions from "@/components/StickyFormActions";
 import { trpc } from "@/lib/trpc";
 import {
   SINACE_APPLICATION_CAPABILITIES,
@@ -624,14 +625,14 @@ export function ContatoPage() {
                 </p>
               ) : null}
 
-              <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-sm leading-6 text-slate-500">
-                  Ao enviar, a mensagem é encaminhada para o canal institucional do projeto SINACE.
-                </p>
-                <Button type="submit" className="rounded-full bg-cyan-300 px-6 text-slate-950 hover:bg-cyan-200" disabled={contactMutation.isPending}>
+              <p className="mt-6 text-sm leading-6 text-slate-500">
+                Ao enviar, a mensagem é encaminhada para o canal institucional do projeto SINACE.
+              </p>
+              <StickyFormActions className="mt-3 justify-end">
+                <Button type="submit" className="w-full rounded-full bg-cyan-300 px-6 text-slate-950 hover:bg-cyan-200 sm:w-auto" disabled={contactMutation.isPending}>
                   {contactMutation.isPending ? "Enviando mensagem" : "Enviar mensagem"}
                 </Button>
-              </div>
+              </StickyFormActions>
             </form>
 
             <article className="overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_28px_70px_rgba(15,23,42,0.08)]">

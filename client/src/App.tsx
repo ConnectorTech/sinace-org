@@ -37,6 +37,7 @@ import {
   OperacaoPage,
   PropostaPage,
 } from "@/pages/PublicSitePages";
+import { useKeyboardAvoidance } from "@/hooks/useKeyboardAvoidance";
 import { Redirect, Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -98,6 +99,8 @@ function Router() {
 }
 
 function App() {
+  useKeyboardAvoidance();
+
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">

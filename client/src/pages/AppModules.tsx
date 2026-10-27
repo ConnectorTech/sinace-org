@@ -2,6 +2,7 @@ import { useAuth } from "@/_core/hooks/useAuth";
 import React from "react";
 import { ExpandableText } from "@/components/ExpandableText";
 import { SinaceModulePlaceholder } from "@/components/SinaceModulePlaceholder";
+import StickyFormActions from "@/components/StickyFormActions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -1285,10 +1286,12 @@ export function AppEncyclopedia() {
                   <div className="rounded-chip border border-border/70 bg-tile px-4 py-3 text-sm text-slate-600">{uploadFeedback}</div>
                 ) : null}
 
-                <Button type="submit" className="w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90" disabled={uploadMutation.isPending || loading || !specialties.length}>
-                  {uploadMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
-                  Enviar para o drive da especialidade
-                </Button>
+                <StickyFormActions>
+                  <Button type="submit" className="w-full rounded-full bg-primary text-primary-foreground hover:bg-primary/90" disabled={uploadMutation.isPending || loading || !specialties.length}>
+                    {uploadMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Plus className="mr-2 h-4 w-4" />}
+                    Enviar para o drive da especialidade
+                  </Button>
+                </StickyFormActions>
               </form>
             </CardContent>
           </Card>
@@ -2461,7 +2464,7 @@ export function AppAdmin() {
                 </div>
               ) : null}
 
-              <div className="flex flex-wrap gap-3">
+              <StickyFormActions>
                 <Button type="submit" disabled={isSubmitting || !formState.name.trim()} className="rounded-full px-5">
                   {createMutation.isPending || updateMutation.isPending ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -2475,7 +2478,7 @@ export function AppAdmin() {
                 <Button type="button" variant="outline" onClick={resetForm} className="rounded-full px-5">
                   Limpar formulário
                 </Button>
-              </div>
+              </StickyFormActions>
             </form>
           </CardContent>
         </Card>

@@ -213,7 +213,7 @@ function DashboardLayoutContent({
             <div className="flex w-full items-start gap-3 px-1">
               <button
                 onClick={toggleSidebar}
-                className="pressable mt-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-chip border border-sidebar-border/80 bg-white/70 text-sidebar-foreground hover:bg-sidebar-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
+                className="pressable mt-1 flex h-9 w-9 shrink-0 pointer-coarse:h-11 pointer-coarse:w-11 items-center justify-center rounded-chip border border-sidebar-border/80 bg-white/70 text-sidebar-foreground hover:bg-sidebar-accent focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none"
                 aria-label="Alternar navegação"
               >
                 <img src="/images/sinace-logo.png" alt="Marca SINACE" className="h-6 w-6 object-contain" />
@@ -370,7 +370,7 @@ function DashboardLayoutContent({
                     type="button"
                     onClick={() => setIsCommandOpen(true)}
                     aria-label="Abrir busca global do workspace"
-                    className="pressable flex h-10 w-10 shrink-0 items-center justify-center rounded-chip border border-border/70 bg-white text-slate-600 shadow-sm hover:border-primary/30 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="pressable flex h-11 w-11 shrink-0 items-center justify-center rounded-chip border border-border/70 bg-white text-slate-600 shadow-sm hover:border-primary/30 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                   >
                     <Search className="h-5 w-5" />
                   </button>

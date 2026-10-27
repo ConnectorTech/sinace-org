@@ -1,9 +1,10 @@
-const CACHE_VERSION = 'sinace-pwa-v3';
+const CACHE_VERSION = 'sinace-pwa-v4';
 const APP_SHELL = [
   '/',
   '/app',
   '/manifest.webmanifest',
   '/offline.html',
+  '/icons/icon.svg',
   '/icons/icon-192.png',
   '/icons/icon-512.png',
   '/icons/apple-touch-icon-180.png',

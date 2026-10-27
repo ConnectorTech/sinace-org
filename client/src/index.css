@@ -90,6 +90,30 @@
   }
 }
 
+/*
+  Área de toque mínima de 44×44 (Apple HIG, Material e WCAG 2.5.5) sem alterar o visual:
+  expande a região clicável com um pseudo-elemento centralizado. O elemento precisa estar
+  posicionado (relative/absolute/fixed).
+*/
+@utility touch-target {
+  &::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, 44px);
+    height: max(100%, 44px);
+    translate: -50% -50%;
+  }
+}
+
+/* Barra de ações de formulário que acompanha o teclado virtual (ver useKeyboardAvoidance). */
+@utility form-actions-sticky {
+  position: sticky;
+  z-index: 20;
+  bottom: calc(var(--keyboard-inset, 0px) + var(--app-bottom-nav-height, 0px) + 0.75rem);
+}
+
 :root {
   --radius: 1.1rem;
   --hospital-blue: oklch(0.5 0.15 250);
@@ -449,6 +473,52 @@
 
   body.sinace-standalone {
     overscroll-behavior-y: contain;
+  }
+
+  /*
+    Altura ocupada pela navegação inferior fixa do workspace (mobile). Com o teclado aberto a
+    navegação sai de cena, liberando espaço para o campo ativo e para o botão Salvar.
+  */
+  html {
+    --app-bottom-nav-height: 0px;
+    scroll-padding-top: calc(env(safe-area-inset-top) + 5rem);
+    scroll-padding-bottom: calc(var(--keyboard-inset, 0px) + var(--app-bottom-nav-height) + 6rem);
+  }
+
+  @media (max-width: 767px) {
+    html:has(.app-bottom-nav) {
+      --app-bottom-nav-height: calc(4.875rem + env(safe-area-inset-bottom));
+    }
+  }
+
+  html[data-keyboard-open] {
+    --app-bottom-nav-height: 0px;
+  }
+
+  /* Barras fixas no rodapé (navegação inferior, dock público, WhatsApp) saem com o teclado. */
+  html[data-keyboard-open] :is(.app-bottom-nav, .keyboard-hidden, .whatsapp-float) {
+    display: none !important;
+  }
+
+  /*
+    Rede de segurança para toque: todo controle interativo tem ao menos 44px de altura em
+    dispositivos de ponteiro grosso. Checkbox, switch, radio e gatilhos inline usam
+    `touch-target` (área expandida invisível) para não distorcer o layout.
+  */
+  @media (pointer: coarse) {
+    :where(
+        button:not([role="checkbox"], [role="switch"], [role="radio"]),
+        [role="button"],
+        [role="tab"],
+        [role="menuitem"],
+        [role="menuitemcheckbox"],
+        [role="menuitemradio"],
+        [role="option"],
+        select,
+        input:not([type="checkbox"], [type="radio"], [type="range"], [type="hidden"], [type="file"])
+      ):not(.touch-target) {
+      min-height: 44px;
+    }
   }
 }
 

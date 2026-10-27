@@ -45,7 +45,7 @@ export default function AppBottomNav() {
     <>
       <nav
         aria-label="Navegação principal do workspace SINACE"
-        className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200/80 bg-white/94 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pl-[max(0.5rem,env(safe-area-inset-left))] pr-[max(0.5rem,env(safe-area-inset-right))] pt-2 shadow-[0_-8px_24px_rgba(15,54,104,0.07)] backdrop-blur-xl md:hidden"
+        className="app-bottom-nav fixed inset-x-0 bottom-0 z-40 border-t border-slate-200/80 bg-white/94 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pl-[max(0.5rem,env(safe-area-inset-left))] pr-[max(0.5rem,env(safe-area-inset-right))] pt-2 shadow-[0_-8px_24px_rgba(15,54,104,0.07)] backdrop-blur-xl md:hidden"
       >
         <div className="mx-auto grid max-w-3xl grid-cols-5 gap-1">
           {sinaceBottomNavAxes.map(axis => {

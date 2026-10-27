@@ -282,7 +282,7 @@ export default function Home() {
             type="button"
             aria-expanded={mobileNavOpen}
             aria-label={mobileNavOpen ? "Fechar navegação" : "Abrir navegação"}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 lg:hidden"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-slate-50 text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900 lg:hidden"
             onClick={() => setMobileNavOpen(open => !open)}
           >
             {mobileNavOpen ? <X className="h-4.5 w-4.5" /> : <Menu className="h-4.5 w-4.5" />}
@@ -940,11 +940,11 @@ export default function Home() {
                   <div className="border-t border-slate-200 pt-5 space-y-3">
                     <div className="flex items-center gap-3 text-sm">
                       <Phone className="h-4 w-4 shrink-0 text-cyan-600" />
-                      <a href={phoneHref} className="text-slate-600 hover:text-cyan-600 transition-colors">{SINACE_INSTITUTIONAL_PROFILE.phone}</a>
+                      <a href={phoneHref} className="inline-flex items-center pointer-coarse:min-h-11 text-slate-600 hover:text-cyan-600 transition-colors">{SINACE_INSTITUTIONAL_PROFILE.phone}</a>
                     </div>
                     <div className="flex items-center gap-3 text-sm">
                       <Mail className="h-4 w-4 shrink-0 text-cyan-600" />
-                      <a href={emailHref} className="text-slate-600 hover:text-cyan-600 transition-colors break-all">{SINACE_INSTITUTIONAL_PROFILE.email}</a>
+                      <a href={emailHref} className="inline-flex items-center pointer-coarse:min-h-11 text-slate-600 hover:text-cyan-600 transition-colors break-all">{SINACE_INSTITUTIONAL_PROFILE.email}</a>
                     </div>
                     <div className="flex items-center gap-3 text-sm">
                       <MapPinned className="h-4 w-4 shrink-0 text-cyan-600" />
@@ -973,15 +973,15 @@ export default function Home() {
                     Prestação de serviços ambulatoriais e hospitalares de baixa, média e alta complexidade, Inteligência Cirúrgica e Sistema Educacional e Digital em âmbito nacional.
                   </p>
                   <div className="flex items-center gap-2.5 pt-1">
-                    <a href={instagramHref} target="_blank" rel="noreferrer" className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-50 border border-slate-200 text-slate-500 hover:bg-cyan-100 hover:text-slate-900 transition-all">
+                    <a href={instagramHref} target="_blank" rel="noreferrer" className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-50 border border-slate-200 text-slate-500 hover:bg-cyan-100 hover:text-slate-900 transition-all">
                       <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
                         <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
                       </svg>
                     </a>
-                    <a href={emailHref} className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-50 border border-slate-200 text-slate-500 hover:bg-cyan-100 hover:text-slate-900 transition-all">
+                    <a href={emailHref} className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-50 border border-slate-200 text-slate-500 hover:bg-cyan-100 hover:text-slate-900 transition-all">
                       <Mail className="h-4 w-4" />
                     </a>
-                    <a href={phoneHref} className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-50 border border-slate-200 text-slate-500 hover:bg-cyan-100 hover:text-slate-900 transition-all">
+                    <a href={phoneHref} className="flex h-11 w-11 items-center justify-center rounded-full bg-slate-50 border border-slate-200 text-slate-500 hover:bg-cyan-100 hover:text-slate-900 transition-all">
                       <Phone className="h-4 w-4" />
                     </a>
                   </div>
@@ -993,7 +993,7 @@ export default function Home() {
                   <ul className="space-y-2.5 text-xs text-slate-500">
                     {landingNavItems.map(item => (
                       <li key={item.path}>
-                        <a href={item.path} className="hover:text-cyan-600 transition-colors">
+                        <a href={item.path} className="inline-flex items-center pointer-coarse:min-h-11 hover:text-cyan-600 transition-colors">
                           {item.label}
                         </a>
                       </li>
@@ -1011,7 +1011,7 @@ export default function Home() {
                       </li>
                     ))}
                     <li>
-                      <a href="#cobertura" className="text-cyan-600 hover:underline">Ver catálogo ({specialtyNames.length})</a>
+                      <a href="#cobertura" className="inline-flex items-center pointer-coarse:min-h-11 text-cyan-600 hover:underline">Ver catálogo ({specialtyNames.length})</a>
                     </li>
                   </ul>
                 </div>
@@ -1022,15 +1022,15 @@ export default function Home() {
                   <ul className="space-y-3.5 text-xs text-slate-500">
                     <li>
                       <span className="block text-[0.65rem] uppercase tracking-wider text-slate-550 font-semibold mb-1">Telefone</span>
-                      <a href={phoneHref} className="text-slate-800 hover:text-cyan-600 transition-colors text-sm font-medium">{SINACE_INSTITUTIONAL_PROFILE.phone}</a>
+                      <a href={phoneHref} className="inline-flex items-center pointer-coarse:min-h-11 text-slate-800 hover:text-cyan-600 transition-colors text-sm font-medium">{SINACE_INSTITUTIONAL_PROFILE.phone}</a>
                     </li>
                     <li>
                       <span className="block text-[0.65rem] uppercase tracking-wider text-slate-550 font-semibold mb-1">E-mail</span>
-                      <a href={emailHref} className="text-slate-800 hover:text-cyan-600 transition-colors text-sm font-medium break-all">{SINACE_INSTITUTIONAL_PROFILE.email}</a>
+                      <a href={emailHref} className="inline-flex items-center pointer-coarse:min-h-11 text-slate-800 hover:text-cyan-600 transition-colors text-sm font-medium break-all">{SINACE_INSTITUTIONAL_PROFILE.email}</a>
                     </li>
                     <li>
                       <span className="block text-[0.65rem] uppercase tracking-wider text-slate-550 font-semibold mb-1">Instagram</span>
-                      <a href={instagramHref} target="_blank" rel="noreferrer" className="text-slate-800 hover:text-cyan-600 transition-colors text-sm font-medium">{SINACE_INSTITUTIONAL_PROFILE.instagram}</a>
+                      <a href={instagramHref} target="_blank" rel="noreferrer" className="inline-flex items-center pointer-coarse:min-h-11 text-slate-800 hover:text-cyan-600 transition-colors text-sm font-medium">{SINACE_INSTITUTIONAL_PROFILE.instagram}</a>
                     </li>
                   </ul>
                 </div>
@@ -1050,8 +1050,8 @@ export default function Home() {
                   </div>
 
                   <div className="mt-4 flex justify-center gap-6">
-                    <a href="#" className="hover:text-cyan-600 transition-colors">Termos de Uso</a>
-                    <a href="#" className="hover:text-cyan-600 transition-colors">Políticas de Privacidade</a>
+                    <a href="#" className="inline-flex items-center pointer-coarse:min-h-11 hover:text-cyan-600 transition-colors">Termos de Uso</a>
+                    <a href="#" className="inline-flex items-center pointer-coarse:min-h-11 hover:text-cyan-600 transition-colors">Políticas de Privacidade</a>
                   </div>
                 </div>
               </div>

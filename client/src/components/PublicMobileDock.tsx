@@ -35,7 +35,7 @@ export default function PublicMobileDock() {
   return (
     <nav
       aria-label="Navegação pública rápida do SINACE"
-      className="fixed inset-x-0 bottom-0 z-[70] border-t border-slate-200/80 bg-white/94 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 shadow-[0_-18px_40px_rgba(15,23,42,0.12)] backdrop-blur-xl lg:hidden"
+      className="keyboard-hidden fixed inset-x-0 bottom-0 z-[70] border-t border-slate-200/80 bg-white/94 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 shadow-[0_-18px_40px_rgba(15,23,42,0.12)] backdrop-blur-xl lg:hidden"
     >
       <div className="mx-auto grid max-w-3xl grid-cols-5 gap-1">
         {SINACE_PUBLIC_NAV_ITEMS.map(item => {

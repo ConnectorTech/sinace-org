@@ -94,7 +94,7 @@ export default function AppInstitutionalProfile() {
                           href={field.href}
                           target={field.href.startsWith("http") ? "_blank" : undefined}
                           rel={field.href.startsWith("http") ? "noreferrer" : undefined}
-                          className="hover:text-primary"
+                          className="inline-flex items-center hover:text-primary pointer-coarse:min-h-11"
                         >
                           {field.value}
                         </a>

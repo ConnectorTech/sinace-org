@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useEffect, useMemo, useState } from "react";
 import { SinaceModuleHeader } from "@/components/SinaceSectionShell";
+import StickyFormActions from "@/components/StickyFormActions";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -1343,16 +1344,17 @@ export function AppPrivateMedicalWorkspace() {
                   </TabsContent>
                 </Tabs>
 
-                <div className="flex flex-col gap-3 rounded-tile border border-border/70 bg-tile p-4 text-sm leading-6 text-slate-600 md:flex-row md:items-center md:justify-between">
-                  <div>
-                    <p className="font-semibold text-slate-950">Status do cadastro</p>
-                    <p className="mt-1">O perfil privado conversa com o diretório médico, com o network profissional e com o drive técnico da sua especialidade.</p>
-                  </div>
-                  <Button type="submit" className="min-w-[180px] rounded-full">
+                <div className="rounded-tile border border-border/70 bg-tile p-4 text-sm leading-6 text-slate-600">
+                  <p className="font-semibold text-slate-950">Status do cadastro</p>
+                  <p className="mt-1">O perfil privado conversa com o diretório médico, com o network profissional e com o drive técnico da sua especialidade.</p>
+                </div>
+
+                <StickyFormActions className="justify-end">
+                  <Button type="submit" className="w-full rounded-full sm:w-auto sm:min-w-[180px]" disabled={saveMutation.isPending}>
                     {saveMutation.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Save className="mr-2 h-4 w-4" />}
                     Salvar perfil
                   </Button>
-                </div>
+                </StickyFormActions>
               </form>
             )}
           </CardContent>
